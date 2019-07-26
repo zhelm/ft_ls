@@ -14,82 +14,99 @@
 #include "libft/libft.h"
 #include <stdlib.h>
 
-size_t ft_recurselen(struct dirent **list)
+void ft_listsort(t_ls **head)
 {
+	t_ls *tmp;
+	struct dirent *de;
+	t_ls *tmp1;
+	t_ls *ptr;
 	size_t i;
-	size_t count;
-	size_t a;
-	struct dirent **line;
 
 	i = 0;
-	a = 0;
-	count = 0;
-	
-	while(list[i])
+	ptr = *head;
+	while (ptr)
 	{
-		ft_putstr(list[i]->d_name);
-		ft_putchar('\t');
-		if (list[i]->d_type == 4)
-			count++;
-		i++;
+		printf("%s\t", ptr->de->d_name);
+		ptr = ptr->next;
 	}
-	i = 0;
-	line = (struct dirent **)malloc(sizeof(struct dirent *) * (count + 1));
-	while(list[i])
+	ptr = *head;
+	printf("\n");
+	while (ptr->next != NULL)
 	{
-		if(list[i]->d_type == 4 && ft_strcmp(".", list[i]->d_name) != 0 && ft_strcmp("..", list[i]->d_name) != 0)
+		if (ft_strcmp(ptr->de->d_name, ptr->next->de->d_name) > 0)
 			{
-			 	line[a] = list[i];
-			 	a++;
+				de = ptr->de;
+				ptr->de = ptr->next->de;
+				ptr->next->de = de;
+				ptr = *head;
 			}
-			i++;
+		if(ptr->next != NULL)
+			ptr = ptr->next;
+		else 
+			break;
 	}
-	return count;
+	ptr = *head;
+	while (ptr)
+	{
+		printf("%s\t", ptr->de->d_name);
+		ptr = ptr->next;
+	}
 }
 
-void ft_listsort(struct dirent **head)
+t_ls *ft_listrec(DIR *dr, t_ls **head)
 {
-	size_t i;
-	struct dirent *tmp;
-	struct dirent *tmp1;
+	t_ls *ptr;
+	t_ls *segment;
 
-	i = 0;
-	while (head[i + 1])
+	ptr = *head;
+	segment = NULL;
+	struct dirent *de;
+	// if(head != NULL)
+	// {
+	// 	dr = ft_strjoin()
+	// }
+	while ((de = readdir(dr)) != NULL)
 	{
-		if (strcmp(head[i]->d_name, head[i + 1]->d_name) > 0)
+		if (de->d_type == 4)
 		{
-			tmp = head[i];
-			tmp1 = head[i + 1];;
-			head[i] = tmp1;
-			head[i + 1] = tmp;
-			i = 0;
+			if (segment == NULL)
+				segment = ft_ls_lstnew(de);
+			else
+				ft_ls_lstadd(&segment, ft_ls_lstnew(de));
+			// printf("%s\t", segment->de->d_name);
 		}
-		else
-			i++;
 	}
+	if (segment->next != NULL)
+		ft_listsort(&segment);
+	// while(segment->next != NULL)
+	// {
+	// printf("%s\t", segment->de->d_name);
+	// segment = segment->next;
+	//  }
+	return *head;
 }
 
 int main() //main to test the ctime and mtime
 {
-	struct dirent **list;
+	t_ls *head;
 	struct stat buf; //ctime is the last time the inode changed and mtime is the last time the file was modified.
-	struct dirent *de;
+	head = NULL;
 	struct stat sb;
 	struct stat c;
 	char outstr[200];
 	DIR *dr;
 	DIR *recu;
 	struct passwd *ds;
-	list = NULL;
+	// list = NULL;
 	dr = opendir(".");
 	size_t i = 0;
 	size_t b;
 
 	b = 0;
-	 while ((de = readdir(dr)) != NULL)
+	//  while ((de = readdir(dr)) != NULL)
 	// {
 
-	 	i++;
+	// i++;
 	// 	// if (list == NULL)
 	// 	//      list = ft_ls_lstnew(&sb, de);
 	// 	// else
@@ -109,16 +126,9 @@ int main() //main to test the ctime and mtime
 	closedir(dr);
 	dr = opendir(".");
 
-	list = (struct dirent **)malloc(sizeof(struct dirent*) * (1 + i));
 	i = 0;
-	while ((de = readdir(dr)) != NULL)
-	{
-		list[i] = de;
-		i++;
-	}
-	i = 0;
-	ft_listsort(list);
-	ft_recurselen(list);
+	ft_listrec(dr, &head);
+	// ft_recurselen(list);
 
 	//line = ft_memalloc(12);
 

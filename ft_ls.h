@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ls.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zhelm <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/24 07:31:01 by zhelm             #+#    #+#             */
+/*   Updated: 2019/07/24 07:32:01 by zhelm            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_LS_H
 # define FT_LS_H
 
@@ -16,10 +28,10 @@
 
 typedef struct  st_ls
 {
-	struct dirent *de;
-	struct stat *sb;
+	struct dirent *de;//this must be made into char
 	struct st_ls *next;
+	struct st_ls *prev;
 }				t_ls;
 void ft_ls_lstadd(t_ls **alst, t_ls *new);
-t_ls *ft_ls_lstnew(struct stat *sb, struct dirent *de);
+t_ls *ft_ls_lstnew(struct dirent *de);
 #endif

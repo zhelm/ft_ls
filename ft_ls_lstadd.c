@@ -4,9 +4,15 @@
 
 void ft_ls_lstadd(t_ls **alst, t_ls *new)
 {
+	t_ls *ptr;
+
+	ptr = *alst;
 	if(alst)
 	{
-		new->next = *alst;
-		*alst = new;
+		while(ptr->next != NULL)
+			ptr = ptr->next;
+		ptr->next = new;
+		new->prev = ptr;
+		new->next = NULL;
 	}
 }
