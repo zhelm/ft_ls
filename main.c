@@ -24,65 +24,73 @@ void ft_listsort(t_ls **head)
 
 	i = 0;
 	ptr = *head;
-	while (ptr)
-	{
-		printf("%s\t", ptr->de->d_name);
-		ptr = ptr->next;
-	}
-	ptr = *head;
-	printf("\n");
 	while (ptr->next != NULL)
 	{
 		if (ft_strcmp(ptr->de->d_name, ptr->next->de->d_name) > 0)
-			{
-				de = ptr->de;
-				ptr->de = ptr->next->de;
-				ptr->next->de = de;
-				ptr = *head;
-			}
-		if(ptr->next != NULL)
+		{
+			de = ptr->de;
+			ptr->de = ptr->next->de;
+			ptr->next->de = de;
+			ptr = *head;
+		}
+		else if (ptr->next != NULL)
 			ptr = ptr->next;
-		else 
+		else if (ptr->next == NULL)
 			break;
 	}
 	ptr = *head;
-	while (ptr)
-	{
-		printf("%s\t", ptr->de->d_name);
-		ptr = ptr->next;
-	}
 }
 
 t_ls *ft_listrec(DIR *dr, t_ls **head)
 {
 	t_ls *ptr;
 	t_ls *segment;
-
+	t_ls *tmp;
+	size_t i = 0;
 	ptr = *head;
 	segment = NULL;
 	struct dirent *de;
-	// if(head != NULL)
-	// {
-	// 	dr = ft_strjoin()
-	// }
-	while ((de = readdir(dr)) != NULL)
+	tmp = NULL;
+	while ((de = readdir(dr)) != NULL) //need another a list to print directory contents;
+									   //also the list might need the directory name to take with;
 	{
-		if (de->d_type == 4)
+		if (tmp == NULL)
+			tmp = ft_ls_lstnew(de);
+		else
+			ft_ls_lstadd(&tmp, ft_ls_lstnew(de));
+		if (de->d_type == 4 && strcmp(de->d_name, ".") != 0 && ft_strcmp(de->d_name, "..") != 0)
 		{
 			if (segment == NULL)
 				segment = ft_ls_lstnew(de);
 			else
 				ft_ls_lstadd(&segment, ft_ls_lstnew(de));
-			// printf("%s\t", segment->de->d_name);
 		}
 	}
+	if (tmp->next != NULL)
+		ft_listsort(&tmp);
+	while (tmp != NULL)
+	{
+		printf("%s\t", tmp->de->d_name);
+		if (tmp->next != NULL)
+			tmp = tmp->next;
+		else
+			break;
+	}
+	printf("\n");
 	if (segment->next != NULL)
 		ft_listsort(&segment);
-	// while(segment->next != NULL)
-	// {
-	// printf("%s\t", segment->de->d_name);
-	// segment = segment->next;
-	//  }
+	if (*head == NULL)
+		*head = segment;//it needs an else statement here because this is only first case
+	ptr = *head;
+	//I need to get this function to do the recursion part;
+	while (ptr != NULL)
+	{
+		printf("%s\t", ptr->de->d_name);
+		if (ptr->next != NULL)
+			ptr = ptr->next;
+		else
+			break;
+	}
 	return *head;
 }
 
