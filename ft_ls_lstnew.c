@@ -12,17 +12,13 @@
 
 #include "ft_ls.h"
 
-t_ls *ft_ls_lstnew(struct dirent *de)
+t_ls *ft_ls_lstnew(struct dirent *de, char *dir)
 {
 	t_ls *new;
 
 	if(!(new = (t_ls *)malloc(sizeof(t_ls))))
 		return (NULL);
-	// if(!(new->sb = malloc(sizeof(sb))) || !(new->de = malloc(sizeof(de))))
-	// 	{
-	// 		free(new);
-	// 		return NULL;
-	// 	}
+	new->directory = dir;
 	new->de = de;
 	new->next = NULL;
 	new->prev = NULL;

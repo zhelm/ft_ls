@@ -40,9 +40,33 @@ void ft_listsort(t_ls **head)
 	}
 	ptr = *head;
 }
-
-t_ls *ft_listrec(DIR *dr, t_ls **head)
+void ft_ls_seg_lstadd(t_ls **head, t_ls **seg)
 {
+	t_ls *tmp;
+	t_ls *ptr;
+	ptr = *head;
+	tmp = (*head)->next;
+	(*head)->next = *seg;
+	while(ptr->next != NULL)
+		ptr = ptr->next;
+	ptr->next = tmp;
+	ptr = *head;
+	(*head) = (*head)->next;
+	free(ptr);
+	// *head = ptr->next;
+	while((*head))
+	// {
+	// 	printf("\t%s\t", (*head)->de->d_name);
+			*head = (*head)->next;//This prevents the segfault because it moves the pointer of head one up
+	// }
+	//set head->next = segment and iterate through. set the end of segment equal to head->next if it dit exist else set it equal to null
+	//free the head and set head->next = head
+}
+
+t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
+{
+	char *dirtmp1;
+	char *dirtmp;
 	t_ls *ptr;
 	t_ls *segment;
 	t_ls *tmp;
@@ -51,47 +75,49 @@ t_ls *ft_listrec(DIR *dr, t_ls **head)
 	segment = NULL;
 	struct dirent *de;
 	tmp = NULL;
-	while ((de = readdir(dr)) != NULL) //need another a list to print directory contents;
-									   //also the list might need the directory name to take with;
+	if(*head == NULL)
+		dir = ft_strdup(".");
+	else
+		dir = (*head)->directory;
+	dr = opendir(dir);
+	while ((de = readdir(dr)) != NULL)
 	{
 		if (tmp == NULL)
-			tmp = ft_ls_lstnew(de);
+			tmp = ft_ls_lstnew(de, NULL);
 		else
-			ft_ls_lstadd(&tmp, ft_ls_lstnew(de));
+			ft_ls_lstadd(&tmp, ft_ls_lstnew(de, NULL));
 		if (de->d_type == 4 && strcmp(de->d_name, ".") != 0 && ft_strcmp(de->d_name, "..") != 0)
 		{
 			if (segment == NULL)
-				segment = ft_ls_lstnew(de);
+				segment = ft_ls_lstnew(de, dir);
 			else
-				ft_ls_lstadd(&segment, ft_ls_lstnew(de));
+				ft_ls_lstadd(&segment, ft_ls_lstnew(de, dir));
 		}
 	}
-	if (tmp->next != NULL)
+
+	if (tmp->next != NULL)//display tmp here before free
 		ft_listsort(&tmp);
-	while (tmp != NULL)
-	{
-		printf("%s\t", tmp->de->d_name);
-		if (tmp->next != NULL)
-			tmp = tmp->next;
-		else
-			break;
-	}
-	printf("\n");
 	if (segment->next != NULL)
-		ft_listsort(&segment);
-	if (*head == NULL)
+		ft_listsort(&segment);//was close to doing this part again. thought I was sorting thead head; luckily it was only segments
+	if (*head == NULL && segment != NULL)
 		*head = segment;//it needs an else statement here because this is only first case
-	ptr = *head;
-	//I need to get this function to do the recursion part;
-	while (ptr != NULL)
+		// assignment of directory works. just need to find a way to make it recurse
+	else if((*head)->next != NULL)//sunting here
+		ft_ls_seg_lstadd(head, &segment);
+	//if((*head)->next != NULL)
+	closedir(dr);
+	if(*head != NULL && (*head)->next != NULL)//not a good way of doing the directory. use segments instead
 	{
-		printf("%s\t", ptr->de->d_name);
-		if (ptr->next != NULL)
-			ptr = ptr->next;
-		else
-			break;
+		dirtmp = (*head)->directory;
+		dirtmp1 = ft_strjoin((*head)->directory, "/");
+		(*head)->directory = ft_strjoin(dirtmp1, (*head)->de->d_name);
 	}
-	return *head;
+	// 	ft_listrec(dr, head, dir);
+	if((*head) != NULL)//close the dir maybe
+	 	ft_listrec(dr, head, (*head)->directory);//it segfaults because of the function seg_lstadd;
+	// else
+		return 0;
+	// return *head;
 }
 
 int main() //main to test the ctime and mtime
@@ -109,6 +135,9 @@ int main() //main to test the ctime and mtime
 	dr = opendir(".");
 	size_t i = 0;
 	size_t b;
+	char *dir;
+
+	dir = NULL;
 
 	b = 0;
 	//  while ((de = readdir(dr)) != NULL)
@@ -128,14 +157,14 @@ int main() //main to test the ctime and mtime
 	// 	//printf("%ld\n", list->sb->st_nlink);//number of links
 	// 	//}
 	// 	//printf("%o\n", list->sb->st_mode);
-	// 	//printf("%d\t", de->d_type);
+ 	//	//printf("%d\t", de->d_type);
 	// 	//       }
 	// }
 	closedir(dr);
 	dr = opendir(".");
 
 	i = 0;
-	ft_listrec(dr, &head);
+	ft_listrec(dr, &head, dir);
 	// ft_recurselen(list);
 
 	//line = ft_memalloc(12);

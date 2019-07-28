@@ -28,10 +28,11 @@
 
 typedef struct  st_ls
 {
+	char *directory;
 	struct dirent *de;//this must be made into char
 	struct st_ls *next;
 	struct st_ls *prev;
 }				t_ls;
 void ft_ls_lstadd(t_ls **alst, t_ls *new);
-t_ls *ft_ls_lstnew(struct dirent *de);
+t_ls *ft_ls_lstnew(struct dirent *de, char *dir);
 #endif
