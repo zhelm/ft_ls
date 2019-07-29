@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include <time.h>
 #include "libft/libft.h"
 #include <stdlib.h>
 
@@ -71,9 +72,16 @@ void ft_ls_l(t_ls **head)
 	while (tmp != NULL)
 	{
 		//printf("%s\t", tmp->de->d_name);//not sorted yet
+		size_t i;
 
+		i = 0;
 		stat(tmp->directory, &sb);
 		ft_ls_mode(sb);
+		while(ft_strsplit((char *)&sb.st_ctime, ' ')[i])
+		{
+			printf("\t%s", ft_strsplit(ctime(&sb.st_mtimensec), ' ')[i]);//need pointers to this memory area
+			i++;
+		}
 		printf("\n");
 		ptr = tmp;
 		// if(tmp->next == NULL)
@@ -220,7 +228,8 @@ int main() //main to test the ctime and mtime
 	// 	// else
 	// 	//      ft_ls_lstadd(&list, ft_ls_lstnew(&sb, de));
 
-	// 	//printf("OK");printf("%s", list->de->d_name);
+	// 	//printf("OK");
+	// printf("%s", list->de->d_name);
 	// 	//if(list->de->d_type == 8)
 	// 	//{
 	// 	//printf("%s\t", list->de->d_name);
@@ -251,7 +260,7 @@ int main() //main to test the ctime and mtime
 	// printf("                                user name =          %s\n", pw->pw_name);//
 	// struct group  *gr = getgrgid(sb.st_gid);//this gets the group name
 	// printf("                       group name =          %s\n", gr->gr_name);
-	// printf("   time of last modification =               %s\n\n", ctime(&sb.st_ctime));
+	
 	//      printf("name = %s\n", de->d_name);
 }
 //file mode, links(are these hard links or soft links or both?), owner name, group name, number of bytes ,  month, day file was last modified, time file was last modified, and the pathname
