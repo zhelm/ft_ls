@@ -32,6 +32,23 @@ void ft_assign_dir(t_ls **head, char *dir)
 	ptr->directory = ft_strjoin(dirtmp1, ptr->de->d_name);
 }
 
+void ft_ls_check_file_type(struct stat sb)
+{
+		if (S_ISBLK(sb.st_mode))
+			ft_putchar('b');
+		else if (S_ISCHR(sb.st_mode))
+			ft_putchar('c');
+		else if (S_ISDIR(sb.st_mode))
+			ft_putchar('d');
+		else if (S_ISFIFO(sb.st_mode))
+			ft_putchar('p');
+		else if (S_ISLNK(sb.st_mode))
+			ft_putchar('l');
+		else if (S_ISSOCK(sb.st_mode))
+			ft_putchar('s');
+		else if (S_ISREG(sb.st_mode))
+			ft_putchar('-');
+}
 void ft_ls_mode(struct stat sb)
 {
 	size_t i;
@@ -41,53 +58,67 @@ void ft_ls_mode(struct stat sb)
 	{
 		if ((sb.st_mode & S_IRUSR) && i == 0)
 			ft_putchar('r');
-		else if( (sb.st_mode & S_IWUSR) && i == 1)
+		else if ((sb.st_mode & S_IWUSR) && i == 1)
 			ft_putchar('w');
-		else if( (sb.st_mode & S_IXUSR) && i == 2)
+		else if ((sb.st_mode & S_IXUSR) && i == 2)
 			ft_putchar('x');
-		else if( (sb.st_mode & S_IRGRP) && i == 3)
+		else if ((sb.st_mode & S_IRGRP) && i == 3)
 			ft_putchar('r');
-		else if( (sb.st_mode & S_IWGRP) && i == 4)
+		else if ((sb.st_mode & S_IWGRP) && i == 4)
 			ft_putchar('w');
-		else if( (sb.st_mode & S_IXGRP) && i == 5)
+		else if ((sb.st_mode & S_IXGRP) && i == 5)
 			ft_putchar('x');
-		else if( (sb.st_mode & S_IROTH) && i == 6)
+		else if ((sb.st_mode & S_IROTH) && i == 6)
 			ft_putchar('r');
-		else if( (sb.st_mode & S_IWOTH) && i == 7)
+		else if ((sb.st_mode & S_IWOTH) && i == 7)
 			ft_putchar('w');
-		else if( (sb.st_mode & S_IXOTH) && i == 8)
+		else if ((sb.st_mode & S_IXOTH) && i == 8)
 			ft_putchar('x');
 		else
 			ft_putchar('-');
 	}
 }
-
+//void ls_put_l(s)
 void ft_ls_l(t_ls **head)
 {
 	t_ls *tmp;
 	t_ls *ptr;
 	struct stat sb;
-
+	struct passwd *usr;
+	struct group *grp;
+	long long sz;
+		char **str;
+		char **time;
+	sz = 0;
 	tmp = *head;
 	while (tmp != NULL)
 	{
-		//printf("%s\t", tmp->de->d_name);//not sorted yet
-		size_t i;
-
-		i = 0;
 		stat(tmp->directory, &sb);
-		ft_ls_mode(sb);
-		while(ft_strsplit((char *)&sb.st_ctime, ' ')[i])
-		{
-			printf("\t%s", ft_strsplit(ctime(&sb.st_mtimensec), ' ')[i]);//need pointers to this memory area
-			i++;
-		}
-		printf("\n");
-		ptr = tmp;
-		// if(tmp->next == NULL)
-		// 	break;
+		sz = sz + sb.st_blocks;
 		tmp = tmp->next;
-		//free(ptr);
+	}
+	printf("total %lld\n", sz);
+	tmp = *head;
+	//printf("")
+	while (tmp != NULL)
+	{
+		lstat(tmp->directory, &sb);
+		//printf("%s", sb.st_flags);
+		str = ft_strsplit(ctime(&sb.st_mtime), ' ');
+		time = ft_strsplit(str[3], ':');
+		ft_ls_check_file_type(sb);
+		ft_ls_mode(sb);
+
+		printf(" %d\t", sb.st_nlink);
+		usr = getpwuid(sb.st_uid);
+		grp = getgrgid(sb.st_gid);
+		printf("%s %s", usr->pw_name, grp->gr_name);
+		printf("\t%lld ", sb.st_size);
+		printf("\t%s %s\t%s:%s", str[2], str[1], time[0], time[1]); //, sb.st_mtimespec.tv_sec,sb.st_mtimespec.tv_nsec);
+		printf(" hello %s", tmp->de->d_name);
+		printf("\n");
+		//ptr = tmp;
+		tmp = tmp->next;
 	}
 
 	//rwx, block size, ||links||, ||user name||, ||group name||, ||size||, day, month, time, ||name||
@@ -157,32 +188,38 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
 	printf("%s:\n", dir);
 	while ((de = readdir(dr)) != NULL)
 	{
-
-		if (tmp == NULL)
+		if (tmp == NULL && de != NULL)
 			tmp = ft_ls_lstnew(de, NULL);
-		else
+		else if(de != NULL)
 			ft_ls_lstadd(&tmp, ft_ls_lstnew(de, NULL));
-		ft_assign_dir(&tmp, dir);
+		if(de)
+			ft_assign_dir(&tmp, dir);
+		printf("hello %s\n", tmp->de->d_name);
 		if (de->d_type == 4 && strcmp(de->d_name, ".") != 0 && ft_strcmp(de->d_name, "..") != 0)
 		{
 			if (segment == NULL)
 				segment = ft_ls_lstnew(de, NULL);
 			else
 				ft_ls_lstadd(&segment, ft_ls_lstnew(de, NULL));
-			ft_assign_dir(&segment, dir);
+			if(de != NULL)
+				ft_assign_dir(&segment, dir);
 		}
+		//tmp = tmp->next;
+		// printf("hello second %s\n", de->d_name);
 	}
+	// ptr = tmp;
+	// while(ptr)
+	// {
+	// 	printf("hello %s\n", ptr->de->d_name);
+	// 	ptr = ptr->next;
+	// }
 	if (tmp->next != NULL) //display tmp here before free
 		ft_listsort(&tmp);
-	ptr = tmp;
-	// while(ptr != NULL)
-	// {
-	// 	printf("%s\t", ptr->de->d_name);
-	ft_ls_l(&tmp);
-	// ptr = ptr->next;
-	// }
+	
+	// ft_printlist();///////////////////////////////////////////////////////////
+	
+	// ft_ls_l(&tmp);
 	printf("\n\n");
-
 	if (segment != NULL)
 		ft_listsort(&segment); //was close to doing this part again. thought I was sorting the head; luckily it was only segments
 	ptr = segment;
@@ -194,9 +231,7 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
 	closedir(dr);
 	if ((*head) != NULL)						  //close the dir maybe
 		ft_listrec(dr, head, (*head)->directory); //it segfaults because of the function seg_lstadd;
-												  // else
 	return 0;
-	// return *head;
 }
 
 int main() //main to test the ctime and mtime
@@ -219,50 +254,9 @@ int main() //main to test the ctime and mtime
 	dir = NULL;
 
 	b = 0;
-	//  while ((de = readdir(dr)) != NULL)
-	// {
-
-	// i++;
-	// 	// if (list == NULL)
-	// 	//      list = ft_ls_lstnew(&sb, de);
-	// 	// else
-	// 	//      ft_ls_lstadd(&list, ft_ls_lstnew(&sb, de));
-
-	// 	//printf("OK");
-	// printf("%s", list->de->d_name);
-	// 	//if(list->de->d_type == 8)
-	// 	//{
-	// 	//printf("%s\t", list->de->d_name);
-	// 	//printf("%o\n", sb.st_uid);
-	// 	//printf("%ld\n", list->sb->st_nlink);//number of links
-	// 	//}
-	// 	//printf("%o\n", list->sb->st_mode);
-	//	//printf("%d\t", de->d_type);
-	// 	//       }
-	// }
 	closedir(dr);
 	dr = opendir(".");
 
 	i = 0;
 	ft_listrec(dr, &head, dir); ///////////////////////////////////////////////////////////////////////
-
-	// ft_ls_l(dir);
-	// ft_recurselen(list);
-
-	//line = ft_memalloc(12);
-
-	// printf(" file position within stream =               %d\n", de->d_reclen);
-	// printf("                        File Type =          %d\n", de->d_type);
-	// printf("                        stat mode =          %o\n", sb.st_mode);//prints mode in octal
-	// printf("                        stat size =          %ld\n", sb.st_size);//prints size of file
-	// printf("                                        links =      %ld\n", sb.st_nlink);
-	// struct passwd *pw = getpwuid(sb.st_uid);//this gets the name
-	// printf("                                user name =          %s\n", pw->pw_name);//
-	// struct group  *gr = getgrgid(sb.st_gid);//this gets the group name
-	// printf("                       group name =          %s\n", gr->gr_name);
-	
-	//      printf("name = %s\n", de->d_name);
 }
-//file mode, links(are these hard links or soft links or both?), owner name, group name, number of bytes ,  month, day file was last modified, time file was last modified, and the pathname
-//              ||-rw-r--r--||   1//just figure out how to get this    ||zhelm||   ||student||     ||20430||           ||Jul||              ||17||                        ||12:08||                     ||Notes||                  ||Notes||
-//
