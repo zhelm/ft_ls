@@ -172,14 +172,14 @@ void ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir)
 			break;
 	}
 
-	if(ft_strcmp(ptr->name,dir) == 0)
+	if(ft_strcmp(ptr->directory, dir) == 0)
 	{
 		// ft_putstr("OK123");
 		tmp = ptr->next;
 		ptr->next = *seg;
-		while((*seg)!= NULL)
-			(*seg) = (*seg)->next;
-		(*seg) = tmp;
+		while(ptr->next != NULL)
+			(ptr) = (ptr)->next;
+		ptr->next = tmp;
 	}
 }
 
@@ -196,12 +196,15 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
 	struct dirent *de;
 	tmp = NULL;
 	if (*head == NULL)
-		dir = ft_strdup(".");
-	else
-		dir = (*head)->directory;
+	{
+		(*head) = ft_ls_lstnew(NULL, ".");
+		(*head)->directory = ft_strdup(".");
+		(*head)->name = ft_strdup(".");
+	}
+	dir = (*head)->directory;
 	dr = opendir(dir);
 	// if (*head != NULL && *(*head)->name != '.')
-		// printf("\n%s:\n", dir); //need to let this work with flags aswell
+	printf("\n%s:\n", dir); //need to let this work with flags aswell
 	while ((de = readdir(dr)) != NULL)
 	{
 		if (tmp == NULL && de != NULL) //maybe a function for the two cases
@@ -224,20 +227,35 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
 	if (tmp && tmp->next != NULL) //display tmp here before free
 		ft_listsort(&tmp);
 	// ft_printlist();///////////////////////////////////////////////////////////
-	// ft_ls_l(&tmp); //if there is nothing inside a directory then do not print total
+	ft_ls_l(&tmp); //if there is nothing inside a directory then do not print total
 	if (segment != NULL)
 		ft_listsort(&segment); //was close to doing this part again. thought I was sorting the head; luckily it was only segments
 	ptr = segment;
-		ft_putstr("OK123");
-	if (*head == NULL && segment != NULL)
-		*head = segment;
-	else if ((*head) != NULL) //sunting here
+		// ft_putstr("OK123");
+	// if (*head == NULL && segment != NULL)
+	// 	*head = segment;
+	if ((*head) != NULL) //sunting here
 		ft_ls_seg_lstadd(head, &segment, dir);
 
 	closedir(dr);
 	// printf("OK");
-	if ((*head) != NULL)						  //close the dir maybe
-		ft_listrec(dr, head, (*head)->directory); //it segfaults because of the function seg_lstadd;
+	if ((*head) != NULL)
+	{						  //close the dir maybe
+		ptr = *head;
+		while(ptr)
+		{
+			// printf("hello");
+			if(ptr && ft_strcmp(ptr->directory, dir) == 0)
+				{
+					ptr = ptr->next;
+					break;
+				}
+			ptr = ptr->next;
+		}
+	if(ptr != NULL)
+		ft_listrec(dr, &ptr, ptr->directory); //it segfaults because of the function seg_lstadd;
+	} //it segfaults because of the function seg_lstadd;
+	// printf("ok");
 	return 0;
 }
 

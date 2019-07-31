@@ -19,7 +19,8 @@ t_ls *ft_ls_lstnew(struct dirent *de, char *dir)
 	if(!(new = (t_ls *)malloc(sizeof(t_ls))))
 		return (NULL);
 	new->directory = dir;
-	new->name = ft_strdup(de->d_name);
+	if(de != NULL)
+		new->name = ft_strdup(de->d_name);
 	new->next = NULL;
 	new->prev = NULL;
 	return(new);
