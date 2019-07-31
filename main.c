@@ -29,25 +29,25 @@ void ft_assign_dir(t_ls **head, char *dir)
 		else
 			break;
 	}
-	ptr->directory = ft_strjoin(dirtmp1, ptr->de->d_name);
+	ptr->directory = ft_strjoin(dirtmp1, ptr->name);
 }
 
 void ft_ls_check_file_type(struct stat sb)
 {
-		if (S_ISBLK(sb.st_mode))
-			ft_putchar('b');
-		else if (S_ISCHR(sb.st_mode))
-			ft_putchar('c');
-		else if (S_ISDIR(sb.st_mode))
-			ft_putchar('d');
-		else if (S_ISFIFO(sb.st_mode))
-			ft_putchar('p');
-		else if (S_ISLNK(sb.st_mode))
-			ft_putchar('l');
-		else if (S_ISSOCK(sb.st_mode))
-			ft_putchar('s');
-		else if (S_ISREG(sb.st_mode))
-			ft_putchar('-');
+	if (S_ISBLK(sb.st_mode))
+		ft_putchar('b');
+	else if (S_ISCHR(sb.st_mode))
+		ft_putchar('c');
+	else if (S_ISDIR(sb.st_mode))
+		ft_putchar('d');
+	else if (S_ISFIFO(sb.st_mode))
+		ft_putchar('p');
+	else if (S_ISLNK(sb.st_mode))
+		ft_putchar('l');
+	else if (S_ISSOCK(sb.st_mode))
+		ft_putchar('s');
+	else if (S_ISREG(sb.st_mode))
+		ft_putchar('-');
 }
 void ft_ls_mode(struct stat sb)
 {
@@ -78,7 +78,6 @@ void ft_ls_mode(struct stat sb)
 			ft_putchar('-');
 	}
 }
-//void ls_put_l(s)
 void ft_ls_l(t_ls **head)
 {
 	t_ls *tmp;
@@ -87,23 +86,28 @@ void ft_ls_l(t_ls **head)
 	struct passwd *usr;
 	struct group *grp;
 	long long sz;
-		char **str;
-		char **time;
+	int i;
+	char **str;
+	char **time;
 	sz = 0;
 	tmp = *head;
-	while (tmp != NULL)
+	i = 0;
+	if (tmp)
 	{
-		stat(tmp->directory, &sb);
-		sz = sz + sb.st_blocks;
-		tmp = tmp->next;
+		while (tmp != NULL)
+		{
+			stat(tmp->directory, &sb);
+			sz = sz + sb.st_blocks;
+			tmp = tmp->next;
+			i++;
+		}
+		printf("total %lld\n", sz);
 	}
-	printf("total %lld\n", sz);
 	tmp = *head;
 	//printf("")
 	while (tmp != NULL)
 	{
 		lstat(tmp->directory, &sb);
-		//printf("%s", sb.st_flags);
 		str = ft_strsplit(ctime(&sb.st_mtime), ' ');
 		time = ft_strsplit(str[3], ':');
 		ft_ls_check_file_type(sb);
@@ -115,35 +119,31 @@ void ft_ls_l(t_ls **head)
 		printf("%s %s", usr->pw_name, grp->gr_name);
 		printf("\t%lld ", sb.st_size);
 		printf("\t%s %s\t%s:%s", str[2], str[1], time[0], time[1]); //, sb.st_mtimespec.tv_sec,sb.st_mtimespec.tv_nsec);
-		printf(" hello %s", tmp->de->d_name);
+		printf(" %s", tmp->name);
 		printf("\n");
-		//ptr = tmp;
 		tmp = tmp->next;
 	}
-
-	//rwx, block size, ||links||, ||user name||, ||group name||, ||size||, day, month, time, ||name||
 }
 
 void ft_listsort(t_ls **head)
 {
 	t_ls *tmp;
-	struct dirent *de;
+	char *tmpname;
 	t_ls *tmp1;
 	t_ls *ptr;
 	size_t i;
 	char *tp;
-
 	ptr = *head;
 	while (ptr->next != NULL)
 	{
-		if (ft_strcmp(ptr->de->d_name, ptr->next->de->d_name) > 0)
+		if (ft_strcmp(ptr->name, ptr->next->name) > 0)
 		{
 			tp = ptr->directory;
-			de = ptr->de;
+			tmpname = ptr->name;
 			ptr->directory = ptr->next->directory;
-			ptr->de = ptr->next->de;
+			ptr->name = ptr->next->name;
 			ptr->next->directory = tp;
-			ptr->next->de = de;
+			ptr->next->name = tmpname;
 			ptr = *head;
 		}
 		else if (ptr->next != NULL)
@@ -153,19 +153,34 @@ void ft_listsort(t_ls **head)
 	}
 	ptr = *head;
 }
-void ft_ls_seg_lstadd(t_ls **head, t_ls **seg)
+void ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir)
 {
 	t_ls *tmp;
 	t_ls *ptr;
+	tmp = *seg;
 	ptr = *head;
-	tmp = (*head)->next;
-	(*head)->next = *seg;
-	while (ptr->next != NULL)
-		ptr = ptr->next;
-	ptr->next = tmp;
-	ptr = *head;
-	(*head) = (*head)->next;
-	free(ptr);
+	// tmp = (*head)->next;
+	// (*head)->next = *seg;
+		// ft_putstr("OK123");
+
+	while (ptr != NULL && ft_strcmp(ptr->directory, dir) != 0)
+	{
+		ft_putstr("Hello");
+		if(ptr->next != NULL)
+			ptr = ptr->next;
+		else 
+			break;
+	}
+
+	if(ft_strcmp(ptr->name,dir) == 0)
+	{
+		// ft_putstr("OK123");
+		tmp = ptr->next;
+		ptr->next = *seg;
+		while((*seg)!= NULL)
+			(*seg) = (*seg)->next;
+		(*seg) = tmp;
+	}
 }
 
 t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
@@ -185,50 +200,42 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
 	else
 		dir = (*head)->directory;
 	dr = opendir(dir);
-	printf("%s:\n", dir);
+	// if (*head != NULL && *(*head)->name != '.')
+		// printf("\n%s:\n", dir); //need to let this work with flags aswell
 	while ((de = readdir(dr)) != NULL)
 	{
-		if (tmp == NULL && de != NULL)
+		if (tmp == NULL && de != NULL) //maybe a function for the two cases
 			tmp = ft_ls_lstnew(de, NULL);
-		else if(de != NULL)
+		else if (de != NULL)
 			ft_ls_lstadd(&tmp, ft_ls_lstnew(de, NULL));
-		if(de)
+		if (de)
 			ft_assign_dir(&tmp, dir);
-		printf("hello %s\n", tmp->de->d_name);
+			// printf("he%s\n", tmp->name);
 		if (de->d_type == 4 && strcmp(de->d_name, ".") != 0 && ft_strcmp(de->d_name, "..") != 0)
 		{
 			if (segment == NULL)
 				segment = ft_ls_lstnew(de, NULL);
 			else
 				ft_ls_lstadd(&segment, ft_ls_lstnew(de, NULL));
-			if(de != NULL)
+			if (de != NULL)
 				ft_assign_dir(&segment, dir);
 		}
-		//tmp = tmp->next;
-		// printf("hello second %s\n", de->d_name);
 	}
-	// ptr = tmp;
-	// while(ptr)
-	// {
-	// 	printf("hello %s\n", ptr->de->d_name);
-	// 	ptr = ptr->next;
-	// }
-	if (tmp->next != NULL) //display tmp here before free
+	if (tmp && tmp->next != NULL) //display tmp here before free
 		ft_listsort(&tmp);
-	
 	// ft_printlist();///////////////////////////////////////////////////////////
-	
-	// ft_ls_l(&tmp);
-	printf("\n\n");
+	// ft_ls_l(&tmp); //if there is nothing inside a directory then do not print total
 	if (segment != NULL)
 		ft_listsort(&segment); //was close to doing this part again. thought I was sorting the head; luckily it was only segments
 	ptr = segment;
-
+		ft_putstr("OK123");
 	if (*head == NULL && segment != NULL)
 		*head = segment;
 	else if ((*head) != NULL) //sunting here
-		ft_ls_seg_lstadd(head, &segment);
+		ft_ls_seg_lstadd(head, &segment, dir);
+
 	closedir(dr);
+	// printf("OK");
 	if ((*head) != NULL)						  //close the dir maybe
 		ft_listrec(dr, head, (*head)->directory); //it segfaults because of the function seg_lstadd;
 	return 0;
@@ -236,27 +243,21 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
 
 int main() //main to test the ctime and mtime
 {
+	t_ls *ptr;
 	t_ls *head;
-	struct stat buf; //ctime is the last time the inode changed and mtime is the last time the file was modified.
-	head = NULL;
-	struct stat sb;
-	struct stat c;
-	char outstr[200];
 	DIR *dr;
-	DIR *recu;
-	struct passwd *ds;
-	// list = NULL;
-	dr = opendir(".");
-	size_t i = 0;
-	size_t b;
 	char *dir;
 
+	ptr = head;
+	head = NULL;
 	dir = NULL;
-
-	b = 0;
-	closedir(dr);
 	dr = opendir(".");
 
-	i = 0;
-	ft_listrec(dr, &head, dir); ///////////////////////////////////////////////////////////////////////
+	ft_listrec(dr, &head, dir);
+	 ///////////////////////////////////////////////////////////////////////
+	 while(ptr != NULL)
+	 {
+		 printf("%s\n", ptr->name);
+		 ptr = ptr->next;
+	 }
 }

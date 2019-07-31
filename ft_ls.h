@@ -25,11 +25,12 @@
 # include <time.h>
 # include <string.h>
 # include <stdio.h>
+# include "libft.h"
 
 typedef struct  st_ls
 {
 	char *directory;
-	struct dirent *de;//this must be made into char
+	char *name;//this must be made into char
 	struct st_ls *next;
 	struct st_ls *prev;
 }				t_ls;
