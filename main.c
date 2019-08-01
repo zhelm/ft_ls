@@ -177,8 +177,11 @@ void ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir)
 		// ft_putstr("OK123");
 		tmp = ptr->next;
 		ptr->next = *seg;
+		(*seg)->prev = ptr;
 		while(ptr->next != NULL)
 			(ptr) = (ptr)->next;
+		if(tmp != NULL)
+			tmp->prev = ptr;
 		ptr->next = tmp;
 	}
 }
@@ -204,7 +207,7 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
 	dir = (*head)->directory;
 	dr = opendir(dir);
 	// if (*head != NULL && *(*head)->name != '.')
-	printf("\n%s:\n", dir); //need to let this work with flags aswell
+	//printf("\n%s:\n", dir); //need to let this work with flags aswell
 	while ((de = readdir(dr)) != NULL)
 	{
 		if (tmp == NULL && de != NULL) //maybe a function for the two cases
@@ -227,14 +230,14 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
 	if (tmp && tmp->next != NULL) //display tmp here before free
 		ft_listsort(&tmp);
 	// ft_printlist();///////////////////////////////////////////////////////////
-	ft_ls_l(&tmp); //if there is nothing inside a directory then do not print total
+//	ft_ls_l(&tmp); //if there is nothing inside a directory then do not print total
 	if (segment != NULL)
 		ft_listsort(&segment); //was close to doing this part again. thought I was sorting the head; luckily it was only segments
 	ptr = segment;
 		// ft_putstr("OK123");
 	// if (*head == NULL && segment != NULL)
 	// 	*head = segment;
-	if ((*head) != NULL) //sunting here
+	if ((*head) != NULL && segment != NULL) //sunting here
 		ft_ls_seg_lstadd(head, &segment, dir);
 
 	closedir(dr);
@@ -254,7 +257,9 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
 		}
 	if(ptr != NULL)
 		ft_listrec(dr, &ptr, ptr->directory); //it segfaults because of the function seg_lstadd;
-	} //it segfaults because of the function seg_lstadd;
+	}
+//	printf()
+	 //it segfaults because of the function seg_lstadd;
 	// printf("ok");
 	return 0;
 }
@@ -262,6 +267,7 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
 int main() //main to test the ctime and mtime
 {
 	t_ls *ptr;
+	size_t i = 0;
 	t_ls *head;
 	DIR *dr;
 	char *dir;
@@ -272,10 +278,23 @@ int main() //main to test the ctime and mtime
 	dr = opendir(".");
 
 	ft_listrec(dr, &head, dir);
+	ptr = head;
+	while(ptr != NULL)
+	{
+	printf("current = %s\n", ptr->directory);
+	//if(ptr->prev != NULL)
+	//printf("prev = %s\n\n", ptr->prev->directory);
+		if(ptr->next != NULL)
+			ptr = ptr->next;
+		else
+		{
+			break;
+		}
+	}
 	 ///////////////////////////////////////////////////////////////////////
-	 while(ptr != NULL)
+	 while(ptr->prev != NULL)
 	 {
-		 printf("%s\n", ptr->name);
-		 ptr = ptr->next;
+		 printf("reverse = %s\n", ptr->directory);
+	 	 ptr = ptr->prev;
 	 }
 }
