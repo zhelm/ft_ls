@@ -49,6 +49,7 @@ void ft_ls_check_file_type(struct stat sb)
 	else if (S_ISREG(sb.st_mode))
 		ft_putchar('-');
 }
+
 void ft_ls_mode(struct stat sb)
 {
 	size_t i;
@@ -78,6 +79,7 @@ void ft_ls_mode(struct stat sb)
 			ft_putchar('-');
 	}
 }
+
 void ft_ls_l(t_ls **head)
 {
 	t_ls *tmp;
@@ -153,6 +155,7 @@ void ft_listsort(t_ls **head)
 	}
 	ptr = *head;
 }
+
 void ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir)
 {
 	t_ls *tmp;
@@ -200,9 +203,9 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
 	tmp = NULL;
 	if (*head == NULL)
 	{
-		(*head) = ft_ls_lstnew(NULL, ".");
-		(*head)->directory = ft_strdup(".");
-		(*head)->name = ft_strdup(".");
+		(*head) = ft_ls_lstnew(NULL, dir);
+		(*head)->directory = ft_strdup(dir);
+		(*head)->name = ft_strdup(dir);
 	}
 	dir = (*head)->directory;
 	dr = opendir(dir);
@@ -216,7 +219,6 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
 			ft_ls_lstadd(&tmp, ft_ls_lstnew(de, NULL));
 		if (de)
 			ft_assign_dir(&tmp, dir);
-			// printf("he%s\n", tmp->name);
 		if (de->d_type == 4 && strcmp(de->d_name, ".") != 0 && ft_strcmp(de->d_name, "..") != 0)
 		{
 			if (segment == NULL)
@@ -227,7 +229,7 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
 				ft_assign_dir(&segment, dir);
 		}
 	}
-	if (tmp && tmp->next != NULL) //display tmp here before free
+	if (tmp && tmp->next != NULL)
 		ft_listsort(&tmp);
 	// ft_printlist();///////////////////////////////////////////////////////////
 //	ft_ls_l(&tmp); //if there is nothing inside a directory then do not print total
@@ -256,45 +258,49 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir)
 			ptr = ptr->next;
 		}
 	if(ptr != NULL)
-		ft_listrec(dr, &ptr, ptr->directory); //it segfaults because of the function seg_lstadd;
+		ft_listrec(dr, &ptr, ptr->directory);
 	}
-//	printf()
-	 //it segfaults because of the function seg_lstadd;
-	// printf("ok");
 	return 0;
 }
 
-int main() //main to test the ctime and mtime
+int main(int argc, char **argv) //main to test the ctime and mtime
 {
 	t_ls *ptr;
 	size_t i = 0;
 	t_ls *head;
 	DIR *dr;
 	char *dir;
-
+	printf("%d", argc);
+	if(argv[1] == NULL)
+		dir = ".";
+	else 
+		dir = argv[1];
 	ptr = head;
 	head = NULL;
-	dir = NULL;
-	dr = opendir(".");
+	//dir = NULL;
+	//dr = opendir("libft");
 
-	ft_listrec(dr, &head, dir);
+//	ft_listrec(dr, &head, dir);
 	ptr = head;
-	while(ptr != NULL)
-	{
-	printf("current = %s\n", ptr->directory);
+	// while(ptr != NULL)
+	// {
+	// printf("current = %s\n", ptr->directory);
 	//if(ptr->prev != NULL)
 	//printf("prev = %s\n\n", ptr->prev->directory);
-		if(ptr->next != NULL)
-			ptr = ptr->next;
-		else
-		{
-			break;
-		}
-	}
-	 ///////////////////////////////////////////////////////////////////////
-	 while(ptr->prev != NULL)
-	 {
-		 printf("reverse = %s\n", ptr->directory);
-	 	 ptr = ptr->prev;
-	 }
+	// 	if(ptr->next != NULL)
+	// 		ptr = ptr->next;
+	// 	else
+	// 	{
+	// 		break;
+	// 	}
+	// }
+	//  ///////////////////////////////////////////////////////////////////////
+	//  while(ptr != NULL)
+	//  {
+	// 	 printf("reverse = %s\n", ptr->directory);
+	//  	if(ptr->prev != NULL)
+	// 		ptr = ptr->prev;
+	// 	else
+	// 		break;
+	//  }
 }
