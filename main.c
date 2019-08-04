@@ -125,7 +125,7 @@ void ft_ls_l(t_ls **head)
 		printf("\n");
 		tmp = tmp->next;
 	}
-	str = ft_strsplit(ctime(&sb.st_mtime), ' ');
+	//str = ft_strsplit(ctime(&sb.st_mtime), ' ');
 }
 
 void ft_listsort(t_ls **head)
@@ -161,15 +161,11 @@ void ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir)
 {
 	t_ls *tmp;
 	t_ls *ptr;
+
 	tmp = *seg;
 	ptr = *head;
-	// tmp = (*head)->next;
-	// (*head)->next = *seg;
-	// ft_putstr("OK123");
-
 	while (ptr != NULL && ft_strcmp(ptr->directory, dir) != 0)
 	{
-		ft_putstr("Hello");
 		if (ptr->next != NULL)
 			ptr = ptr->next;
 		else
@@ -190,7 +186,7 @@ void ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir)
 	}
 }
 
-t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir, char *flags)
+t_ls *ft_listrec(DIR *dr, t_ls *head, char *dir, char *flags)
 {
 	char *dirtmp1;
 	char *dirtmp;
@@ -198,17 +194,17 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir, char *flags)
 	t_ls *segment;
 	t_ls *tmp;
 	size_t i = 0;
-	ptr = *head;
+	ptr = head;
 	segment = NULL;
 	struct dirent *de;
 	tmp = NULL;
-	if (*head == NULL)
+	if (head == NULL)
 	{
-		(*head) = ft_ls_lstnew(NULL, dir);
-		(*head)->directory = ft_strdup(dir);
-		(*head)->name = ft_strdup(dir);
+		(head) = ft_ls_lstnew(NULL, dir);
+		(head)->directory = ft_strdup(dir);
+		(head)->name = ft_strdup(dir);
 	}
-	dir = (*head)->directory;
+	//dir = (*head)->directory;
 	dr = opendir(dir);
 	// if (*head != NULL && *(*head)->name != '.')
 	printf("\n%s:\n", dir); //need to let this work with flags aswell
@@ -220,7 +216,7 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir, char *flags)
 			ft_ls_lstadd(&tmp, ft_ls_lstnew(de, NULL));
 		if (!(flags[6] == '0' && *de->d_name == '.') && de)
 			ft_assign_dir(&tmp, dir);
-		if (de->d_type == 4 && !(flags[6] == '0' && *de->d_name == '.') && strcmp(de->d_name, ".") != 0 && ft_strcmp(de->d_name, "..") != 0 )
+		if (de->d_type == 4 && !(flags[6] == '0' && *de->d_name == '.') && strcmp(de->d_name, ".") != 0 && ft_strcmp(de->d_name, "..") != 0)
 		{
 			if (segment == NULL)
 				segment = ft_ls_lstnew(de, NULL);
@@ -232,77 +228,100 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir, char *flags)
 	}
 	if (tmp && tmp->next != NULL)
 		ft_listsort(&tmp);
-	// ft_printlist();///////////////////////////////////////////////////////////
-		ft_ls_l(&tmp); //if there is nothing inside a directory then do not print total
+	// ft_printlist();///////////////////////////////////////////////////////////freemthe whole list while printing it if it is not recursive
+	ft_ls_l(&tmp); //if there is nothing inside a directory then do not print total
 	if (segment != NULL)
 		ft_listsort(&segment); //was close to doing this part again. thought I was sorting the head; luckily it was only segments
 	ptr = segment;
-	if ((*head) != NULL && segment != NULL) //sunting here
-		ft_ls_seg_lstadd(head, &segment, dir);
+	if ((head) != NULL && segment != NULL) //sunting here
+		ft_ls_seg_lstadd(&head, &segment, dir);
 
 	closedir(dr);
-	// printf("OK");
-	if ((*head) != NULL)
-	{ //close the dir maybe
-		ptr = *head;
+	if ((head) != NULL)
+	{
+		ptr = head;
 		while (ptr)
 		{
-			// printf("hello");
 			if (ptr && ft_strcmp(ptr->directory, dir) == 0)
 			{
 				ptr = ptr->next;
 				break;
 			}
+			// else
+			// {
+			// 	tmp = ptr->next;
+			// 	free (ptr);
+			// }
+
 			ptr = ptr->next;
 		}
 		if (flags[3] == '1' && ptr != NULL)
-			ft_listrec(dr, &ptr, ptr->directory, flags);
+			ft_listrec(dr, ptr, ptr->directory, flags);
 	}
 	return 0;
 }
 
-void ft_argv_analize(char **argv, char *flags, char **dir)
+char **ft_argv_analize(char **argv, char *flags)
 {
+	char **dir;
 	size_t i;
 	size_t a;
+	size_t count;
 
+	count = 0;
 	a = 1;
 	i = 1;
 	while (argv[i] && *argv[i] == '-')
 	{
 		a = 1;
-			while (argv[i][a])
+		while (argv[i][a])
+		{
+			if (argv[i][a] == 'l' || argv[i][a] == 'r' || argv[i][a] == 't' || argv[i][a] == 'a' || argv[i][a] == 'R')
 			{
-				if (argv[i][a] == 'l' || argv[i][a] == 'r' || argv[i][a] == 't' || argv[i][a] == 'a' || argv[i][a] == 'R')
-				{
-					if (argv[i][a] == 'l')
-						flags[7] = '1';
-					 else if (argv[i][a] == 'a')
-						flags[6] = '1';
-					 else if (argv[i][a] == 'r')
-					 	flags[5] = '1';
-					 else if (argv[i][a] == 't')
-					 	flags[4] = '1';
-					 else if (argv[i][a] == 'R')
-					 	flags[3] = '1';
-					a++;
-				}
-				else
-				{
-					printf("ERROR");
-					return ;
-				}
+				if (argv[i][a] == 'l')
+					flags[7] = '1';
+				else if (argv[i][a] == 'a')
+					flags[6] = '1';
+				else if (argv[i][a] == 'r')
+					flags[5] = '1';
+				else if (argv[i][a] == 't')
+					flags[4] = '1';
+				else if (argv[i][a] == 'R')
+					flags[3] = '1';
+				a++;
 			}
-			if(argv[i][1] == '\0')
-				printf("ERROR");
 			else
-				flags[a] == '\0';
-			i++;
+			{
+				printf("ERROR");
+				return NULL;
+			}
+		}
+		if (argv[i][1] == '\0')
+			printf("ERROR");
+		else
+			flags[a] == '\0';
+		i++;
 	}
-	if(argv[i] != NULL && *argv[i] != '-')
-		*dir = (ft_strdup(argv[i]));
+	while (argv[i + count] != NULL && *argv[i + count] != '-')
+		count++;
+	if (count == 0)
+	{
+		dir = (char **)malloc(sizeof(char *) * 2);
+		dir[0] = ft_strdup(".");
+		dir[1] = NULL;
+	}
 	else
-		*dir = ft_strdup(".");
+	{
+		dir = (char **)malloc(sizeof(char *) + (count + 1));
+		count = 0;
+		while (argv[i + count] != NULL && *argv[i + count] != '-')
+		{
+			dir[count] = ft_strdup(argv[i + count]);
+			count++;
+		}
+		dir[count] = NULL;
+	}
+	return dir;
 }
 
 int main(int argc, char **argv)
@@ -311,20 +330,31 @@ int main(int argc, char **argv)
 	size_t i = 0;
 	t_ls *head;
 	DIR *dr;
-	char *dir;
+	size_t a = 0;
+	struct dirent *de;
+	char **dir;
 	char flags[8] = "00000000";
 	if (argv[1] == NULL)
-		dir = ".";
+	{
+		dir = (char **)malloc(sizeof(char *) * 2);
+		dir[0] = ft_strdup(".");
+		// dir[1] = ;
+	}
 	else
-		ft_argv_analize(argv, flags, &dir);
+		dir = ft_argv_analize(argv, flags);
 	ptr = head;
 	head = NULL;
-	ft_listrec(dr, &head, dir, flags);
+	while (dir[a] != NULL) // need to see if I can open all of the argv's first
+	{
+		// printf("%s", dir[a]);
+		ft_listrec(dr, head, dir[a], flags); //  -R does not work completely when i use multiple files e.g. ../Libftest because I think the pointer of head is not pointing to the correct spot
+		a++;
+	}
 	// else
 	// {
 	// 	return ;
 	// }
-	
+
 	// ptr = head;
 	// while(ptr != NULL)
 	// {
