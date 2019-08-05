@@ -183,27 +183,27 @@ void ft_list_sort(t_ls **tmp, char *flags)//have some of the variables be sent b
 {
 	t_ls *ptr;
 
-	ptr = *tmp;
+	// ptr = *tmp;
 	// while(ptr)
 	// {
 	// 	printf("%s\n", (ptr)->name);
 	// 	ptr = (ptr)->next;
 	// }
-	if(flags[5] == '1')//r
-	{
-		ft_sort_r(tmp);
-	while(ptr)
-	{
-		printf("%s\n", (ptr)->name);
-		//if(ptr->next != NULL)
-			ptr = (ptr)->next;
-	//	else 
-			//break ;
-	}
-	}
-	// else if (flags[4] == '1')
+	// if(flags[5] == '1')//r
+	// {
+	// 	ft_sort_r(tmp);
+	// while(ptr)
+	// {
+	// 	printf("%s\n", (ptr)->name);
+	// 	//if(ptr->next != NULL)
+	// 		ptr = (ptr)->next;
+	// //	else 
+	// 		//break ;
+	// }
+	// }
+	// if (flags[4] == '1')
 	// else
-	// 	ft_sort_l(tmp);
+		ft_sort_l(tmp);
 	
 }
 
@@ -221,7 +221,7 @@ void ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir)
 		else
 			break;
 	}
-	if (ft_strcmp(ptr->directory, dir) == 0)
+	if (ptr && ft_strcmp(ptr->directory, dir) == 0)
 	{
 		tmp = ptr->next;
 		ptr->next = *seg;
@@ -249,7 +249,7 @@ void ft_printlist(t_ls **tmp, char *flags)
 	
 }
 
-t_ls *ft_listrec(DIR *dr, t_ls *head, char *dir, char *flags)
+t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir, char *flags)
 {
 	t_ls *ptr;
 	t_ls *segment;
@@ -257,19 +257,19 @@ t_ls *ft_listrec(DIR *dr, t_ls *head, char *dir, char *flags)
 	size_t i = 0;
 	struct dirent *de;
 	
-	ptr = head;
+	ptr = *head;
 	segment = NULL;
 	tmp = NULL;
 	if(*dir == '-')
 		return 0;
 	if (head == NULL)
 	{
-		(head) = ft_ls_lstnew(NULL, dir);
-		(head)->directory = ft_strdup(dir);
-		(head)->name = ft_strdup(dir);
+		(*head) = ft_ls_lstnew(NULL, dir);
+		(*head)->directory = ft_strdup(dir);
+		(*head)->name = ft_strdup(dir);
 	}
 	dr = opendir(dir);
-	//printf("\n%s:\n", dir); //need to let this work with flags aswell
+	printf("\n%s:\n", dir); //need to let this work with flags aswell
 	while ((de = readdir(dr)) != NULL)
 	{
 		if (flags[5] != '1' &&!(flags[6] == '0' && *de->d_name == '.') && tmp == NULL && de != NULL) //maybe a function for the two cases
@@ -297,22 +297,21 @@ t_ls *ft_listrec(DIR *dr, t_ls *head, char *dir, char *flags)
 		ft_list_sort(&segment, flags);
 	ptr = segment;
 	if ((head) != NULL && segment != NULL)
-		ft_ls_seg_lstadd(&head, &segment, dir);
+		ft_ls_seg_lstadd(head, &segment, dir);
 	closedir(dr);
 	if ((head) != NULL)
 	{
-		ptr = head;
-		while (ptr)
+		while (*head)
 		{
-			if (ptr && ft_strcmp(ptr->directory, dir) == 0)
+			if (*head && ft_strcmp((*head)->directory, dir) == 0)
 			{
-				ptr = ptr->next;
+				(*head) = (*head)->next;
 				break;
 			}
-			ptr = ptr->next;
+			(*head) = (*head)->next;
 		}
-		if (flags[3] == '1' && ptr != NULL)
-			ft_listrec(dr, ptr, ptr->directory, flags);
+		if (flags[3] == '1' && (*head))
+			ft_listrec(dr, head, ptr->directory, flags);
 	}
 	return 0;
 }
@@ -381,7 +380,14 @@ int main(int argc, char **argv)
 	head = NULL;
 	while (dir[a] && *dir[a] != '-') // need to see if I can open all of the argv's first
 	{
-		ft_listrec(dr, head, dir[a], flags);
+		ft_listrec(dr, &ptr, dir[a], flags);
+		while(ptr)
+			ptr = ptr->next;
 		a++;
 	}
+	// while(head != NULL)
+	// {
+	// 	printf("%s", head->name);
+	// 	head = head->next;
+	// }
 }
