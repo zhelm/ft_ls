@@ -20,7 +20,7 @@ void ft_assign_dir(t_ls **head, char *dir)
 	char *dirtmp1;
 	t_ls *ptr;
 
-	dirtmp1 = ft_strjoin(dir, "/"); //should be another function
+	dirtmp1 = ft_strjoin(dir, "/");
 	ptr = *head;
 	while (ptr)
 	{
@@ -88,25 +88,21 @@ void ft_ls_l(t_ls **head)
 	struct passwd *usr;
 	struct group *grp;
 	long long sz;
-	int i;
 	char **str;
 	char **time;
 	sz = 0;
 	tmp = *head;
-	i = 0;
 	if (tmp)
 	{
 		while (tmp != NULL)
 		{
-			stat(tmp->directory, &sb);
+			lstat(tmp->directory, &sb);
 			sz = sz + sb.st_blocks;
 			tmp = tmp->next;
-			i++;
 		}
 		printf("total %lld\n", sz);
 	}
 	tmp = *head;
-	//printf("")
 	while (tmp != NULL)
 	{
 		lstat(tmp->directory, &sb);
@@ -125,10 +121,9 @@ void ft_ls_l(t_ls **head)
 		printf("\n");
 		tmp = tmp->next;
 	}
-	//str = ft_strsplit(ctime(&sb.st_mtime), ' ');
 }
 
-void ft_listsort(t_ls **head)
+void ft_sort_l(t_ls **head)
 {
 	t_ls *tmp;
 	char *tmpname;
@@ -154,7 +149,62 @@ void ft_listsort(t_ls **head)
 		else if (ptr->next == NULL)
 			break;
 	}
-	ptr = *head;
+}
+
+void ft_sort_r(t_ls **head)
+{
+t_ls *tmp;
+	char *tmpname;
+	t_ls *tmp1;
+	t_ls *ptr;
+	size_t i;
+	char *tp;
+	ptr = (*head);
+	while (ptr != NULL)
+	{
+		if (ft_strcmp(ptr->name, ptr->next->name) < 0)
+		{
+			tp = ptr->directory;
+			tmpname = ptr->name;
+			ptr->directory = ptr->next->directory;//okasdfghjklasdfghjklasdfghjkl;
+			ptr->name = ptr->next->name;
+			ptr->next->directory = tp;
+			ptr->next->name = tmpname;
+			ptr = *head;
+		}
+		else if (ptr->next != NULL)
+			ptr = ptr->next;
+		else if (ptr->next == NULL)
+			break;
+	}
+}
+
+void ft_list_sort(t_ls **tmp, char *flags)//have some of the variables be sent by this function
+{
+	t_ls *ptr;
+
+	ptr = *tmp;
+	// while(ptr)
+	// {
+	// 	printf("%s\n", (ptr)->name);
+	// 	ptr = (ptr)->next;
+	// }
+	if(flags[5] == '1')//r
+	{
+		ft_sort_r(tmp);
+	while(ptr)
+	{
+		printf("%s\n", (ptr)->name);
+		//if(ptr->next != NULL)
+			ptr = (ptr)->next;
+	//	else 
+			//break ;
+	}
+	}
+	// else if (flags[4] == '1')
+	// else
+	// 	ft_sort_l(tmp);
+	
 }
 
 void ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir)
@@ -171,10 +221,8 @@ void ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir)
 		else
 			break;
 	}
-
 	if (ft_strcmp(ptr->directory, dir) == 0)
 	{
-		// ft_putstr("OK123");
 		tmp = ptr->next;
 		ptr->next = *seg;
 		(*seg)->prev = ptr;
@@ -185,36 +233,50 @@ void ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir)
 		ptr->next = tmp;
 	}
 }
+void ft_printlist(t_ls **tmp, char *flags)
+{
+	if(flags[7] == '1')
+		ft_ls_l(tmp); //if there is nothing inside a directory then do not print total
+	else
+	{
+		while((*tmp))
+		{
+			printf("%s \t", (*tmp)->name);
+			(*tmp) = (*tmp)->next;
+		}
+		printf("\n");
+	}
+	
+}
 
 t_ls *ft_listrec(DIR *dr, t_ls *head, char *dir, char *flags)
 {
-	char *dirtmp1;
-	char *dirtmp;
 	t_ls *ptr;
 	t_ls *segment;
 	t_ls *tmp;
 	size_t i = 0;
+	struct dirent *de;
+	
 	ptr = head;
 	segment = NULL;
-	struct dirent *de;
 	tmp = NULL;
+	if(*dir == '-')
+		return 0;
 	if (head == NULL)
 	{
 		(head) = ft_ls_lstnew(NULL, dir);
 		(head)->directory = ft_strdup(dir);
 		(head)->name = ft_strdup(dir);
 	}
-	//dir = (*head)->directory;
 	dr = opendir(dir);
-	// if (*head != NULL && *(*head)->name != '.')
-	printf("\n%s:\n", dir); //need to let this work with flags aswell
+	//printf("\n%s:\n", dir); //need to let this work with flags aswell
 	while ((de = readdir(dr)) != NULL)
 	{
-		if (!(flags[6] == '0' && *de->d_name == '.') && tmp == NULL && de != NULL) //maybe a function for the two cases
+		if (flags[5] != '1' &&!(flags[6] == '0' && *de->d_name == '.') && tmp == NULL && de != NULL) //maybe a function for the two cases
 			tmp = ft_ls_lstnew(de, NULL);
-		else if (!(flags[6] == '0' && *de->d_name == '.') && de != NULL)
+		else if (flags[5] != '1' && !(flags[6] == '0' && *de->d_name == '.') && de != NULL)
 			ft_ls_lstadd(&tmp, ft_ls_lstnew(de, NULL));
-		if (!(flags[6] == '0' && *de->d_name == '.') && de)
+		if (flags[5] != '1' && !(flags[6] == '0' && *de->d_name == '.') && de)
 			ft_assign_dir(&tmp, dir);
 		if (de->d_type == 4 && !(flags[6] == '0' && *de->d_name == '.') && strcmp(de->d_name, ".") != 0 && ft_strcmp(de->d_name, "..") != 0)
 		{
@@ -226,16 +288,16 @@ t_ls *ft_listrec(DIR *dr, t_ls *head, char *dir, char *flags)
 				ft_assign_dir(&segment, dir);
 		}
 	}
-	if (tmp && tmp->next != NULL)
-		ft_listsort(&tmp);
-	// ft_printlist();///////////////////////////////////////////////////////////freemthe whole list while printing it if it is not recursive
-	ft_ls_l(&tmp); //if there is nothing inside a directory then do not print total
+	if (tmp && tmp->next != NULL && flags[5] != '1')
+	{
+		ft_list_sort(&tmp, flags);
+		ft_printlist(&tmp, flags);///////////////////////////////////////////////////////////freemthe whole list while printing it if it is not recursive
+	}
 	if (segment != NULL)
-		ft_listsort(&segment); //was close to doing this part again. thought I was sorting the head; luckily it was only segments
+		ft_list_sort(&segment, flags);
 	ptr = segment;
-	if ((head) != NULL && segment != NULL) //sunting here
+	if ((head) != NULL && segment != NULL)
 		ft_ls_seg_lstadd(&head, &segment, dir);
-
 	closedir(dr);
 	if ((head) != NULL)
 	{
@@ -247,12 +309,6 @@ t_ls *ft_listrec(DIR *dr, t_ls *head, char *dir, char *flags)
 				ptr = ptr->next;
 				break;
 			}
-			// else
-			// {
-			// 	tmp = ptr->next;
-			// 	free (ptr);
-			// }
-
 			ptr = ptr->next;
 		}
 		if (flags[3] == '1' && ptr != NULL)
@@ -261,9 +317,8 @@ t_ls *ft_listrec(DIR *dr, t_ls *head, char *dir, char *flags)
 	return 0;
 }
 
-char **ft_argv_analize(char **argv, char *flags)
+void	ft_argv_analize(char **argv, char *flags, char ***dir)
 {
-	char **dir;
 	size_t i;
 	size_t a;
 	size_t count;
@@ -293,88 +348,40 @@ char **ft_argv_analize(char **argv, char *flags)
 			else
 			{
 				printf("ERROR");
-				return NULL;
+				return ;
 			}
 		}
 		if (argv[i][1] == '\0')
 			printf("ERROR");
-		else
-			flags[a] == '\0';
 		i++;
 	}
 	while (argv[i + count] != NULL && *argv[i + count] != '-')
 		count++;
-	if (count == 0)
-	{
-		dir = (char **)malloc(sizeof(char *) * 2);
-		dir[0] = ft_strdup(".");
-		dir[1] = NULL;
-	}
-	else
-	{
-		dir = (char **)malloc(sizeof(char *) + (count + 1));
-		count = 0;
-		while (argv[i + count] != NULL && *argv[i + count] != '-')
-		{
-			dir[count] = ft_strdup(argv[i + count]);
-			count++;
-		}
-		dir[count] = NULL;
-	}
-	return dir;
+	if(count != 0)
+		*dir = &argv[i];
 }
 
 int main(int argc, char **argv)
 {
 	t_ls *ptr;
-	size_t i = 0;
 	t_ls *head;
 	DIR *dr;
 	size_t a = 0;
-	struct dirent *de;
 	char **dir;
-	char flags[8] = "00000000";
-	if (argv[1] == NULL)
+	char flags[9] = "00000000";
+	dir = NULL;
+	ft_argv_analize(argv, flags, &dir);
+	if (dir == NULL)
 	{
 		dir = (char **)malloc(sizeof(char *) * 2);
 		dir[0] = ft_strdup(".");
-		// dir[1] = ;
+		dir[1] = NULL;
 	}
-	else
-		dir = ft_argv_analize(argv, flags);
 	ptr = head;
 	head = NULL;
-	while (dir[a] != NULL) // need to see if I can open all of the argv's first
+	while (dir[a] && *dir[a] != '-') // need to see if I can open all of the argv's first
 	{
-		// printf("%s", dir[a]);
-		ft_listrec(dr, head, dir[a], flags); //  -R does not work completely when i use multiple files e.g. ../Libftest because I think the pointer of head is not pointing to the correct spot
+		ft_listrec(dr, head, dir[a], flags);
 		a++;
 	}
-	// else
-	// {
-	// 	return ;
-	// }
-
-	// ptr = head;
-	// while(ptr != NULL)
-	// {
-	// printf("current = %s\n", ptr->directory);
-	//if(ptr->prev != NULL)
-	//printf("prev = %s\n\n", ptr->prev->directory);
-	// 	if(ptr->next != NULL)
-	// 		ptr = ptr->next;
-	// 	else
-	// 	{
-	// 		break;
-	// 	}
-	// }
-	//  ///////////////////////////////////////////////////////////////////////
-	//  while(ptr != NULL)
-	//  {
-	// 	 printf("reverse = %s\n", ptr->directory);
-	//  	if(ptr->prev != NULL)
-	// 		ptr = ptr->prev;
-	// 	else
-	// 		break;
-	//  }
 }
