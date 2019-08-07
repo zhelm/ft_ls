@@ -73,33 +73,33 @@ void ft_argv_analize(char **argv, char *flags, t_ls **dir)
 	}
 }
 
-void ft_sortarg_time(t_ls **head, char *flags)
-{
-	struct stat sb;
-	struct stat sb1;
-	t_ls *ptr;
-	int i;
-	char *tp;
+// void ft_sortarg_time(t_ls **head, char *flags)
+// {
+// 	struct stat sb;
+// 	struct stat sb1;
+// 	t_ls *ptr;
+// 	int i;
+// 	char *tp;
 
-	ptr = *head;
-	i = -1;
-	if (flags[5] == '1')
-		i = 1;
-	while (ptr->next != NULL)
-	{
-		stat(ptr->directory, &sb);
-		stat(ptr->next->directory, &sb1);
-		if (((i * ((int)sb.st_mtimespec.tv_sec - (int)sb1.st_mtimespec.tv_sec)) > 0) || (((i * ((int)sb.st_mtimespec.tv_sec - (int)sb1.st_mtimespec.tv_sec) == 0 && (i * ((int)sb.st_mtimespec.tv_nsec - (int)sb1.st_mtimespec.tv_nsec)) > 0))))
-		{
-			tp = ptr->directory;
-			ptr->directory = ptr->next->directory;
-			ptr->next->directory = tp;
-			ptr = *head;
-		}
-		else
-			ptr = ptr->next;
-	}
-}
+// 	ptr = *head;
+// 	i = -1;
+// 	if (flags[5] == '1')
+// 		i = 1;
+// 	while (ptr->next != NULL)
+// 	{
+// 		stat(ptr->directory, &sb);
+// 		stat(ptr->next->directory, &sb1);
+// 		if (((i * ((int)sb.st_mtimespec.tv_sec - (int)sb1.st_mtimespec.tv_sec)) > 0) || (((i * ((int)sb.st_mtimespec.tv_sec - (int)sb1.st_mtimespec.tv_sec) == 0 && (i * ((int)sb.st_mtimespec.tv_nsec - (int)sb1.st_mtimespec.tv_nsec)) > 0))))
+// 		{
+// 			tp = ptr->directory;
+// 			ptr->directory = ptr->next->directory;
+// 			ptr->next->directory = tp;
+// 			ptr = *head;
+// 		}
+// 		else
+// 			ptr = ptr->next;
+// 	}
+// }
 
 void ft_argsort(t_ls **dir, char *flags) //This is a good way to do the other sort aswell
 {
@@ -124,36 +124,69 @@ void ft_argsort(t_ls **dir, char *flags) //This is a good way to do the other so
 		else
 			ptr = ptr->next;
 	}
-	if (flags[4] == '1')
-		ft_sortarg_time(dir, flags);
+	// if (flags[4] == '1')
+	// 	ft_sortarg_time(dir, flags);
 }
-// char *ft_ls_analizeargv(char **argv)
-// {
-// }
+
+
+char *ft_ls_error(char c)
+{
+	printf("ls: invalid option -- '%c'\n", c);
+	//ft_putchar('\n');	
+	return NULL;
+}
+
+char *ft_ls_checkflags(char **argv)
+{
+	size_t i;
+	size_t a;
+	char *flags;
+
+	i = 1;
+	while(*argv[i] == '-')
+	{
+		a = 1;
+		while(argv[i][a] != '\0')
+		{
+			if(argv[i][a] == 'l' || argv[i][a] == 'a' || argv[i][a] == 'r' || argv[i][a] == 'R' || argv[i][a] == 't')
+				a++;
+			else
+				return(ft_ls_error(argv[i][a]));
+		}
+			i++;
+	}
+	flags = ft_strnew(8);
+	ft_memset(flags, '0', 8);
+	flags[9] = '\0';
+	return flags;
+}
 
 int main(int argc, char **argv)
 {
 	t_ls *head;
 	t_ls *dir;
-	char flags[9] = "00000000";
+	char *flags;
 
 	dir = NULL;
-	// flags = ft_ls_checkflags(argv);//returns flags
+	if(argc > 1)
+	if((flags = ft_ls_checkflags(argv)) == NULL)
+		return 0;
 	ft_argv_analize(argv, flags, &dir); //need to sort this aswell. split this up into two functions
 	if (dir == NULL)
 		dir = ft_ls_lstnew(NULL, ".");
 	else
 		ft_argsort(&dir, flags);
 	head = NULL;
+	printf("%s\n",flags);
 	while (dir != NULL) // need to see if I can open all of the argv's first
 	{
 		printf("%s\n", dir->directory);
 		// ft_listrec(&head, dir->directory, flags); //  -R does not work completely when i use multiple files e.g. ../Libftest because I think the pointer of head is not pointing to the correct spot
-		if (head != NULL)
-		{
-			while (head)
-				(head) = (head)->next;
-		}
+		// if (head != NULL)
+		// {
+		// 	while (head)
+		// 		(head) = (head)->next;
+		// }
 		dir = dir->next;
 	}
 }
