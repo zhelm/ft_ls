@@ -131,9 +131,32 @@ void ft_argsort(t_ls **dir, char *flags) //This is a good way to do the other so
 
 char *ft_ls_error(char c)
 {
-	printf("ls: invalid option -- '%c'\n", c);
-	//ft_putchar('\n');	
+	printf("ls: invalid option -- %c", c);
+	ft_putchar('\n');
 	return NULL;
+}
+
+int *ft_ls_check_dir(char **argv)
+{
+	size_t i;
+	DIR *dr;
+
+	i = 1;
+	while(argv[i] && *argv[i] == '-' && argv[i][1] != '\0')
+		i++;
+	while(argv[i])
+	{
+		dr = opendir(argv[i]);
+		if(dr == NULL)
+		{
+			// perror("");
+			printf("ft_ls: cannot access '%s':", argv[i]);
+			perror("");
+		}
+		else
+			closedir(dr);		
+		i++;
+	}
 }
 
 char *ft_ls_checkflags(char **argv)
@@ -143,7 +166,7 @@ char *ft_ls_checkflags(char **argv)
 	char *flags;
 
 	i = 1;
-	while(*argv[i] == '-')
+	while(argv[i] && argv[i][0] == '-')
 	{
 		a = 1;
 		while(argv[i][a] != '\0')
@@ -155,6 +178,8 @@ char *ft_ls_checkflags(char **argv)
 		}
 			i++;
 	}
+	if(!(ft_ls_check_dir(argv)))
+		return NULL;
 	flags = ft_strnew(8);
 	ft_memset(flags, '0', 8);
 	flags[9] = '\0';
@@ -167,6 +192,7 @@ int main(int argc, char **argv)
 	t_ls *dir;
 	char *flags;
 
+	// flags = NULL;
 	dir = NULL;
 	if(argc > 1)
 	if((flags = ft_ls_checkflags(argv)) == NULL)
@@ -176,7 +202,7 @@ int main(int argc, char **argv)
 		dir = ft_ls_lstnew(NULL, ".");
 	else
 		ft_argsort(&dir, flags);
-	head = NULL;
+	// head = NULL;
 	printf("%s\n",flags);
 	while (dir != NULL) // need to see if I can open all of the argv's first
 	{
