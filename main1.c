@@ -80,33 +80,15 @@ void ft_ls_mode(struct stat sb)
 	}
 }
 
-void ft_ls_l(t_ls **head)
+void ft_ls_print_l(t_ls **head, struct stat sb)
 {
 	t_ls *tmp;
-	t_ls *ptr;
-	struct stat sb;
 	struct passwd *usr;
 	struct group *grp;
-	long long sz;
-	int i;
 	char **str;
 	char **time;
-	sz = 0;
+	
 	tmp = *head;
-	i = 0;
-	if (tmp)
-	{
-		while (tmp != NULL)
-		{
-			lstat(tmp->directory, &sb);
-			sz = sz + sb.st_blocks;
-			tmp = tmp->next;
-			i++;
-		}
-		printf("total %lld\n", sz);
-	}
-	tmp = *head;
-	//printf("")
 	while (tmp != NULL)
 	{
 		lstat(tmp->directory, &sb);
@@ -126,23 +108,66 @@ void ft_ls_l(t_ls **head)
 		tmp = tmp->next;
 	}
 }
-void ft_sort_time(t_ls **head, char *flags)
+
+void ft_ls_l(t_ls **head)
 {
-	//get stats
+	t_ls *tmp;
+	struct stat sb;
+	long long sz;
+
+	sz = 0;
+	tmp = *head;
+	if (tmp)
+	{
+		while (tmp != NULL)
+		{
+			lstat(tmp->directory, &sb);
+			sz = sz + sb.st_blocks;
+			tmp = tmp->next;
+		}
+		printf("total %lld\n", sz);
+	}
+	ft_ls_print_l(head, sb);	
+}
+
+void ft_sort_time(t_ls **head, char *flags, int i)
+{
+	struct stat sb;
+	struct stat sb1;
+	char *tmpname;
+	t_ls *ptr;
+	char *tp;
+
+	ptr = *head;
+	while (ptr->next != NULL)
+	{
+		stat(ptr->directory, &sb);
+		stat(ptr->next->directory, &sb1);
+		if (((i * ((int)sb.st_mtime - (int)sb1.st_mtime)) < 0) || (((i * ((int)sb.st_mtime - (int)sb1.st_mtime) == 0 && (i * ((int)sb.st_mtimespec.tv_nsec - (int)sb1.st_mtimespec.tv_nsec)) < 0))))
+		{
+			tp = ptr->directory;
+			tmpname = ptr->name;
+			ptr->directory = ptr->next->directory;
+			ptr->name = ptr->next->name;
+			ptr->next->directory = tp;
+			ptr->next->name = tmpname;
+			ptr = *head;
+		}
+		else
+			ptr = ptr->next;//here it is
+	}
 }
 
 void ft_listsort(t_ls **head, char *flags)
 {
 	t_ls *tmp;
 	char *tmpname;
-	t_ls *tmp1;
 	t_ls *ptr;
 	int i;
 	char *tp;
+
 	ptr = *head;
-	i = 1;
-	if (flags[5] == '1')
-		i = -1;
+	i = ((flags[5] == '1') ? -1 : 1);
 	while (ptr->next != NULL)
 	{
 		if ((i * ft_strcmp(ptr->name, ptr->next->name)) > 0)
@@ -155,13 +180,11 @@ void ft_listsort(t_ls **head, char *flags)
 			ptr->next->name = tmpname;
 			ptr = *head;
 		}
-		else if (ptr->next != NULL)
+		else
 			ptr = ptr->next;
-		else if (ptr->next == NULL)
-			break;
 	}
 	if(flags[4] == '1')
-		ft_sort_time(head, flags);
+		ft_sort_time(head, flags, i);
 }
 
 void ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir)
@@ -210,18 +233,42 @@ void ft_printlist(t_ls **tmp, char *flags)
 		printf("\n\n");
 	}
 }
-
-t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir, char *flags)
+void	ft_ls_mklst(t_ls **segment, t_ls **tmp, char *flags, char *dir)
 {
-	char *dirtmp1;
-	char *dirtmp;
+	struct dirent *de;
+	DIR *dr;
+
+	dr = opendir(dir);
+	while((de = readdir(dr)) != NULL)
+	{
+		if (!(flags[6] == '0' && *de->d_name == '.') && *tmp == NULL && de != NULL) //maybe a function for the two cases
+			*tmp = ft_ls_lstnew(de, NULL);
+		else if (!(flags[6] == '0' && *de->d_name == '.') && de != NULL)
+			ft_ls_lstadd(tmp, ft_ls_lstnew(de, NULL));
+		if (!(flags[6] == '0' && *de->d_name == '.') && de)
+			ft_assign_dir(tmp, dir);
+		if (de->d_type == 4 && !(flags[6] == '0' && *de->d_name == '.') && strcmp(de->d_name, ".") != 0 && ft_strcmp(de->d_name, "..") != 0)
+		{
+			if (*segment == NULL)
+				*segment = ft_ls_lstnew(de, NULL);
+			else
+				ft_ls_lstadd(segment, ft_ls_lstnew(de, NULL));
+			if (de != NULL)
+				ft_assign_dir(segment, dir);
+		}
+	}
+	closedir(dr);
+}
+
+
+
+t_ls *ft_listrec(t_ls **head, char *dir, char *flags)
+{
 	t_ls *ptr;
 	t_ls *segment;
 	t_ls *tmp;
-	size_t i = 0;
-	ptr = *head;
+
 	segment = NULL;
-	struct dirent *de;
 	tmp = NULL;
 	if (*head == NULL)
 	{
@@ -229,38 +276,17 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir, char *flags)
 		(*head)->directory = ft_strdup(dir);
 		(*head)->name = ft_strdup(dir);
 	}
-	//dir = (*head)->directory;
-	dr = opendir(dir);
 	if (*head != NULL)
-		printf("%s:\n", dir); //need to let this work with flags aswell
-	while ((de = readdir(dr)) != NULL)
-	{
-		if (!(flags[6] == '0' && *de->d_name == '.') && tmp == NULL && de != NULL) //maybe a function for the two cases
-			tmp = ft_ls_lstnew(de, NULL);
-		else if (!(flags[6] == '0' && *de->d_name == '.') && de != NULL)
-			ft_ls_lstadd(&tmp, ft_ls_lstnew(de, NULL));
-		if (!(flags[6] == '0' && *de->d_name == '.') && de)
-			ft_assign_dir(&tmp, dir);
-		if (de->d_type == 4 && !(flags[6] == '0' && *de->d_name == '.') && strcmp(de->d_name, ".") != 0 && ft_strcmp(de->d_name, "..") != 0)
-		{
-			if (segment == NULL)
-				segment = ft_ls_lstnew(de, NULL);
-			else
-				ft_ls_lstadd(&segment, ft_ls_lstnew(de, NULL));
-			if (de != NULL)
-				ft_assign_dir(&segment, dir);
-		}
-	}
+	printf("%s:\n", dir); //need to let this work with flags aswell
+	ft_ls_mklst(&segment, &tmp, flags, dir);
 	if (tmp && tmp->next != NULL)
 		ft_listsort(&tmp, flags);
 	ft_printlist(&tmp, flags); ///////////////////////////////////////////////////////////freemthe whole list while printing it if it is not recursive
-	// //if there is nothing inside a directory then do not print total
 	if (segment != NULL)
 		ft_listsort(&segment, flags); //was close to doing this part again. thought I was sorting the head; luckily it was only segments
-	ptr = segment;
 	if ((*head) != NULL && segment != NULL) //sunting here
 		ft_ls_seg_lstadd(head, &segment, dir);
-	closedir(dr);
+	// ft_dorec(head, flags, dir);
 	ptr = *head;
 	if ((*head) != NULL)
 	{
@@ -277,11 +303,13 @@ t_ls *ft_listrec(DIR *dr, t_ls **head, char *dir, char *flags)
 		if (flags[3] == '1' && ptr != NULL)
 		{
 			printf("\n");
-			ft_listrec(dr, &ptr, ptr->directory, flags);
+			ft_listrec(&ptr, ptr->directory, flags);
 		}
 	}
 	return 0;
 }
+
+
 
 void ft_argv_analize(char **argv, char *flags, t_ls **dir)
 {
@@ -339,6 +367,34 @@ void ft_argv_analize(char **argv, char *flags, t_ls **dir)
 	}
 }
 
+void ft_sortarg_time(t_ls **head, char *flags)
+{
+	struct stat sb;
+	struct stat sb1;
+	t_ls *ptr;
+	int i;
+	char *tp;
+
+	ptr = *head;
+	i = -1;
+	if (flags[5] == '1')
+		i = 1;
+	while (ptr->next != NULL)
+	{
+		stat(ptr->directory, &sb);
+		stat(ptr->next->directory, &sb1);
+		if (((i * ((int)sb.st_mtimespec.tv_sec - (int)sb1.st_mtimespec.tv_sec)) > 0) || (((i * ((int)sb.st_mtimespec.tv_sec - (int)sb1.st_mtimespec.tv_sec) == 0 && (i * ((int)sb.st_mtimespec.tv_nsec - (int)sb1.st_mtimespec.tv_nsec)) > 0))))
+		{
+			tp = ptr->directory;
+			ptr->directory = ptr->next->directory;
+			ptr->next->directory = tp;
+			ptr = *head;
+		}
+		else
+			ptr = ptr->next;
+	}
+}
+
 void ft_argsort(t_ls **dir, char *flags) //This is a good way to do the other sort aswell
 {
 	t_ls *tmp;
@@ -363,30 +419,27 @@ void ft_argsort(t_ls **dir, char *flags) //This is a good way to do the other so
 		else if (ptr->next == NULL)
 			break;
 	}
+	if(flags[4] == '1')
+		ft_sortarg_time(dir, flags);
 }
 
 int main(int argc, char **argv)
 {
-	t_ls *ptr;
-	size_t i = 0;
 	t_ls *head;
-	DIR *dr;
 	size_t a = 0;
 	struct dirent *de;
 	t_ls *dir;
 	dir = NULL;
 	char flags[9] = "00000000";
-	ft_argv_analize(argv, flags, &dir); //need to sort this aswell
+	ft_argv_analize(argv, flags, &dir); //need to sort this aswell. split this up into two functions
 	if (dir == NULL)
 		dir = ft_ls_lstnew(NULL, ".");
 	else
 		ft_argsort(&dir, flags);
-	ptr = head;
 	head = NULL;
 	while (dir != NULL) // need to see if I can open all of the argv's first
 	{
-		// printf("%s\n", dir->directory);
-		ft_listrec(dr, &head, dir->directory, flags); //  -R does not work completely when i use multiple files e.g. ../Libftest because I think the pointer of head is not pointing to the correct spot
+		ft_listrec(&head, dir->directory, flags); //  -R does not work completely when i use multiple files e.g. ../Libftest because I think the pointer of head is not pointing to the correct spot
 		if (head != NULL)
 		{
 			while (head)
