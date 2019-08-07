@@ -36,4 +36,16 @@ typedef struct  st_ls
 }				t_ls;
 void ft_ls_lstadd(t_ls **alst, t_ls *new);
 t_ls *ft_ls_lstnew(struct dirent *de, char *dir);
+void ft_assign_dir(t_ls **head, char *dir);
+void ft_ls_check_file_type(struct stat sb);
+void ft_ls_mode(struct stat sb);
+void ft_ls_print_l(t_ls **head, struct stat sb);
+void ft_ls_l(t_ls **head);
+void ft_sort_time(t_ls **head, char *flags, int i);
+void ft_listsort(t_ls **head, char *flags);
+void ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir);
+void ft_printlist(t_ls **tmp, char *flags);
+void	ft_ls_mklst(t_ls **segment, t_ls **tmp, char *flags, char *dir);
+t_ls *ft_listrec(t_ls **head, char *dir, char *flags);
+
 #endif
