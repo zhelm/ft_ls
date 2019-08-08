@@ -13,19 +13,20 @@
 #ifndef FT_LS_H
 # define FT_LS_H
 
-
+# include <stdlib.h>
 # include <unistd.h> 
 # include <dirent.h> 
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <pwd.h>
+# include <time.h>
 # include <stdlib.h>
 # include <grp.h>
 # include <uuid/uuid.h> 
 # include <time.h>
 # include <string.h>
 # include <stdio.h>
-# include "libft.h"
+# include "libft/libft.h"
 
 typedef struct  st_ls
 {
@@ -34,18 +35,24 @@ typedef struct  st_ls
 	struct st_ls *next;
 	struct st_ls *prev;
 }				t_ls;
-void ft_ls_lstadd(t_ls **alst, t_ls *new);
-t_ls *ft_ls_lstnew(struct dirent *de, char *dir);
-void ft_assign_dir(t_ls **head, char *dir);
-void ft_ls_check_file_type(struct stat sb);
-void ft_ls_mode(struct stat sb);
-void ft_ls_print_l(t_ls **head, struct stat sb);
-void ft_ls_l(t_ls **head);
-void ft_sort_time(t_ls **head, char *flags, int i);
-void ft_listsort(t_ls **head, char *flags);
-void ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir);
-void ft_printlist(t_ls **tmp, char *flags);
+void	ft_ls_lstadd(t_ls **alst, t_ls *new);
+t_ls	*ft_ls_lstnew(struct dirent *de, char *dir);
+void	ft_assign_dir(t_ls **head, char *dir);
+void	ft_ls_check_file_type(struct stat sb);
+void	ft_ls_mode(struct stat sb);
+void	ft_ls_print_l(t_ls **head, struct stat sb);
+void	ft_ls_l(t_ls **head);
+void	ft_sort_time(t_ls **head, char *flags, int i);
+void	ft_listsort(t_ls **head, char *flags);
+void	ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir);
+void	ft_printlist(t_ls **tmp, char *flags);
 void	ft_ls_mklst(t_ls **segment, t_ls **tmp, char *flags, char *dir);
-t_ls *ft_listrec(t_ls **head, char *dir, char *flags);
-
+t_ls	*ft_listrec(t_ls **head, char *dir, char *flags);
+void	ft_ls_mkflags(char *argv, char *flags);
+void	ft_argv_analize(char **argv, char *flags, t_ls **dir);
+void	ft_sortarg_time(t_ls **head, char *flags);
+void	ft_argsort(t_ls **dir, char *flags);
+char	*ft_ls_error(char c);
+void	*ft_ls_check_dir(char **argv);
+char	*ft_ls_checkflags(char **argv);
 #endif
