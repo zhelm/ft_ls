@@ -1,6 +1,6 @@
 #include "ft_ls.h"
 
-void *ft_ls_check_dir(char **argv)
+int ft_ls_check_dir(char **argv)
 {
 	size_t i;
 	DIR *dr;
@@ -17,9 +17,11 @@ void *ft_ls_check_dir(char **argv)
 			ft_putstr(argv[i]);
 			ft_putstr(": ");
 			perror("");
+			return 0;
 		}
 		else
 			closedir(dr);		
 		i++;
 	}
+	return 1;
 }

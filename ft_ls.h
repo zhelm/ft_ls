@@ -53,6 +53,7 @@ void	ft_argv_analize(char **argv, char *flags, t_ls **dir);
 void	ft_sortarg_time(t_ls **head, char *flags);
 void	ft_argsort(t_ls **dir, char *flags);
 char	*ft_ls_error(char c);
-void	*ft_ls_check_dir(char **argv);
+int		ft_ls_check_dir(char **argv);
 char	*ft_ls_checkflags(char **argv);
+void	ft_dorec(t_ls **head, char *flags, char *dir);
 #endif
