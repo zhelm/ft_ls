@@ -22,6 +22,8 @@ int main(int argc, char **argv) //the directory names are set up wrong for -l
 	t_ls *head;
 	t_ls *dir;
 	char *flags;
+	DIR *dr;
+	int fd;
 
 	dir = NULL;
 	if(argc >= 1)
