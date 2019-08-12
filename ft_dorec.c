@@ -3,7 +3,7 @@
 void ft_dorec(t_ls **head, char *flags, char *dir)
 {
 	t_ls *ptr;
-
+	t_ls *tmp;
 	ptr = *head;
 	if ((*head) != NULL)
 	{
@@ -12,6 +12,12 @@ void ft_dorec(t_ls **head, char *flags, char *dir)
 		{
 			if (ptr && ft_strcmp(ptr->directory, dir) == 0)
 			{
+				printf("ok");
+				tmp = ptr;
+				free(ptr->name);
+				ptr->name = NULL;
+				free(ptr->directory);
+				ptr->directory = NULL;
 				ptr = ptr->next;
 				break;
 			}

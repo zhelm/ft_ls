@@ -19,11 +19,17 @@ t_ls *ft_listrec(t_ls **head, char *dir, char *flags)
 	ft_ls_mklst(&segment, &tmp, flags, dir);
 	if (tmp && tmp->next != NULL)
 		ft_listsort(&tmp, flags);
-	ft_printlist(&tmp, flags); ///////////////////////////////////////////////////////////freemthe whole list while printing it if it is not recursive
+	ft_printlist(&tmp, flags);
 	if (segment != NULL)
-		ft_listsort(&segment, flags); //was close to doing this part again. thought I was sorting the head; luckily it was only segments
-	if ((*head) != NULL && segment != NULL) //sunting here
+		ft_listsort(&segment, flags);
+	if ((*head) != NULL && segment != NULL)
 		ft_ls_seg_lstadd(head, &segment, dir);
-	ft_dorec(head, flags, dir);
+	if((*head)->next != NULL)
+		ft_dorec(head, flags, dir);
+	free((*head)->name);
+	free((*head)->directory);
+	if(*head)
+		free(*head);
+	*head = NULL;
 	return 0;
 }

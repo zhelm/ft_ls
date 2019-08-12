@@ -35,6 +35,17 @@ typedef struct  st_ls
 	struct st_ls *next;
 	struct st_ls *prev;
 }				t_ls;
+
+typedef struct st_ls_l
+{
+	int 	links;
+	int 	usrnm;
+	int 	grpnm;
+	int 	size;
+}			t_ls_l;
+
+void	ft_ls_free_tmplist(t_ls **head);
+void	ft_ls_print_lsub(t_ls **tmp, struct stat sb, char **time, char **str);
 void	ft_ls_lstadd(t_ls **alst, t_ls *new);
 t_ls	*ft_ls_lstnew(struct dirent *de, char *dir);
 void	ft_assign_dir(t_ls **head, char *dir);

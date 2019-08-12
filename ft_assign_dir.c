@@ -15,4 +15,5 @@ void ft_assign_dir(t_ls **head, char *dir)
 			break;
 	}
 	ptr->directory = ft_strjoin(dirtmp1, ptr->name);
+	ft_strdel(&dirtmp1);
 }

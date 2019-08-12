@@ -24,6 +24,7 @@ int main(int argc, char **argv) //the directory names are set up wrong for -l
 	char *flags;
 	DIR *dr;
 	int fd;
+	t_ls *tmp;
 
 	dir = NULL;
 	if(argc >= 1)
@@ -37,8 +38,9 @@ int main(int argc, char **argv) //the directory names are set up wrong for -l
 	else
 		ft_argsort(&dir, flags);
 	head = NULL;
-	while (dir != NULL) // need to see if I can open all of the argv's first
+	while (dir != NULL)
 	{
+		tmp = dir;
 		ft_listrec(&head, dir->directory, flags); //  -R does not work completely when i use multiple files e.g. ../Libftest because I think the pointer of head is not pointing to the correct spot
 		if (head != NULL)
 		{
@@ -46,5 +48,7 @@ int main(int argc, char **argv) //the directory names are set up wrong for -l
 				(head) = (head)->next;
 		}
 		dir = dir->next;
+		free(tmp);
 	}
+	sleep(30);
 }
