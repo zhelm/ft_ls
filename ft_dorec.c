@@ -12,7 +12,7 @@ void ft_dorec(t_ls **head, char *flags, char *dir)
 		{
 			if (ptr && ft_strcmp(ptr->directory, dir) == 0)
 			{
-				printf("ok");
+				printf("\n");
 				tmp = ptr;
 				free(ptr->name);
 				ptr->name = NULL;

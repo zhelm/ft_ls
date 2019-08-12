@@ -38,15 +38,17 @@ typedef struct  st_ls
 
 typedef struct st_ls_l
 {
-	int 	links;
+	size_t 	links;
 	size_t 	usrnm;
 	size_t 	grpnm;
 	size_t 	size;
 }			t_ls_l;
 
-t_ls_l    *ft_ls_l_analize(t_ls **head);
+void ft_print_l_time(char **str, char **time);
+void 	ft_putspaces(size_t i);
+t_ls_l 	ft_ls_l_analize(t_ls **head, t_ls *tmp);
 void	ft_ls_free_tmplist(t_ls **head);
-void	ft_ls_print_lsub(t_ls **tmp, struct stat sb, char **time, char **str);
+void	ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val);
 void	ft_ls_lstadd(t_ls **alst, t_ls *new);
 t_ls	*ft_ls_lstnew(struct dirent *de, char *dir);
 void	ft_assign_dir(t_ls **head, char *dir);
