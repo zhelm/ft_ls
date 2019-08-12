@@ -39,11 +39,12 @@ typedef struct  st_ls
 typedef struct st_ls_l
 {
 	int 	links;
-	int 	usrnm;
-	int 	grpnm;
-	int 	size;
+	size_t 	usrnm;
+	size_t 	grpnm;
+	size_t 	size;
 }			t_ls_l;
 
+t_ls_l    *ft_ls_l_analize(t_ls **head);
 void	ft_ls_free_tmplist(t_ls **head);
 void	ft_ls_print_lsub(t_ls **tmp, struct stat sb, char **time, char **str);
 void	ft_ls_lstadd(t_ls **alst, t_ls *new);

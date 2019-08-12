@@ -11,6 +11,11 @@ void ft_ls_print_l(t_ls **head, struct stat sb)
 	tmp = *head;
 
 	vals = ft_ls_l_analize(head);
+
+	printf("\ngrp %ld\n",vals->grpnm);
+	printf("usr %ld\n",vals->usrnm);
+	printf("links %d\n",vals->links);
+	printf("size %ld\n",vals->size);
 	while (tmp != NULL)
 	{
 		lstat(tmp->directory, &sb);
