@@ -7,7 +7,7 @@ char *ft_ls_checkflags(char **argv)
 	char *flags;
 
 	i = 1;
-	while(argv[i] && argv[i][0] == '-')
+	while(argv[i] && argv[i][0] == '-' && argv[i][1] != '-')
 	{
 		a = 1;
 		while(argv[i][a] != '\0')
@@ -16,17 +16,15 @@ char *ft_ls_checkflags(char **argv)
 				a++;
 			else
 			{
-
 				ft_ls_error(argv[i][a]);
 				return NULL;
 			}
 		}
-			i++;
+		i++;
 	}
 
 	if(!(ft_ls_check_dir(argv)))
 		return NULL;
-
 	flags = ft_strnew(8);
 	ft_memset(flags, '0', 8);
 	flags[9] = '\0';

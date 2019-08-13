@@ -3,8 +3,8 @@
 void ft_ls_print_l(t_ls **head, struct stat sb)
 {
 	t_ls *tmp;
+	t_ls *tmp1;
 	t_ls_l vals;
-
 	char **str;
 	char **time;
 	
@@ -13,18 +13,16 @@ void ft_ls_print_l(t_ls **head, struct stat sb)
 	tmp = *head;
 	while (tmp != NULL)
 	{
+		tmp1 = tmp;
 		lstat(tmp->directory, &sb);
 		str = ft_strsplit(ctime(&sb.st_mtime), ' ');
-		time = ft_strsplit(str[3], ':');
 		ft_ls_check_file_type(sb);
 		ft_ls_mode(sb);
-		ft_ls_print_lsub(&tmp, sb, vals);
-		ft_print_l_time(str, time);
-		ft_putstr(tmp->name);
+		ft_ls_print_lsub(&tmp, sb, vals, str);
 		ft_putchar('\n');
 		ft_free_arr((void **)str);
-		ft_free_arr((void **)time);
 		tmp = tmp->next;
-		ft_ls_free_tmplist(head);
+		if(tmp != NULL)
+			ft_ls_free_tmplist(&tmp1);
 	}
 }

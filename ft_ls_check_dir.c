@@ -17,7 +17,7 @@ int ft_ls_check_dir(char **argv)
 			ft_putstr(argv[i]);
 			ft_putstr(": ");
 			perror("");
-			return 0;
+			//return 0;
 		}
 		else
 			closedir(dr);		

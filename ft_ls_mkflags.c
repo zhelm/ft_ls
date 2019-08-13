@@ -3,7 +3,6 @@
 void ft_ls_mkflags(char *argv, char *flags)
 {
 	size_t a;
-
 	a = 1;
 	while (argv[a])
 	{

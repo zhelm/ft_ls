@@ -10,7 +10,7 @@ t_ls *ft_listrec(t_ls **head, char *dir, char *flags)
 	tmp = NULL;
 	if (*head == NULL)
 	{
-		(*head) = ft_ls_lstnew(NULL, dir);
+		(*head) = ft_ls_lstnew(NULL, dir, NULL);
 		(*head)->directory = ft_strdup(dir);
 		(*head)->name = ft_strdup(dir);
 	}

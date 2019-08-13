@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-t_ls *ft_ls_lstnew(struct dirent *de, char *dir)
+t_ls *ft_ls_lstnew(struct dirent *de, char *dir, char *name)
 {
 	t_ls *new;
 
@@ -21,6 +21,10 @@ t_ls *ft_ls_lstnew(struct dirent *de, char *dir)
 	new->directory = dir;
 	if(de != NULL)
 		new->name = ft_strdup(de->d_name);
+	else if (name != NULL)
+		new->name = ft_strdup(name);
+	else 
+		new->name = NULL;
 	new->next = NULL;
 	new->prev = NULL;
 	return(new);

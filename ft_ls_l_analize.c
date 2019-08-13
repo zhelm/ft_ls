@@ -22,7 +22,7 @@ t_ls_l    ft_ls_l_analize(t_ls **head, t_ls *tmp)
 
         if(ft_strlen((d = (ft_itoa(sb.st_nlink)))) > ret.links)
             ret.links = ft_strlen(d);
-        // ft_strdel(&d);
+        ft_strdel(&d);
         if(ft_strlen(usr->pw_name) > ret.usrnm)
             ret.usrnm = ft_strlen(usr->pw_name);
 
@@ -31,7 +31,7 @@ t_ls_l    ft_ls_l_analize(t_ls **head, t_ls *tmp)
 
         if(ft_strlen((d = (ft_itoa((int)sb.st_size)))) > ret.size)
             ret.size = ft_strlen(d);
-        // ft_strdel(&d);
+        ft_strdel(&d);
         
         tmp = tmp->next;
     }

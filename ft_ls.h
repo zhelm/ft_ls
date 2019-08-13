@@ -20,7 +20,6 @@
 # include <sys/stat.h>
 # include <pwd.h>
 # include <time.h>
-# include <stdlib.h>
 # include <grp.h>
 # include <uuid/uuid.h> 
 # include <time.h>
@@ -31,7 +30,7 @@
 typedef struct  st_ls
 {
 	char *directory;
-	char *name;//this must be made into char
+	char *name;
 	struct st_ls *next;
 	struct st_ls *prev;
 }				t_ls;
@@ -42,15 +41,18 @@ typedef struct st_ls_l
 	size_t 	usrnm;
 	size_t 	grpnm;
 	size_t 	size;
-}			t_ls_l;
+}				t_ls_l;
 
-void ft_print_l_time(char **str, char **time);
+void 	ft_printfiles(t_ls **file, char *flags);
+int		ft_isdir(char *argv, char *flags);
+size_t	ft_nbrlen(int n);
+void	ft_print_l_time(char **str);
 void 	ft_putspaces(size_t i);
 t_ls_l 	ft_ls_l_analize(t_ls **head, t_ls *tmp);
 void	ft_ls_free_tmplist(t_ls **head);
-void	ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val);
+void	ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val, char **str);
 void	ft_ls_lstadd(t_ls **alst, t_ls *new);
-t_ls	*ft_ls_lstnew(struct dirent *de, char *dir);
+t_ls	*ft_ls_lstnew(struct dirent *de, char *dir, char *name);
 void	ft_assign_dir(t_ls **head, char *dir);
 void	ft_ls_check_file_type(struct stat sb);
 void	ft_ls_mode(struct stat sb);
@@ -63,7 +65,7 @@ void	ft_printlist(t_ls **tmp, char *flags);
 void	ft_ls_mklst(t_ls **segment, t_ls **tmp, char *flags, char *dir);
 t_ls	*ft_listrec(t_ls **head, char *dir, char *flags);
 void	ft_ls_mkflags(char *argv, char *flags);
-void	ft_argv_analize(char **argv, char *flags, t_ls **dir);
+void	ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc);
 void	ft_sortarg_time(t_ls **head, char *flags);
 void	ft_argsort(t_ls **dir, char *flags);
 char	*ft_ls_error(char c);
