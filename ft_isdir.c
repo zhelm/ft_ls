@@ -1,6 +1,6 @@
 #include "ft_ls.h"
 
-int ft_isdir(char *argv, char *flags, t_ls **er)
+int ft_isdir(char *argv, char *flags, t_ls **er, int *ret)
 {
     char *dir;
     struct stat sb;
@@ -9,12 +9,18 @@ int ft_isdir(char *argv, char *flags, t_ls **er)
     DIR *dr;
     lstat(argv, &sb);
     if (S_ISREG(sb.st_mode))
+    {
+        if(*ret == 0)
+                *ret = 1;
         return 2;
+    }
     else
     {
         dr = opendir(argv);
         if (dr == 0)
         {
+            if(*ret == 0)
+                *ret = 1;
             ft_erlst(er, argv);
             return 0;
         }

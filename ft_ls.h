@@ -47,7 +47,7 @@ typedef struct st_ls_l
 void	ft_print_err(t_ls **er, char *flags);
 void	ft_erlst(t_ls **er, char *argv);
 void 	ft_printfiles(t_ls **file, char *flags);
-int		ft_isdir(char *argv, char *flags, t_ls **er);
+int		ft_isdir(char *argv, char *flags, t_ls **er, int *ret);
 size_t	ft_nbrlen(int n);
 void	ft_print_l_time(char **str);
 void 	ft_putspaces(size_t i);
@@ -68,7 +68,7 @@ void	ft_printlist(t_ls **tmp, char *flags);
 void	ft_ls_mklst(t_ls **segment, t_ls **tmp, char *flags, char *dir);
 t_ls	*ft_listrec(t_ls **head, char *dir, char *flags);
 void	ft_ls_mkflags(char *argv, char *flags);
-void	ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc);
+int		ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc);
 void	ft_sortarg_time(t_ls **head, char *flags);
 void	ft_argsort(t_ls **dir, char *flags);
 char	*ft_ls_error(char c);

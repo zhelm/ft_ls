@@ -13,7 +13,7 @@ void ft_printlist(t_ls **tmp, char *flags)
 	{
 		while (ptr)
 		{
-			printf("%s   \t", ptr->name);
+			printf("%s  ", ptr->name);
 			free(ptr->name);
 			free(ptr->directory);
 			tmp1 = ptr;

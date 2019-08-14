@@ -1,11 +1,13 @@
 #include "ft_ls.h"
 
-void ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
+int ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
 {
 	size_t i;
 	size_t count;
 	t_ls *er;
+	int ret;
 
+	ret = 0;
 	count = 0;
 	er = NULL;
 	i = 1;
@@ -14,14 +16,14 @@ void ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
 		if (argv[i][1] =='\0' || argv[i][1] == '-')
 		{
 			if(argv[i][1] == '\0')
-				ft_isdir(argv[i], flags, &er);
+				ft_isdir(argv[i], flags, &er, &ret);
 			if(argv[i][2] != '\0')
 			{
 				ft_putstr("ft_ls: illegal option -- -");
 				ft_putchar('\n');
 				ft_putstr("usage: ls [-Ralrt] [file ...]");
 				ft_putchar('\n');
-				return ;
+				return -1;
 			}
 			i++;
 			break;
@@ -41,7 +43,7 @@ void ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
 	{
 		while (i < argc)
 		{
-			b = ft_isdir(argv[i], flags, &er);
+			b = ft_isdir(argv[i], flags, &er, &ret);
 			if (b == 1)
 			{
 				if (*dir == NULL)
@@ -65,4 +67,5 @@ void ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
 			*dir = ft_ls_lstnew(NULL, ".", NULL);
 		if(file != NULL)
 		 	ft_printfiles(&file, flags);
+			 return ret;
 }
