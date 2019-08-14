@@ -43,8 +43,11 @@ typedef struct st_ls_l
 	size_t 	size;
 }				t_ls_l;
 
+
+void	ft_print_err(t_ls **er, char *flags);
+void	ft_erlst(t_ls **er, char *argv);
 void 	ft_printfiles(t_ls **file, char *flags);
-int		ft_isdir(char *argv, char *flags);
+int		ft_isdir(char *argv, char *flags, t_ls **er);
 size_t	ft_nbrlen(int n);
 void	ft_print_l_time(char **str);
 void 	ft_putspaces(size_t i);

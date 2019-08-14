@@ -8,7 +8,7 @@ void ft_ls_l(t_ls **head)
 
 	sz = 0;
 	tmp = *head;
-	if (tmp)
+	if (tmp != NULL && !(tmp->directory == NULL && tmp->name != NULL))
 	{
 		while (tmp != NULL)
 		{

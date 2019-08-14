@@ -14,7 +14,10 @@ void ft_ls_print_l(t_ls **head, struct stat sb)
 	while (tmp != NULL)
 	{
 		tmp1 = tmp;
-		lstat(tmp->directory, &sb);
+		if(tmp->directory)
+			lstat(tmp->directory, &sb);
+		else
+			lstat(tmp->name, &sb);
 		str = ft_strsplit(ctime(&sb.st_mtime), ' ');
 		ft_ls_check_file_type(sb);
 		ft_ls_mode(sb);

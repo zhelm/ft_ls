@@ -31,9 +31,10 @@ int main(int argc, char **argv) //the directory names are set up wrong for -l
 			return 0;
 	}
 	ft_argv_analize(argv, flags, &dir, argc); //need to sort this aswell. split this up into two functions
-	if (dir == NULL)
-		dir = ft_ls_lstnew(NULL, ".", NULL);
-	else
+	// if (dir == NULL)
+	// 	dir = ft_ls_lstnew(NULL, ".", NULL);
+	// else
+	if(dir != NULL)
 		ft_argsort(&dir, flags);
 	head = NULL;
 	while (dir != NULL)

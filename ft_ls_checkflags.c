@@ -22,9 +22,6 @@ char *ft_ls_checkflags(char **argv)
 		}
 		i++;
 	}
-
-	if(!(ft_ls_check_dir(argv)))
-		return NULL;
 	flags = ft_strnew(8);
 	ft_memset(flags, '0', 8);
 	flags[9] = '\0';

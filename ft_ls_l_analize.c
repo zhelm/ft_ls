@@ -16,7 +16,10 @@ t_ls_l    ft_ls_l_analize(t_ls **head, t_ls *tmp)
     ret.usrnm = 0;
     while(tmp != NULL)
     {
-        lstat(tmp->directory, &sb);
+        if(tmp->directory)
+            lstat(tmp->directory, &sb);
+        else
+            lstat(tmp->name, &sb);
         usr = getpwuid(sb.st_uid);
 	    grp = getgrgid(sb.st_gid);
 
