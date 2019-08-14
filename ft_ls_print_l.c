@@ -1,13 +1,14 @@
 #include "ft_ls.h"
 
-void ft_ls_print_l(t_ls **head, struct stat sb)
+void ft_ls_print_l(t_ls **head)
 {
 	t_ls *tmp;
 	t_ls *tmp1;
 	t_ls_l vals;
 	char **str;
-	char **time;
+	struct stat sb;
 	
+	tmp = NULL;
 	if(*head)
 		vals = ft_ls_l_analize(head, tmp);
 	tmp = *head;

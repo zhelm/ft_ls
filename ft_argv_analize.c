@@ -2,7 +2,7 @@
 
 int ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
 {
-	size_t i;
+	int i;
 	size_t count;
 	t_ls *er;
 	int ret;
@@ -16,7 +16,7 @@ int ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
 		if (argv[i][1] =='\0' || argv[i][1] == '-')
 		{
 			if(argv[i][1] == '\0')
-				ft_isdir(argv[i], flags, &er, &ret);
+				ft_isdir(argv[i], &er, &ret);
 			if(argv[i][2] != '\0')
 			{
 				ft_putstr("ft_ls: illegal option -- -");
@@ -43,7 +43,7 @@ int ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
 	{
 		while (i < argc)
 		{
-			b = ft_isdir(argv[i], flags, &er, &ret);
+			b = ft_isdir(argv[i], &er, &ret);
 			if (b == 1)
 			{
 				if (*dir == NULL)

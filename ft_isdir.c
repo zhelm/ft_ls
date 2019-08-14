@@ -1,6 +1,6 @@
 #include "ft_ls.h"
 
-int ft_isdir(char *argv, char *flags, t_ls **er, int *ret)
+int ft_isdir(char *argv, t_ls **er, int *ret)
 {
     char *dir;
     struct stat sb;

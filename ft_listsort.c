@@ -2,7 +2,6 @@
 
 void ft_listsort(t_ls **head, char *flags)
 {
-	t_ls *tmp;
 	char *tmpname;
 	t_ls *ptr;
 	int i;
@@ -26,5 +25,5 @@ void ft_listsort(t_ls **head, char *flags)
 			ptr = ptr->next;
 	}
 	if(flags[4] == '1')
-		ft_sort_time(head, flags, i);
+		ft_sort_time(head, i);
 }

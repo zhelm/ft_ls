@@ -4,7 +4,6 @@ void ft_printlist(t_ls **tmp, char *flags)
 {
 	t_ls *ptr;
 	t_ls *tmp1;
-	t_ls *tmp2;
 
 	ptr = *tmp;
 	if (flags[7] == '1')

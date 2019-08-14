@@ -2,7 +2,6 @@
 
 void ft_argsort(t_ls **dir, char *flags) //This is a good way to do the other sort aswell
 {
-	t_ls *tmp;
 	t_ls *ptr;
 	int i;
 	char *tp;

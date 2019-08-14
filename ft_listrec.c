@@ -2,7 +2,6 @@
 
 t_ls *ft_listrec(t_ls **head, char *dir, char *flags)
 {
-	t_ls *ptr;
 	t_ls *segment;
 	t_ls *tmp;
 

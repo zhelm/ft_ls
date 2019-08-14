@@ -18,5 +18,5 @@ void ft_ls_l(t_ls **head)
 		}
 		printf("total %lld\n", sz);
 	}
-	ft_ls_print_l(head, sb);	
+	ft_ls_print_l(head);
 }
