@@ -12,7 +12,8 @@ void ft_printlist(t_ls **tmp, char *flags)
 	{
 		while (ptr)
 		{
-			printf("%s  ", ptr->name);
+			ft_putstr(ptr->name);
+			ft_putchar('\n');
 			free(ptr->name);
 			free(ptr->directory);
 			tmp1 = ptr;

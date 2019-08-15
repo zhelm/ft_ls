@@ -43,12 +43,14 @@ typedef struct st_ls_l
 	size_t 	size;
 }				t_ls_l;
 
-
+void	ft_isdir_rec(char *dir);
+size_t	ft_size_t_len(size_t n);
+void	ft_put_size_t(size_t n);
 void	ft_print_err(t_ls **er, char *flags);
 void	ft_erlst(t_ls **er, char *argv);
 void 	ft_printfiles(t_ls **file, char *flags);
 int		ft_isdir(char *argv, t_ls **er, int *ret);
-size_t	ft_nbrlen(int n);
+size_t	ft_intlen(int n);
 void	ft_print_l_time(char **str);
 void 	ft_putspaces(size_t i);
 t_ls_l 	ft_ls_l_analize(t_ls **head, t_ls *tmp);

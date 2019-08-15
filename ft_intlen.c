@@ -1,6 +1,6 @@
 #include "ft_ls.h"
 
-size_t ft_nbrlen(int n)
+size_t ft_intlen(int n)
 {
     size_t i;
 

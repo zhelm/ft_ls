@@ -53,6 +53,6 @@ int main(int argc, char **argv) //the directory names are set up wrong for -l
 		}
 		dir = dir->next;
 		free(tmp);
-	}
-	// sleep(30); 
+	}//check permissions
+	// sleep(30);
 }
