@@ -39,7 +39,7 @@ int main(int argc, char **argv) //the directory names are set up wrong for -l
 	while (dir != NULL)//if there is an error message then it technically has more than one directory
 	{
 		tmp = dir;
-		if(i != 0)
+		if(i != 0 && dir->next != NULL)
 		{
 			ft_putstr(dir->directory);
 			ft_putchar(':');
@@ -53,6 +53,9 @@ int main(int argc, char **argv) //the directory names are set up wrong for -l
 		}
 		dir = dir->next;
 		free(tmp);
+		i++;
+		if(dir != NULL)
+			ft_putchar('\n');
 	}//check permissions
-	// sleep(30);
+	sleep(30);
 }

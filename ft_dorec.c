@@ -25,7 +25,7 @@ void ft_dorec(t_ls **head, char *flags, char *dir)
 		}
 		if (flags[3] == '1' && ptr != NULL)
 		{
-			printf("\n");
+			// printf("\n");
 			ft_listrec(&ptr, ptr->directory, flags);
 		}
 	}

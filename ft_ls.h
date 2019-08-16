@@ -22,10 +22,11 @@
 # include <time.h>
 # include <grp.h>
 # include <uuid/uuid.h> 
-# include <time.h>
 # include <string.h>
 # include <stdio.h>
 # include "libft/libft.h"
+# include <sys/xattr.h>
+# include <sys/acl.h>
 
 typedef struct  st_ls
 {

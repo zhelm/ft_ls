@@ -2,7 +2,7 @@
 
 void ft_isdir_rec(char *dir)
 {
-	if(!opendir(dir));
+	if(!opendir(dir))
 	{
 		ft_putstr("ft_ls: cannot open directory '");
 		ft_putstr(dir);

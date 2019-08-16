@@ -25,6 +25,7 @@ int ft_isdir(char *argv, t_ls **er, int *ret)
             return 0;
         }
         closedir(dr);
+        *ret = 1;
         return 1;
     }
 }

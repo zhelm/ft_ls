@@ -20,6 +20,6 @@ void ft_printlist(t_ls **tmp, char *flags)
 			ptr = ptr->next;
 			free(tmp1);
 		}
-		printf("\n\n");
+		printf("\n");
 	}
 }

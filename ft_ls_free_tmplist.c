@@ -11,4 +11,6 @@ void    ft_ls_free_tmplist(t_ls **head)
     if((*head)->name != NULL)
         ft_strdel(&(*head)->name);
     (*head)->name = NULL;
+    // if((*head)->next == NULL)
+    //     free(*head);
 }
