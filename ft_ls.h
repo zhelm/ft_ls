@@ -44,6 +44,8 @@ typedef struct st_ls_l
 	size_t 	size;
 }				t_ls_l;
 
+void	MergeSort(t_ls** headRef);
+void	ft_merge_sort_list(t_ls **head, char *flags);
 void	ft_isdir_rec(char *dir);
 size_t	ft_size_t_len(size_t n);
 void	ft_put_size_t(size_t n);
