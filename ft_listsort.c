@@ -10,7 +10,7 @@ void ft_listsort(t_ls **head, char *flags)
 	ptr = *head;
 	i = ((flags[5] == '1') ? -1 : 1);
 
-	MergeSort(head);
+	// MergeSort(head);
 	// while (ptr->next != NULL)
 	// {
 	// 	if ((i * ft_strcmp(ptr->name, ptr->next->name)) > 0)

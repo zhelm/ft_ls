@@ -29,9 +29,10 @@ t_ls_l    ft_ls_l_analize(t_ls **head, t_ls *tmp)
             ret.grpnm = ft_strlen(grp->gr_name);
         if(ft_intlen(sb.st_nlink) > ret.links)
             ret.links = ft_intlen(sb.st_nlink); 
-        if(ft_size_t_len((int)sb.st_size) > ret.size)
-            ret.size = ft_intlen(sb.st_size);
+        if(ft_size_t_len((sb.st_size)) > ret.size)
+            ret.size = ft_size_t_len(sb.st_size);
         tmp = tmp->next;
+    
     }
     return ret;
 }
