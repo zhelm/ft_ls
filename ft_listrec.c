@@ -15,18 +15,18 @@ t_ls *ft_listrec(t_ls **head, char *dir, char *flags)
 	}
 	else
 		printf("%s:\n", dir);
-	ft_ls_mklst(&segment, &tmp, flags, dir);
+	ft_ls_mklst(&segment, &tmp, flags, dir);//it are here
 	if (tmp && tmp->next != NULL)
 		ft_listsort(&tmp, flags);
-	ft_printlist(&tmp, flags);
+	// ft_printlist(&tmp, flags);
 	if (segment != NULL)
 		ft_listsort(&segment, flags);
 	if ((*head) != NULL && segment != NULL)
 		ft_ls_seg_lstadd(head, &segment, dir);
 	if((*head)->next != NULL)
 		ft_dorec(head, flags, dir);
-	free((*head)->name);
-	free((*head)->directory);
+	// free((*head)->name);
+	// free((*head)->directory);
 	if(*head)
 		free(*head);
 	*head = NULL;

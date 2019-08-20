@@ -57,4 +57,5 @@ int main(int argc, char **argv) //the directory names are set up wrong for -l
 		if(dir != NULL)
 			ft_putchar('\n');
 	}//check permissions
+	// sleep(30);
 }
