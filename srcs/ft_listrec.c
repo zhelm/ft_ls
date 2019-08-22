@@ -23,9 +23,9 @@ t_ls *ft_listrec(t_ls **head, char *dir, char *flags)
 		ft_listsort(&segment, flags);
 	if ((*head) != NULL && segment != NULL)
 		ft_ls_seg_lstadd(head, &segment, dir);
-	if((*head)->next != NULL)
-		ft_dorec(head, flags, dir);
-	// free((*head)->name);
+	if((*head)->next != NULL && ft_dorec(head, flags, dir) == 1)
+			ft_listrec(head, (*head)->directory, flags);
+
 	// free((*head)->directory);
 	// if(*head)
 	// 	free(*head);

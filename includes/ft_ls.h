@@ -79,5 +79,5 @@ void	ft_argsort(t_ls **dir, char *flags);
 char	*ft_ls_error(char c);
 int		ft_ls_check_dir(char **argv);
 char	*ft_ls_checkflags(char **argv);
-void	ft_dorec(t_ls **head, char *flags, char *dir);
+int	ft_dorec(t_ls **head, char *flags, char *dir);
 #endif

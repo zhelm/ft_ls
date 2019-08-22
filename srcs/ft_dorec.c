@@ -1,6 +1,6 @@
 #include "../includes/ft_ls.h"
 
-void ft_dorec(t_ls **head, char *flags, char *dir)
+int ft_dorec(t_ls **head, char *flags, char *dir)
 {
 	t_ls *ptr;
 	t_ls *tmp;
@@ -24,9 +24,7 @@ void ft_dorec(t_ls **head, char *flags, char *dir)
 			ptr = ptr->next;
 		}
 		if (flags[3] == '1' && ptr != NULL)
-		{
-			// printf("\n");
-			ft_listrec(&ptr, ptr->directory, flags);
-		}
+			return 1;
 	}
+	return 0;
 }
