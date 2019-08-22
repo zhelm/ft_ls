@@ -3,14 +3,15 @@
 void ft_listsort(t_ls **head, char *flags)
 {
 	//char *tmpname;
-	t_ls *ptr;
+	// t_ls *ptr;
 	int i;
 	//char *tp;
 
-	ptr = *head;
+	// ptr = *head;
 	i = ((flags[5] == '1') ? -1 : 1);
+	ft_putnbr(i);
 
-	// MergeSort(head);
+	MergeSort(head);
 	// while (ptr->next != NULL)
 	// {
 	// 	if ((i * ft_strcmp(ptr->name, ptr->next->name)) > 0)

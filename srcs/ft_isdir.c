@@ -2,10 +2,8 @@
 
 int ft_isdir(char *argv, t_ls **er, int *ret)
 {
-    char *dir;
     struct stat sb;
 
-    dir = argv;
     DIR *dr;
     lstat(argv, &sb);
     if (S_ISREG(sb.st_mode))

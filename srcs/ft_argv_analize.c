@@ -32,11 +32,9 @@ int ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
 		i++;
 	}
 	t_ls *file;
-	t_ls *tmp;
 	int b;
 	b = 0;
 	file = NULL;
-	tmp = file;
 	while (argv[i + count] != NULL)
 		count++;
 	if (count != 0)
@@ -63,9 +61,9 @@ int ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
 	}
 	if(er != NULL)
 		ft_print_err(&er, flags);
-		if (*dir == NULL && file == NULL && count == 0)
-			*dir = ft_ls_lstnew(NULL, ".", NULL);
-		if(file != NULL)
-		 	ft_printfiles(&file, flags);
-			 return ret;
+	if (*dir == NULL && file == NULL && count == 0)
+		*dir = ft_ls_lstnew(NULL, ".", NULL);
+	if(file != NULL)
+	 	ft_printfiles(&file, flags);
+	return ret;
 }

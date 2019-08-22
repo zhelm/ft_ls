@@ -2,28 +2,26 @@
 
 int ft_dorec(t_ls **head, char *flags, char *dir)
 {
-	t_ls *ptr;
 	t_ls *tmp;
-	ptr = *head;
 	if ((*head) != NULL)
 	{
-		ptr = *head;
-		while (ptr)
+		while (*head)
 		{
-			if (ptr && ft_strcmp(ptr->directory, dir) == 0)
+			if ((*head) && ft_strcmp((*head)->directory, dir) == 0)
 			{
 				printf("\n");
-				tmp = ptr;
-				free(ptr->name);
-				ptr->name = NULL;
-				free(ptr->directory);
-				ptr->directory = NULL;
-				ptr = ptr->next;
+				tmp = *head;
+				free((*head)->name);
+				(*head)->name = NULL;
+				free((*head)->directory);
+				(*head)->directory = NULL;
+				*head = (*head)->next;
+				free(tmp);
 				break;
 			}
-			ptr = ptr->next;
+			(*head) = (*head)->next;
 		}
-		if (flags[3] == '1' && ptr != NULL)
+		if (flags[3] == '1' && (*head) != NULL)
 			return 1;
 	}
 	return 0;

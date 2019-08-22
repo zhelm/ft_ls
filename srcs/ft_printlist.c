@@ -2,22 +2,21 @@
 
 void ft_printlist(t_ls **tmp, char *flags)
 {
-	t_ls *ptr;
 	t_ls *tmp1;
 
-	ptr = *tmp;
 	if (flags[7] == '1')
 		ft_ls_l(tmp);
 	else
 	{
-		while (ptr)
+		while (*tmp)
 		{
-			ft_putstr(ptr->name);
+			// write(1, (*tmp)->directory, ft_strlen((*tmp)->directory));
+			ft_putstr((*tmp)->name);
 			ft_putchar('\n');
-			free(ptr->name);
-			free(ptr->directory);
-			tmp1 = ptr;
-			ptr = ptr->next;
+			free((*tmp)->name);
+			free((*tmp)->directory);
+			tmp1 = *tmp;
+			*tmp = (*tmp)->next;
 			free(tmp1);
 		}
 		printf("\n");
