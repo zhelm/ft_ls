@@ -1,10 +1,11 @@
 #include "../includes/ft_ls.h"
 
-void ft_print_l_time(char **str)
+void ft_print_l_time(char **str, struct stat *sb)
 {
-	char **time;
+	char **times;
 
-	time = ft_strsplit(str[3], ':');
+	times = ft_strsplit(str[3], ':');
+
 	ft_putchar(' ');
 	if (ft_strlen(str[2]) != 2)
 		ft_putchar(' ');
@@ -12,9 +13,18 @@ void ft_print_l_time(char **str)
 	ft_putchar(' ');
 	ft_putstr(str[1]);
 	ft_putchar(' ');
-	ft_putstr(time[0]);
-	ft_putchar(':');
-	ft_putstr(time[1]);
-	ft_putchar(' ');
-	ft_free_arr((void **)time);
+	if ((time(NULL) - sb->st_mtime) >= 16070400)
+	{
+		ft_putchar(' ');
+		write(1, str[4], 4);
+		ft_putchar(' ');
+	}
+	else
+	{
+		ft_putstr(times[0]);
+		ft_putchar(':');
+		ft_putstr(times[1]);
+		ft_putchar(' ');
+	}
+	ft_free_arr((void **)times);
 }

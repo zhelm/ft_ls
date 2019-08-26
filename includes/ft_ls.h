@@ -54,7 +54,7 @@ void	ft_erlst(t_ls **er, char *argv);
 void 	ft_printfiles(t_ls **file, char *flags);
 int		ft_isdir(char *argv, t_ls **er, int *ret);
 size_t	ft_intlen(int n);
-void	ft_print_l_time(char **str);
+void	ft_print_l_time(char **str, struct stat *sb);
 void 	ft_putspaces(size_t i);
 t_ls_l 	ft_ls_l_analize(t_ls **head, t_ls *tmp);
 void	ft_ls_free_tmplist(t_ls **head);

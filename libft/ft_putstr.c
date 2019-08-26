@@ -33,4 +33,7 @@ void	ft_putstr(char const *s)
 	// while (*s)
 	// 	ft_putchar(*s++);
 	// ft_putchar('\n');
+	// if (s != NULL)
+    //     while (*s)
+    //         ft_putchar(*s++);
 }

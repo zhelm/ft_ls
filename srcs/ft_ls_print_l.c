@@ -7,7 +7,6 @@ void ft_ls_print_l(t_ls **head)
 	t_ls_l vals;
 	//char **str;
 	struct stat sb;
-	
 	tmp = NULL;
 	if(*head)
 		vals = ft_ls_l_analize(head, tmp);

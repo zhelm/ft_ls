@@ -30,7 +30,7 @@ t_ls *ft_listrec(t_ls **head, char *dir, char *flags)
 
 	while(segment != NULL)
 	{
-		// ft_putstr(segment->directory);
+		ft_putchar('\n');
 		ft_listrec(&segment, segment->directory, flags);
 		segment = segment->next;
 	}

@@ -20,19 +20,18 @@ t_ls_l    ft_ls_l_analize(t_ls **head, t_ls *tmp)
         else
             lstat(tmp->name, &sb);
         if(!(usr = getpwuid(sb.st_uid)))
-            ret.usrnm = ft_intlen(sb.st_uid);
+            ret.usrnm = ft_size_t_len(sb.st_uid);
 	    else if(usr->pw_name && ft_strlen(usr->pw_name) > ret.usrnm)
             ret.usrnm = ft_strlen(usr->pw_name);
         if(!(grp = getgrgid(sb.st_gid)))
-            ret.grpnm = ft_intlen(sb.st_uid);
-        else if(usr->pw_name && ft_strlen(grp->gr_name) > ret.grpnm)
+            ret.grpnm = ft_size_t_len(sb.st_gid);
+        else if(grp->gr_name && ft_strlen(grp->gr_name) > ret.grpnm)
             ret.grpnm = ft_strlen(grp->gr_name);
-        if(ft_intlen(sb.st_nlink) > ret.links)
-            ret.links = ft_intlen(sb.st_nlink); 
+        if(ft_size_t_len(sb.st_nlink) > ret.links)
+            ret.links = ft_size_t_len(sb.st_nlink); 
         if(ft_size_t_len((sb.st_size)) > ret.size)
             ret.size = ft_size_t_len(sb.st_size);
         tmp = tmp->next;
-    
     }
     return ret;
 }
