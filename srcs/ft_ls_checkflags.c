@@ -12,7 +12,7 @@ char *ft_ls_checkflags(char **argv)
 		a = 1;
 		while(argv[i][a] != '\0')
 		{
-			if(argv[i][a] == 'l' || argv[i][a] == 'a' || argv[i][a] == 'r' || argv[i][a] == 'R' || argv[i][a] == 't')
+			if(argv[i][a] == 'l' || argv[i][a] == 'a' || argv[i][a] == 'r' || argv[i][a] == 'R' || argv[i][a] == 't' || argv[i][a] == 'g' || argv[i][a] == 'A' || argv[i][a] == 'n' || argv[i][a] == 'Q' || argv[i][a] == 'o' || argv[i][a] == 'f')
 				a++;
 			else
 			{
@@ -22,8 +22,8 @@ char *ft_ls_checkflags(char **argv)
 		}
 		i++;
 	}
-	flags = ft_strnew(8);
-	ft_memset(flags, '0', 8);
-	flags[9] = '\0';
+	flags = ft_strnew(11);
+	ft_memset(flags, '0', 11);
+	flags[11] = '\0';
 	return flags;
 }

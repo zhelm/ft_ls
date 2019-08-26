@@ -1,6 +1,6 @@
 #include "../includes/ft_ls.h"
 
-void ft_ls_print_l(t_ls **head)
+void ft_ls_print_l(t_ls **head, char *flags)
 {
 	t_ls *tmp;
 	t_ls *tmp1;
@@ -27,7 +27,7 @@ void ft_ls_print_l(t_ls **head)
 		// else 
 		// 	ft_putchar(' ');
 		// if(&sb)
-			ft_ls_print_lsub(&tmp, sb, vals);
+			ft_ls_print_lsub(&tmp, sb, vals, flags);
 		ft_putchar('\n');
 		//ft_free_arr((void **)str);
 		tmp = tmp->next;

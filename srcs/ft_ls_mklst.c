@@ -5,17 +5,12 @@ void ft_ls_mklst(t_ls **segment, t_ls **tmp, char *flags, char *dir)
 	struct stat sb;
 	struct dirent *de;
 	DIR *dr;
-	// static int i;
-	// i++;
+
 	if (lstat(dir, &sb) != -1 && (sb.st_mode & S_IRUSR))
 	{
-		// ft_putnbr(i);
-//		ft_putstr("ok1");
 		dr = opendir(dir);
-		// ft_putstr("oker");
 		if (dr != NULL)
 		{
-		// ft_putstr("ok2");
 			while ((de = readdir(dr)) != NULL)
 			{
 				if (!(flags[6] == '0' && *de->d_name == '.') && *tmp == NULL && de != NULL) //maybe a function for the two cases
@@ -33,12 +28,9 @@ void ft_ls_mklst(t_ls **segment, t_ls **tmp, char *flags, char *dir)
 					if (de != NULL)
 						ft_assign_dir(segment, dir);
 				}
-		// ft_putstr("ok3");
 			}
-		// ft_putstr("ok4");
 			closedir(dr);
 		}
-		// ft_putstr("ok5");
 	}
 	else
 		ft_isdir_rec(dir);

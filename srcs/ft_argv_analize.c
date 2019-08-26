@@ -31,6 +31,7 @@ int ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
 		ft_ls_mkflags(argv[i], flags);
 		i++;
 	}
+
 	t_ls *file;
 	int b;
 	b = 0;

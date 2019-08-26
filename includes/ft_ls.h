@@ -44,7 +44,7 @@ typedef struct st_ls_l
 	size_t 	size;
 }				t_ls_l;
 
-void	MergeSort(t_ls** headRef);
+void	ft_mergesort(t_ls** headRef, char *flags, int i);
 void	ft_merge_sort_list(t_ls **head, char *flags);
 void	ft_isdir_rec(char *dir);
 size_t	ft_size_t_len(size_t n);
@@ -58,14 +58,14 @@ void	ft_print_l_time(char **str, struct stat *sb);
 void 	ft_putspaces(size_t i);
 t_ls_l 	ft_ls_l_analize(t_ls **head, t_ls *tmp);
 void	ft_ls_free_tmplist(t_ls **head);
-void	ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val);
+void	ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val, char *flags);
 void	ft_ls_lstadd(t_ls **alst, t_ls *new);
 t_ls	*ft_ls_lstnew(struct dirent *de, char *dir, char *name);
 void	ft_assign_dir(t_ls **head, char *dir);
 void	ft_ls_check_file_type(struct stat sb);
 void	ft_ls_mode(struct stat sb);
-void	ft_ls_print_l(t_ls **head);
-void	ft_ls_l(t_ls **head);
+void	ft_ls_print_l(t_ls **head, char *flags);
+void	ft_ls_l(t_ls **head, char *flags);
 void	ft_sort_time(t_ls **head, int i);
 void	ft_listsort(t_ls **head, char *flags);
 void	ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir);

@@ -1,6 +1,6 @@
 #include "../includes/ft_ls.h"
 
-void ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val)
+void ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val, char *flags)
 {
 	char buff[1024];
 	struct passwd *usr;
@@ -13,7 +13,7 @@ void ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val)
 		str = ft_strsplit(ctime(&sb.st_mtime), ' ');
 	ft_putspaces(val.links - ft_size_t_len(sb.st_nlink) + 2);
 	ft_put_size_t(sb.st_nlink);
-	if (!(usr = getpwuid(sb.st_uid)))
+	if (!(usr = getpwuid(sb.st_uid)) || flags[0] == '1')
 	{
 		ft_putspaces(val.usrnm - ft_size_t_len(sb.st_uid) + 1);
 		ft_putnbr(sb.st_uid);
@@ -23,12 +23,12 @@ void ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val)
 		ft_putspaces(val.usrnm - ft_strlen(usr->pw_name) + 1);
 		ft_putstr(usr->pw_name);
 	}
-	if (!(grp = getgrgid(sb.st_gid)))
+	if (flags[9] != '1' && (!(grp = getgrgid(sb.st_gid)) || flags[0] == '1'))
 	{
 		ft_putspaces(val.grpnm - ft_size_t_len(sb.st_gid) + 2);
 		ft_putnbr(sb.st_gid);
 	}
-	else if(grp->gr_name)
+	else if(flags[9] != '1' && grp->gr_name)
 	{
 		ft_putspaces(val.grpnm - ft_strlen(grp->gr_name) + 2);
 		ft_putstr(grp->gr_name);
@@ -36,7 +36,11 @@ void ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val)
 	ft_putspaces(val.size - ft_size_t_len(sb.st_size) + 2);
 	ft_put_size_t(sb.st_size);
 	ft_print_l_time(str, &sb);
+	if(flags[8] == '1')
+		ft_putchar('"');
 	ft_putstr((*tmp)->name);
+	if(flags[8] == '1')
+		ft_putchar('"');
 	if (S_ISLNK(sb.st_mode))
 	{
 		ft_putstr(" -> ");

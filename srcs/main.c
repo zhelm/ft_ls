@@ -10,14 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//need to make colums for -l with malloc and find a way to print chars from the end of the malloced area;
-
 #include "../includes/ft_ls.h"
-// #include <time.h>
-// #include "libft/libft.h"
-// #include <stdlib.h>
-
-int main(int argc, char **argv) //the directory names are set up wrong for -l
+//maybe -m, make sure about g and capital G
+int main(int argc, char **argv)
 {
 	t_ls *head;
 	t_ls *dir;
@@ -38,6 +33,7 @@ int main(int argc, char **argv) //the directory names are set up wrong for -l
 	head = NULL;
 	while (dir != NULL)//if there is an error message then it technically has more than one directory
 	{
+		
 		tmp = dir;
 		if(i != 0 && dir->next != NULL)
 		{

@@ -19,10 +19,10 @@ t_ls *ft_listrec(t_ls **head, char *dir, char *flags)
 		ft_putstr(":\n");
 	}
 	ft_ls_mklst(&segment, &tmp, flags, dir);//it are here
-	if (tmp && tmp->next != NULL)
+	if (tmp && tmp->next != NULL && flags[10] != '1')
 		ft_listsort(&tmp, flags);
 	ft_printlist(&tmp, flags);
-	if (segment != NULL)
+	if (segment != NULL && flags[10] != '1')
 		ft_listsort(&segment, flags);
 	// if ((*head) != NULL && segment != NULL)
 	// 	ft_ls_seg_lstadd(head, &segment, dir);

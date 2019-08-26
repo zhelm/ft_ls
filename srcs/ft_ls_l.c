@@ -1,6 +1,6 @@
 #include "../includes/ft_ls.h"
 
-void ft_ls_l(t_ls **head)
+void ft_ls_l(t_ls **head, char *flags)
 {
 	t_ls *tmp;
 	struct stat sb;
@@ -18,5 +18,5 @@ void ft_ls_l(t_ls **head)
 		}
 		printf("total %lld\n", sz);
 	}
-	ft_ls_print_l(head);
+	ft_ls_print_l(head, flags);
 }
