@@ -55,12 +55,12 @@ t_ls *ft_sortedmerge_time(t_ls *a, t_ls *b, int i)
     else if (b == NULL)
         return (a);
     if (((i * ((int)sb.st_mtime - (int)sb1.st_mtime)) < 0) || (((i * ((int)sb.st_mtime - (int)sb1.st_mtime) == 0 &&
-    (i * ((int)sb.st_mtim.tv_nsec - (int)sb1.st_mtim.tv_nsec)) < 0))))
+    (i * ((int)sb.st_mtimespec.tv_nsec - (int)sb1.st_mtimespec.tv_nsec)) < 0))))
     {
         result = a;
         result->next = ft_sortedmerge_time(a->next, b, i);
     }
-    else if ((((int)sb.st_mtim.tv_nsec - (int)sb1.st_mtim.tv_nsec)) != 0)
+    else if ((((int)sb.st_mtimespec.tv_nsec - (int)sb1.st_mtimespec.tv_nsec)) != 0)
     {
         result = b;
         result->next = ft_sortedmerge_time(a, b->next, i);

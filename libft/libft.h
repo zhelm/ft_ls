@@ -24,6 +24,7 @@ typedef struct	s_list
 	struct s_list	*next;
 }				t_list;
 
+size_t 			ft_strlen_isascii(const char *s);
 void			ft_free_arr(void **c);
 t_list			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void			ft_lstiter(t_list *list, void(*f)(t_list *elem));

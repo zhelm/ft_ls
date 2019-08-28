@@ -24,7 +24,7 @@ SRCS =	ft_atoi.c ft_bzero.c ft_isascii.c ft_isalnum.c ft_isalpha.c\
 	ft_strnequ.c ft_strjoin.c ft_strtrim.c ft_putendl.c ft_putnbr.c\
 	ft_putendl_fd.c ft_putnbr_fd.c ft_lstnew.c ft_lstdelone.c\
 	ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_strcdup.c\
-	ft_free_arr.c\
+	ft_free_arr.c ft_strlen_isascii.c\
 
 OBJ =	ft_atoi.o ft_bzero.o ft_isascii.o ft_isalnum.o ft_isalpha.o\
 	ft_isdigit.o ft_isprint.o ft_memcpy.o ft_memccpy.o\
@@ -38,7 +38,7 @@ OBJ =	ft_atoi.o ft_bzero.o ft_isascii.o ft_isalnum.o ft_isalpha.o\
 	ft_strequ.o ft_strnequ.o ft_strjoin.o ft_strtrim.o ft_putendl.o\
 	ft_putnbr.o ft_putendl_fd.o ft_putnbr_fd.o ft_lstnew.o ft_lstdelone.o\
 	ft_lstdel.o ft_lstadd.o ft_lstiter.o ft_lstmap.o ft_strcdup.o\
-	ft_free_arr.o\
+	ft_free_arr.o ft_strlen_isascii.o\
 
 all: $(NAME)
 

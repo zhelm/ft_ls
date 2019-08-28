@@ -13,7 +13,7 @@ void ft_print_l_time(char **str, struct stat *sb)
 	ft_putchar(' ');
 	ft_putstr(str[1]);
 	ft_putchar(' ');
-	if ((time(NULL) - sb->st_mtime) >= 16070400)
+	if ((time(NULL) - sb->st_mtime) >= 15770000)
 	{
 		ft_putchar(' ');
 		write(1, str[4], 4);

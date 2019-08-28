@@ -6,7 +6,7 @@ void ft_ls_mkflags(char *argv, char *flags)
 	a = 1;
 	while (argv[a])
 	{
-		if (argv[a] == 'l' || argv[a] == 'r' || argv[a] == 't' || argv[a] == 'a' || argv[a] == 'R' || argv[a] == 'g' || argv[a] == 'A' || argv[a] == 'n' || argv[a] == 'Q' || argv[a] == 'o' || argv[a] == 'f')
+		if (argv[a] == 'l' || argv[a] == 'r' || argv[a] == 't' || argv[a] == 'a' || argv[a] == 'R' || argv[a] == 'g' || argv[a] == 'A' || argv[a] == 'n' || argv[a] == 'o' || argv[a] == 'f')
 		{
 			if (argv[a] == 'l')
 				flags[7] = '1';
@@ -19,7 +19,10 @@ void ft_ls_mkflags(char *argv, char *flags)
 			else if (argv[a] == 'R')
 				flags[3] = '1';
 			else if (argv[a] == 'g')
+			{
+				flags[7] = '1';
 				flags[2] = '1';
+			}
 			else if (argv[a] == 'A')//get -l working if statement already done for normal print
 			{
 				flags[6] = '1';
@@ -30,8 +33,6 @@ void ft_ls_mkflags(char *argv, char *flags)
 				flags[7] = '1';
 				flags[0] = '1';
 			}
-			else if (argv[a] == 'Q')//done
-				flags[8] = '1';
 			else if (argv[a] == 'o')//done
 			{
 				flags[7] = '1';

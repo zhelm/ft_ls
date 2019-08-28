@@ -12,7 +12,10 @@ void ft_ls_l(t_ls **head, char *flags)
 	{
 		while (tmp != NULL)
 		{
-			lstat(tmp->directory, &sb);
+			if(lstat(tmp->directory, &sb) == -1)
+			{
+				return ;
+			}
 			sz = sz + sb.st_blocks;
 			tmp = tmp->next;
 		}

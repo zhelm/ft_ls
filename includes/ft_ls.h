@@ -56,7 +56,7 @@ int		ft_isdir(char *argv, t_ls **er, int *ret);
 size_t	ft_intlen(int n);
 void	ft_print_l_time(char **str, struct stat *sb);
 void 	ft_putspaces(size_t i);
-t_ls_l 	ft_ls_l_analize(t_ls **head, t_ls *tmp);
+t_ls_l 	ft_ls_l_analize(t_ls **head, t_ls *tmp, char *flags);
 void	ft_ls_free_tmplist(t_ls **head);
 void	ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val, char *flags);
 void	ft_ls_lstadd(t_ls **alst, t_ls *new);
