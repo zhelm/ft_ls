@@ -31,7 +31,6 @@ void ft_ls_print_l(t_ls **head, char *flags)
 			ft_ls_print_lsub(&tmp, sb, vals, flags);
 			ft_putchar('\n');
 		}
-		//ft_free_arr((void **)str);
 		tmp = tmp->next;
 		if(tmp1 != NULL)
 			ft_ls_free_tmplist(&tmp1);

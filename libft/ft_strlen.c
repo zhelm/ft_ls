@@ -20,7 +20,8 @@ size_t		ft_strlen(const char *s)
 	// 	++str;
 	// return((str - s));
 	size_t len;
-
+	if(s == NULL)
+		return 0;
 	len = 0;
 	if (!s)
 		return (0);

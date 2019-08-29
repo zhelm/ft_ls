@@ -71,7 +71,7 @@ void	ft_listsort(t_ls **head, char *flags);
 void	ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir);
 void	ft_printlist(t_ls **tmp, char *flags);
 void	ft_ls_mklst(t_ls **segment, t_ls **tmp, char *flags, char *dir);
-t_ls	*ft_listrec(t_ls **head, char *dir, char *flags);
+t_ls	*ft_listrec(char *dir, char *flags);
 void	ft_ls_mkflags(char *argv, char *flags);
 int		ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc);
 void	ft_sortarg_time(t_ls **head, char *flags);

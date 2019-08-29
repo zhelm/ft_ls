@@ -14,7 +14,6 @@
 //maybe -m, make sure about g and capital G
 int main(int argc, char **argv)
 {
-	t_ls *head;
 	t_ls *dir;
 	char *flags;
 	t_ls *tmp;
@@ -30,10 +29,8 @@ int main(int argc, char **argv)
 	i = ft_argv_analize(argv, flags, &dir, argc); //need to sort this aswell. split this up into two functions
 	if(dir != NULL)
 		ft_argsort(&dir, flags);
-	head = NULL;
 	while (dir != NULL)//if there is an error message then it technically has more than one directory
 	{
-		
 		tmp = dir;
 		if(i != 0 && dir->next != NULL)
 		{
@@ -41,17 +38,12 @@ int main(int argc, char **argv)
 			ft_putchar(':');
 			ft_putstr("\n");
 		}
-		ft_listrec(&head, dir->directory, flags); //  -R does not work completely when i use multiple files e.g. ../Libftest because I think the pointer of head is not pointing to the correct spot
-		if (head != NULL)
-		{
-			while (head)
-				(head) = (head)->next;
-		}
+		ft_listrec(dir->directory, flags); //  -R does not work completely when i use multiple files e.g. ../Libftest because I think the pointer of head is not pointing to the correct spot
 		dir = dir->next;
-		free(tmp);
-		i++;
-		if(dir != NULL)
-			ft_putchar('\n');
-	}//check permissions
-	// sleep(30);
+		// free(tmp);
+		// i++;
+		// if(dir != NULL)
+		// 	ft_putchar('\n');
+	}
+	sleep(30);
 }

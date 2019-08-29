@@ -8,6 +8,7 @@ void ft_ls_mklst(t_ls **segment, t_ls **tmp, char *flags, char *dir)
 
 	if (lstat(dir, &sb) != -1 && (sb.st_mode & S_IRUSR))
 	{
+		// ft_putstr(dir);
 		dr = opendir(dir);
 		if (dr != NULL)
 		{

@@ -48,14 +48,14 @@ t_ls *ft_sortedmerge_time(t_ls *a, t_ls *b, int i)
     struct stat sb;
     struct stat sb1;
 
+    if (a == NULL)
+        return b;
+    if (b == NULL)
+        return a;
     lstat(b->directory, &sb1);
     lstat(a->directory, &sb);
-    if (a == NULL)
-        return (b);
-    else if (b == NULL)
-        return (a);
     if (((i * ((int)sb.st_mtime - (int)sb1.st_mtime)) < 0) || (((i * ((int)sb.st_mtime - (int)sb1.st_mtime) == 0 &&
-    (i * ((int)sb.st_mtimespec.tv_nsec - (int)sb1.st_mtimespec.tv_nsec)) < 0))))
+       (i * ((int)sb.st_mtimespec.tv_nsec - (int)sb1.st_mtimespec.tv_nsec)) < 0))))
     {
         result = a;
         result->next = ft_sortedmerge_time(a->next, b, i);
@@ -66,7 +66,7 @@ t_ls *ft_sortedmerge_time(t_ls *a, t_ls *b, int i)
         result->next = ft_sortedmerge_time(a, b->next, i);
     }
     else
-        ft_sortedmerge(a, b, i);        
+        ft_sortedmerge(a, b, i);
     return (result);
 }
 

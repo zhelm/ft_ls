@@ -63,4 +63,5 @@ void ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val, char *flags)
 			ft_memset(buff, 0, ft_strlen(buff));
 		}
 	}
+	ft_free_arr((void **)str);
 }
