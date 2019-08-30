@@ -9,6 +9,8 @@
 /*   Updated: 2019/07/24 07:48:51 by zhelm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+//./ft_ls testdir permision denied
+
 
 #include "../includes/ft_ls.h"
 //maybe -m, make sure about g and capital G
@@ -26,24 +28,25 @@ int main(int argc, char **argv)
 		if((flags = ft_ls_checkflags(argv)) == NULL)
 			return 0;
 	}
-	i = ft_argv_analize(argv, flags, &dir, argc); //need to sort this aswell. split this up into two functions
+	i = ft_argv_analize(argv, flags, &dir, argc);
 	if(dir != NULL)
 		ft_argsort(&dir, flags);
-	while (dir != NULL)//if there is an error message then it technically has more than one directory
+	i = 0;
+	while (dir != NULL)
 	{
 		tmp = dir;
-		if(i != 0 && dir->next != NULL)
+		if(i != 0 && dir != NULL)
 		{
 			ft_putstr(dir->directory);
 			ft_putchar(':');
 			ft_putstr("\n");
 		}
-		ft_listrec(dir->directory, flags); //  -R does not work completely when i use multiple files e.g. ../Libftest because I think the pointer of head is not pointing to the correct spot
+		ft_listrec(dir->directory, flags);
 		dir = dir->next;
-		// free(tmp);
-		// i++;
-		// if(dir != NULL)
-		// 	ft_putchar('\n');
+		free(tmp);
+		i++;
+		if(dir != NULL)
+			ft_putchar('\n');
 	}
 	sleep(30);
 }

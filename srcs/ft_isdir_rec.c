@@ -2,11 +2,14 @@
 
 void ft_isdir_rec(char *dir)
 {
-	if(!opendir(dir))
+	DIR *dr;
+	if(!(dr = opendir(dir)))
 	{
-		ft_putstr("ft_ls: cannot open directory '");
+		ft_putstr("ft_ls: ");
 		ft_putstr(dir);
-		ft_putstr("': ");
+		ft_putstr(": ");
 		perror("");
 	}
+	else
+		closedir(dr);	
 }

@@ -22,6 +22,6 @@ void ft_argsort(t_ls **dir, char *flags) //This is a good way to do the other so
 		else
 			ptr = ptr->next;
 	}
-	//if (flags[4] == '1')
-		//ft_sortarg_time(dir, flags);
+	if (flags[4] == '1')
+		ft_sortarg_time(dir, flags);
 }
