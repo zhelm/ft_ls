@@ -5,7 +5,6 @@ ft_isdir.c\
 ft_isdir_rec.c\
 ft_listrec.c\
 ft_listsort.c\
-ft_ls.c\
 ft_ls_check_dir.c\
 ft_ls_check_file_type.c\
 ft_ls_checkflags.c\
@@ -37,7 +36,7 @@ NAME=ft_ls
 RED=\033[0;31m
 LBLUE=\033[1;34m
 LGREEN=\033[1;32m
-FLAGS = -g -Wall -Werror -Wextra
+FLAGS = -g
 LIBFT_PATH = ./libft/
 SRC_PATH = ./srcs/
 OBJ = $(SRC:.c=.o)

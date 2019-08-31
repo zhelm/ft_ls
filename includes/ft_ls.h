@@ -44,6 +44,14 @@ typedef struct st_ls_l
 	size_t 	size;
 }				t_ls_l;
 
+typedef struct st_argv
+{
+	int		*ret;
+	int		*i;
+	int		*argc;
+	char	*flags;
+}				t_argv;
+
 void	ft_mergesort(t_ls** headRef, char *flags, int i);
 void	ft_merge_sort_list(t_ls **head, char *flags);
 void	ft_isdir_rec(char *dir);
@@ -79,5 +87,5 @@ void	ft_argsort(t_ls **dir, char *flags);
 char	*ft_ls_error(char c);
 int		ft_ls_check_dir(char **argv);
 char	*ft_ls_checkflags(char **argv);
-int	ft_dorec(t_ls **head, char *flags, char *dir);
+int		ft_dorec(t_ls **head, char *flags, char *dir);
 #endif

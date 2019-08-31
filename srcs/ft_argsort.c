@@ -1,10 +1,10 @@
 #include "../includes/ft_ls.h"
 
-void ft_argsort(t_ls **dir, char *flags) //This is a good way to do the other sort aswell
+void	ft_argsort(t_ls **dir, char *flags)
 {
-	t_ls *ptr;
-	int i;
-	char *tp;
+	t_ls	*ptr;
+	int		i;
+	char	*tp;
 
 	ptr = *dir;
 	i = 1;

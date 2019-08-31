@@ -12,20 +12,20 @@
 
 #include "../includes/ft_ls.h"
 
-t_ls *ft_ls_lstnew(struct dirent *de, char *dir, char *name)
+t_ls	*ft_ls_lstnew(struct dirent *de, char *dir, char *name)
 {
 	t_ls *new;
 
-	if(!(new = (t_ls *)malloc(sizeof(t_ls))))
+	if (!(new = (t_ls *)malloc(sizeof(t_ls))))
 		return (NULL);
 	new->directory = dir;
-	if(de != NULL)
+	if (de != NULL)
 		new->name = ft_strdup(de->d_name);
 	else if (name != NULL)
 		new->name = ft_strdup(name);
-	else 
+	else
 		new->name = NULL;
 	new->next = NULL;
 	new->prev = NULL;
-	return(new);
+	return (new);
 }

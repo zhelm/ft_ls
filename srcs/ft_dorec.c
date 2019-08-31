@@ -1,6 +1,6 @@
 #include "../includes/ft_ls.h"
 
-int ft_dorec(t_ls **head, char *flags, char *dir)
+int		ft_dorec(t_ls **head, char *flags, char *dir)
 {
 	t_ls *tmp;
 	if ((*head) != NULL)

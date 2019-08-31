@@ -1,9 +1,9 @@
 #include "../includes/ft_ls.h"
 
-void ft_isdir_rec(char *dir)
+void	ft_isdir_rec(char *dir)
 {
 	DIR *dr;
-	if(!(dr = opendir(dir)))
+	if (!(dr = opendir(dir)))
 	{
 		ft_putstr("ft_ls: ");
 		ft_putstr(dir);
@@ -11,5 +11,5 @@ void ft_isdir_rec(char *dir)
 		perror("");
 	}
 	else
-		closedir(dr);	
+		closedir(dr);
 }

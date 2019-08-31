@@ -1,6 +1,6 @@
 #include "../includes/ft_ls.h"
 
-void ft_printlist(t_ls **tmp, char *flags)
+void	ft_printlist(t_ls **tmp, char *flags)
 {
 	t_ls *tmp1;
 

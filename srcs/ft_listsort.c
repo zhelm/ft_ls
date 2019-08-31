@@ -1,6 +1,6 @@
 #include "../includes/ft_ls.h"
 
-void ft_listsort(t_ls **head, char *flags)
+void	ft_listsort(t_ls **head, char *flags)
 {
 	int i;
 

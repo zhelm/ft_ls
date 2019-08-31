@@ -1,6 +1,6 @@
 #include "../includes/ft_ls.h"
 
-void ft_ls_check_file_type(struct stat sb)
+void	ft_ls_check_file_type(struct stat sb)
 {
 	if (S_ISBLK(sb.st_mode))
 		ft_putchar('b');

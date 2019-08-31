@@ -1,6 +1,6 @@
 #include "../includes/ft_ls.h"
 
-void ft_ls_mkflags(char *argv, char *flags)
+void	ft_ls_mkflags(char *argv, char *flags)
 {
 	size_t a;
 	a = 1;

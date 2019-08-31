@@ -1,10 +1,10 @@
 #include "../includes/ft_ls.h"
 
-void ft_ls_l(t_ls **head, char *flags)
+void	ft_ls_l(t_ls **head, char *flags)
 {
-	t_ls *tmp;
-	struct stat sb;
-	long long sz;
+	t_ls		*tmp;
+	struct stat	sb;
+	long long	sz;
 
 	sz = 0;
 	tmp = *head;
@@ -12,9 +12,9 @@ void ft_ls_l(t_ls **head, char *flags)
 	{
 		while (tmp != NULL)
 		{
-			if(lstat(tmp->directory, &sb) == -1)
+			if (lstat(tmp->directory, &sb) == -1)
 			{
-				return ;
+				return;
 			}
 			sz = sz + sb.st_blocks;
 			tmp = tmp->next;

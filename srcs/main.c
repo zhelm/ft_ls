@@ -48,5 +48,5 @@ int main(int argc, char **argv)
 		if(dir != NULL)
 			ft_putchar('\n');
 	}
-	sleep(30);
+	// sleep(30);
 }
