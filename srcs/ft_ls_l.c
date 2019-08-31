@@ -12,10 +12,8 @@ void	ft_ls_l(t_ls **head, char *flags)
 	{
 		while (tmp != NULL)
 		{
-			if (lstat(tmp->directory, &sb) == -1)
-			{
-				return;
-			}
+			if (lstat(tmp->directory, &sb) == -1)//join this with ft_l_analize for length of strings
+				return ;
 			sz = sz + sb.st_blocks;
 			tmp = tmp->next;
 		}

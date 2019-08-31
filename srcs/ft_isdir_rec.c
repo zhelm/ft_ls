@@ -3,6 +3,7 @@
 void	ft_isdir_rec(char *dir)
 {
 	DIR *dr;
+	
 	if (!(dr = opendir(dir)))
 	{
 		ft_putstr("ft_ls: ");

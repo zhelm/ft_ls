@@ -6,7 +6,7 @@ size_t  ft_intlen(int n)
 
     i = 0;
     if (n == 0)
-        return 1;
+        return (1);
     while (n != 0)
     {
         n /= 10;

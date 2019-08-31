@@ -22,7 +22,7 @@ int		ft_dorec(t_ls **head, char *flags, char *dir)
 			(*head) = (*head)->next;
 		}
 		if (flags[3] == '1' && (*head) != NULL)
-			return 1;
+			return (1);
 	}
-	return 0;
+	return (0);
 }

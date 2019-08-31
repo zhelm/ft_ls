@@ -3,8 +3,8 @@
 int     ft_isdir(char *argv, t_ls **er, int *ret)
 {
     struct stat sb;
-
     DIR *dr;
+
     lstat(argv, &sb);
     if (S_ISREG(sb.st_mode))
     {

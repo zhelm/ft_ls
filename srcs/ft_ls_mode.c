@@ -1,6 +1,6 @@
 #include "../includes/ft_ls.h"
 
-void	ft_ls_mode(struct stat sb)
+void ft_ls_mode(struct stat sb)
 {
 	size_t i;
 
@@ -33,5 +33,10 @@ void	ft_ls_mode(struct stat sb)
 			ft_putchar('T');
 		else
 			ft_putchar('-');
+		// if ((S_IRUSR & sb.st_mode) && listxattr(tmp->directory, NULL, 0, XATTR_NOFOLLOW) > 0)
+		// 	ft_putchar('@');
+		// else
+		// 	ft_putchar(' ');
+		// if (&sb)
 	}
 }

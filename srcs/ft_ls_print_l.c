@@ -21,18 +21,11 @@ void	ft_ls_print_l(t_ls **head, char *flags)
 				lstat(tmp->name, &sb);
 			ft_ls_check_file_type(sb);
 			ft_ls_mode(sb);
-			// if((S_IRUSR & sb.st_mode) && listxattr(tmp->directory, NULL, 0, XATTR_NOFOLLOW) > 0)
-			// 	ft_putchar('@');
-			// else
-			// 	ft_putchar(' ');
-			// if(&sb)
 			ft_ls_print_lsub(&tmp, sb, vals, flags);
 			ft_putchar('\n');
 		}
 		tmp = tmp->next;
 		if (tmp1 != NULL)
 			ft_ls_free_tmplist(&tmp1);
-		// if(tmp == NULL)
-		// 	free(tmp1);
 	}
 }

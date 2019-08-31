@@ -25,6 +25,6 @@ void ft_sort_time(t_ls **head, int i)
 			ptr = *head;
 		}
 		else
-			ptr = ptr->next;//here it is
+			ptr = ptr->next;
 	}
 }
