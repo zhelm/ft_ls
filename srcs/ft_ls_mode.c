@@ -1,5 +1,22 @@
 #include "../includes/ft_ls.h"
 
+static void ft_ls_mode_else(struct stat sb, size_t i)
+{
+		if ((sb.st_mode & S_IWOTH) && i == 7)
+			ft_putchar('w');
+		else if ((sb.st_mode & S_IXOTH) && i == 8)
+			(S_ISVTX & sb.st_mode) ? ft_putchar('t') : ft_putchar('x');
+		else if (i == 8 && S_ISVTX & sb.st_mode)
+			ft_putchar('T');
+		else
+			ft_putchar('-');
+		// if ((S_IRUSR & sb.st_mode) && listxattr(tmp->directory, NULL, 0, XATTR_NOFOLLOW) > 0)
+		// ft_putchar('@');
+		// else
+		// 	ft_putchar(' ');
+		// if (&sb)
+}
+
 void ft_ls_mode(struct stat sb)
 {
 	size_t i;
@@ -25,18 +42,7 @@ void ft_ls_mode(struct stat sb)
 			ft_putchar('S');
 		else if ((sb.st_mode & S_IROTH) && i == 6)
 			ft_putchar('r');
-		else if ((sb.st_mode & S_IWOTH) && i == 7)
-			ft_putchar('w');
-		else if ((sb.st_mode & S_IXOTH) && i == 8)
-			(S_ISVTX & sb.st_mode) ? ft_putchar('t') : ft_putchar('x');
-		else if (i == 8 && S_ISVTX & sb.st_mode)
-			ft_putchar('T');
 		else
-			ft_putchar('-');
-		// if ((S_IRUSR & sb.st_mode) && listxattr(tmp->directory, NULL, 0, XATTR_NOFOLLOW) > 0)
-		// 	ft_putchar('@');
-		// else
-		// 	ft_putchar(' ');
-		// if (&sb)
+			ft_ls_mode_else(sb, i);		
 	}
 }

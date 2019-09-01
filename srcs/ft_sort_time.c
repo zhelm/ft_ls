@@ -1,12 +1,12 @@
 #include "../includes/ft_ls.h"
 
-void ft_sort_time(t_ls **head, int i)
+void	ft_sort_time(t_ls **head, int i)
 {
 	struct stat sb;
 	struct stat sb1;
-	char *tmpname;
-	t_ls *ptr;
-	char *tp;
+	char		*tmpname;
+	t_ls		*ptr;
+	char		*tp;
 
 	ptr = *head;
 	while (ptr->next != NULL)

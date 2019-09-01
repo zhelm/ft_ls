@@ -13,40 +13,41 @@
 
 
 #include "../includes/ft_ls.h"
-//maybe -m, make sure about g and capital G
-int main(int argc, char **argv)
+
+void	ft_main_while(t_ls *tmp, char *flags, int *i, t_ls **dir )
 {
-	t_ls *dir;
-	char *flags;
-	t_ls *tmp;
-	int i;
+		tmp = *dir;
+		if(*i != 0 && dir != NULL)
+		{
+			ft_putstr((*dir)->directory);
+			ft_putstr(":\n");
+		}
+		ft_listrec((*dir)->directory, flags);
+		*dir = (*dir)->next;
+		free(tmp);
+		*i = *i + 1;
+		if(*dir != NULL)
+			ft_putchar('\n');
+}
+
+int		main(int argc, char **argv)
+{
+	t_ls	*dir;
+	char	*flags;
+	t_ls	*tmp;
+	int		i;
 
 	flags = NULL;
 	dir = NULL;
-	if(argc >= 1)
+	if (argc >= 1)
 	{
-		if((flags = ft_ls_checkflags(argv)) == NULL)
-			return 0;
+		if ((flags = ft_ls_checkflags(argv)) == NULL)
+			return (0);
 	}
 	i = ft_argv_analize(argv, flags, &dir, argc);
-	if(dir != NULL)
+	if (dir != NULL)
 		ft_argsort(&dir, flags);
 	i = 0;
 	while (dir != NULL)
-	{
-		tmp = dir;
-		if(i != 0 && dir != NULL)
-		{
-			ft_putstr(dir->directory);
-			ft_putchar(':');
-			ft_putstr("\n");
-		}
-		ft_listrec(dir->directory, flags);
-		dir = dir->next;
-		free(tmp);
-		i++;
-		if(dir != NULL)
-			ft_putchar('\n');
-	}
-	// sleep(30);
+		ft_main_while(tmp, flags, &i, &dir);
 }

@@ -49,9 +49,9 @@ t_ls *ft_sortedmerge_time(t_ls *a, t_ls *b, int i)
     struct stat sb1;
 
     if (a == NULL)
-        return b;
+        return (b);
     if (b == NULL)
-        return a;
+        return (a);
     lstat(b->directory, &sb1);
     lstat(a->directory, &sb);
     if (((i * ((int)sb.st_mtime - (int)sb1.st_mtime)) < 0) || (((i * ((int)sb.st_mtime - (int)sb1.st_mtime) == 0 &&

@@ -2,8 +2,8 @@
 
 int		ft_ls_check_dir(char **argv)
 {
-	size_t i;
-	DIR *dr;
+	size_t	i;
+	DIR		*dr;
 
 	i = 1;
 	while (argv[i] && *argv[i] == '-' && argv[i][1] != '\0')
