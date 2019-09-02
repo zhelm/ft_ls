@@ -26,9 +26,8 @@ static void		ft_ls_mode_else(struct stat sb, size_t i)
 
 void		ft_ls_mode(struct stat sb, t_ls *tmp)
 {
-	acl_t acl;
+	// acl_t acl;
 	size_t i;
-
 	i = -1;
 	while (++i <= 8 && sb.st_mode)
 	{
@@ -41,14 +40,14 @@ void		ft_ls_mode(struct stat sb, t_ls *tmp)
 		else
 			ft_ls_mode_else(sb, i);
 	}
-	if ((S_IRUSR & sb.st_mode) &&
-	listxattr(tmp->directory, NULL, 0, XATTR_NOFOLLOW) > 0)
-		ft_putchar('@');
-	else if ((acl = acl_get_link_np(tmp->directory, ACL_TYPE_EXTENDED)))
-	{
-		ft_putchar('+');
-		acl_free(acl);
-	}
-	else
-		ft_putchar(' ');
+	// if ((S_IRUSR & sb.st_mode) &&
+	// listxattr(tmp->directory, NULL, 0, XATTR_NOFOLLOW) > 0)
+	// 	ft_putchar('@');
+	// else if ((acl = acl_get_link_np(tmp->directory, ACL_TYPE_EXTENDED)))
+	// {
+	// 	ft_putchar('+');
+	// 	acl_free(acl);
+	// }
+	// else
+	// 	ft_putchar(' ');
 }

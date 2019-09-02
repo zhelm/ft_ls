@@ -49,4 +49,5 @@ int		main(int argc, char **argv)
 	i = 0;
 	while (dir != NULL)
 		ft_main_while(tmp, flags, &i, &dir);
+	ft_strdel(&flags);
 }

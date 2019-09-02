@@ -12,7 +12,7 @@
 
 #include "../includes/ft_ls.h"
 
-void	ft_frontbacksplit(t_ls *source, t_ls **front, t_ls **back)
+void ft_fbsplit(t_ls *source, t_ls **front, t_ls **back)
 {
 	t_ls *fast;
 	t_ls *slow;
@@ -33,71 +33,92 @@ void	ft_frontbacksplit(t_ls *source, t_ls **front, t_ls **back)
 	slow->next = NULL;
 }
 
-t_ls	*ft_sortedmerge(t_ls *a, t_ls *b, int i)
+t_ls *ft_sortedmerge(t_ls *a, t_ls *b, int *i, t_ls *r)
 {
-	t_ls *result;
-
-	result = NULL;
-	if (a == NULL)
-		return (b);
-	else if (b == NULL)
-		return (a);
-	if (i * ft_strcmp(a->name, b->name) > 0)
-	{
-		result = a;
-		result->next = ft_sortedmerge(a->next, b, i);
-	}
-	else
-	{
-		result = b;
-		result->next = ft_sortedmerge(a, b->next, i);
-	}
-	return (result);
-}
-
-t_ls	*ft_sortedmerge_time(t_ls *a, t_ls *b, int i)
-{
-	t_ls		*result;
-	struct stat	sb;
-	struct stat	sb1;
-
-	result = NULL;
 	if (a == NULL || b == NULL)
 		return (a == NULL) ? b : a;
-	lstat(b->directory, &sb1);
-	lstat(a->directory, &sb);
-	if (((i * ((int)sb.st_mtime - (int)sb1.st_mtime)) < 0) || (((i *
-	((int)sb.st_mtime - (int)sb1.st_mtime) == 0 && (i *
-	((int)sb.st_mtimespec.tv_nsec - (int)sb1.st_mtimespec.tv_nsec)) < 0))))
+	if (*i * ft_strcmp(a->name, b->name) > 0)
 	{
-		result = a;
-		result->next = ft_sortedmerge_time(a->next, b, i);
-	}
-	else if ((((int)sb.st_mtimespec.tv_nsec -
-	(int)sb1.st_mtimespec.tv_nsec)) != 0)//fixit
-	{
-		result = b;
-		result->next = ft_sortedmerge_time(a, b->next, i);
+		r = a;
+		r->next = ft_sortedmerge(a->next, b, i, r);
 	}
 	else
-		ft_sortedmerge(a, b, i);
-	return (result);
+	{
+		r = b;
+		r->next = ft_sortedmerge(a, b->next, i, r);
+	}
+	return (r);
 }
 
-void	ft_mergesort(t_ls **header, char *flags, int i)
+// void *ft_t_continue(t_ls **r, t_ls **a, t_ls **b, int *i)
+// {
+// 	struct stat s;
+// 	struct stat t;
+
+// 	if (*a == NULL || *b == NULL)
+// 		return (*a == NULL) ? *b : *a;
+// 	lstat((*b)->directory, &s);
+// 	lstat((*a)->directory, &t);
+// 	if ((*i * (int)(t.st_mtim.tv_sec - s.st_mtim.tv_sec)) != 0)
+// 	{
+// 		*r = ((*i * (int)(t.st_mtim.tv_sec - s.st_mtim.tv_sec)) < 0) ? *a : *b;
+// 		(*r)->next = (*r == *a) ? ft_t((*a)->next, *b, *i) : ft_t(*a, (*b)->next, *i);
+// 	}
+// 	else if ((*i * (int)(t.st_mtim.tv_nsec - s.st_mtim.tv_nsec)) != 0)
+// 	{
+// 		*r = ((*i * (int)(t.st_mtim.tv_nsec - s.st_mtim.tv_nsec)) < 0) ? *a : *b;
+// 		(*r)->next = (*r == *a) ? ft_t((*a)->next, *b, *i) : ft_t(*a, (*b)->next, *i);
+// 	}
+// 	else
+// 	{
+// 		*r = (*i * ft_strcmp((*a)->name, (*b)->name) > 0) ? *a : *b;
+// 		(*r)->next = (*r == *a) ? ft_t((*a)->next, *b, *i) : ft_t((*a)->next, *b, *i);
+// 	}
+// }
+
+t_ls *ft_t(t_ls *a, t_ls *b, int *i, t_ls *r)
+{
+	struct stat s;
+	struct stat t;
+
+	if (a == NULL || b == NULL)
+		return (a == NULL) ? b : a;
+	lstat(b->directory, &s);
+	lstat(a->directory, &t);
+	if ((*i * (int)(t.st_mtim.tv_sec - s.st_mtim.tv_sec)) != 0)
+	{
+		r = ((*i * (int)(t.st_mtim.tv_sec - s.st_mtim.tv_sec)) < 0) ? a : b;
+		r->next = (r == a) ? ft_t(a->next, b, i, r) : ft_t(a, b->next, i, r);
+	}
+	else if ((*i * (int)(t.st_mtim.tv_nsec - s.st_mtim.tv_nsec)) != 0)
+	{
+		r = ((*i * (int)(t.st_mtim.tv_nsec - s.st_mtim.tv_nsec)) < 0) ? a : b;
+		r->next = (r == a) ? ft_t(a->next, b, i, r) : ft_t(a, b->next, i, r);
+	}
+	else
+	{
+		r = (*i * ft_strcmp(a->name, b->name) > 0) ? a : b;
+		r->next = (r == a) ? ft_t(a->next, b, i, r) : ft_t(a->next, b, i, r);
+	}
+	return (r);
+}
+
+void ft_mergesort(t_ls **header, char *flags, int *i)
 {
 	t_ls *head;
 	t_ls *a;
 	t_ls *b;
+	t_ls *r;
 
+	r = NULL;
 	head = *header;
 	if ((head == NULL) || (head->next == NULL))
-		return ;
-	ft_frontbacksplit(head, &a, &b);
+		return;
+	ft_fbsplit(head, &a, &b);
 	ft_mergesort(&a, flags, i);
 	ft_mergesort(&b, flags, i);
 	if (flags[4] != '1')
-		*header = ft_sortedmerge(a, b, i);
+		*header = ft_sortedmerge(a, b, i, r);
 	else
-		*header = ft_sortedmerge_time(a, b, i);
+		*header = ft_t(a, b, i, r);
 }

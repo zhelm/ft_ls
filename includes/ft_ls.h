@@ -26,7 +26,7 @@
 # include <stdio.h>
 # include "../libft/libft.h"
 # include <sys/xattr.h>
-# include <sys/acl.h>
+// # include <sys/acl.h>
 
 typedef struct  st_ls
 {
@@ -52,7 +52,7 @@ typedef struct st_argv
 	char	*flags;
 }				t_argv;
 
-void	ft_mergesort(t_ls** headRef, char *flags, int i);
+void	ft_mergesort(t_ls** headRef, char *flags, int *i);
 void	ft_merge_sort_list(t_ls **head, char *flags);
 void	ft_isdir_rec(char *dir);
 size_t	ft_size_t_len(size_t n);
