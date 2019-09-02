@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ls_print_lsub.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zhelm <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/02 08:58:09 by zhelm             #+#    #+#             */
+/*   Updated: 2019/09/02 08:58:10 by zhelm            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/ft_ls.h"
 
 void	ft_l_content(char *flags, struct stat sb, t_ls_l *val)
@@ -53,8 +65,6 @@ void	ft_links(t_ls **tmp, char *buff, struct stat sb)
 }
 void ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val, char *flags)
 {
-	struct group *grp;
-	struct passwd *usr;
 	char buff[1024];
 	char **str;
 

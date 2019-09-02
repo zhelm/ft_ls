@@ -9,25 +9,23 @@
 /*   Updated: 2019/07/24 07:48:51 by zhelm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-//./ft_ls testdir permision denied
-
 
 #include "../includes/ft_ls.h"
 
-void	ft_main_while(t_ls *tmp, char *flags, int *i, t_ls **dir )
+void	ft_main_while(t_ls *tmp, char *flags, int *i, t_ls **dir)
 {
-		tmp = *dir;
-		if(*i != 0 && dir != NULL)
-		{
-			ft_putstr((*dir)->directory);
-			ft_putstr(":\n");
-		}
-		ft_listrec((*dir)->directory, flags);
-		*dir = (*dir)->next;
-		free(tmp);
-		*i = *i + 1;
-		if(*dir != NULL)
-			ft_putchar('\n');
+	tmp = *dir;
+	if (*i != 0 && dir != NULL)
+	{
+		ft_putstr((*dir)->directory);
+		ft_putstr(":\n");
+	}
+	ft_listrec((*dir)->directory, flags);
+	*dir = (*dir)->next;
+	free(tmp);
+	*i = *i + 1;
+	if (*dir != NULL)
+		ft_putchar('\n');
 }
 
 int		main(int argc, char **argv)
@@ -37,6 +35,7 @@ int		main(int argc, char **argv)
 	t_ls	*tmp;
 	int		i;
 
+	tmp = NULL;
 	flags = NULL;
 	dir = NULL;
 	if (argc >= 1)
@@ -44,7 +43,7 @@ int		main(int argc, char **argv)
 		if ((flags = ft_ls_checkflags(argv)) == NULL)
 			return (0);
 	}
-	i = ft_argv_analize(argv, flags, &dir, argc);
+	ft_argv_analize(argv, flags, &dir, argc);
 	if (dir != NULL)
 		ft_argsort(&dir, flags);
 	i = 0;

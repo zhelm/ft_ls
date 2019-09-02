@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ls_mkflags.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zhelm <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/02 08:58:20 by zhelm             #+#    #+#             */
+/*   Updated: 2019/09/02 08:58:22 by zhelm            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
 
-void ft_bonus_flags(char argv, char *flags)
+void	ft_bonus_flags(char argv, char *flags)
 {
 	if (argv == 'g')
 	{
@@ -26,7 +37,8 @@ void ft_bonus_flags(char argv, char *flags)
 		flags[10] = '1';
 	}
 }
-void ft_ls_mkflags(char *argv, char *flags)
+
+void	ft_ls_mkflags(char *argv, char *flags)
 {
 	size_t a;
 

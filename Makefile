@@ -30,13 +30,12 @@ ft_putspaces.c\
 ft_size_t_len.c\
 ft_sort_time.c\
 ft_sortarg_time.c\
-helo.c\
 main.c
 NAME=ft_ls
 RED=\033[0;31m
 LBLUE=\033[1;34m
 LGREEN=\033[1;32m
-FLAGS = -g
+FLAGS = -g -Wall -Werror -Wextra
 LIBFT_PATH = ./libft/
 SRC_PATH = ./srcs/
 OBJ = $(SRC:.c=.o)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ls_mklst.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zhelm <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/02 11:33:27 by zhelm             #+#    #+#             */
+/*   Updated: 2019/09/02 11:33:29 by zhelm            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/ft_ls.h"
 
 void	ft_ls_tmp(char *flags, struct dirent *de, t_ls **tmp, char *dir)
@@ -26,8 +38,8 @@ void	ft_ls_mklst(t_ls **segment, t_ls **tmp, char *flags, char *dir)
 	struct dirent	*de;
 	DIR				*dr;
 
-	if (lstat(dir, &sb) != -1 && ((sb.st_mode & S_IRUSR) &&
-	(sb.st_mode & S_IXUSR)) && (dr = opendir(dir)))
+	if (lstat(dir, &sb) != -1 && (((sb.st_mode & S_IRUSR) &&
+	(sb.st_mode & S_IXUSR)) || flags[7] != '1') && (dr = opendir(dir)))
 	{
 		if (dr != NULL)
 		{

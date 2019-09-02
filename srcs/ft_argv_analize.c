@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_argv_analize.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zhelm <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/02 09:17:57 by zhelm             #+#    #+#             */
+/*   Updated: 2019/09/02 09:18:06 by zhelm            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/ft_ls.h"
 
-static void ft_b(t_ls **file, char *argv, t_ls **dir, int i)
+static void		ft_b(t_ls **file, char *argv, t_ls **dir, int i)
 {
 	if (i != 0)
 	{
@@ -15,10 +27,10 @@ static void ft_b(t_ls **file, char *argv, t_ls **dir, int i)
 	}
 }
 
-static void ft_continue(char **argv, t_ls **er, t_ls **dir, t_argv	*args)
+static void		ft_continue(char **argv, t_ls **er, t_ls **dir, t_argv *args)
 {
-	size_t count;
-	t_ls *file;
+	size_t	count;
+	t_ls	*file;
 
 	count = 0;
 	file = NULL;
@@ -28,7 +40,8 @@ static void ft_continue(char **argv, t_ls **er, t_ls **dir, t_argv	*args)
 	{
 		while (*(args->i) < *(args->argc))
 		{
-			ft_b(&file, argv[*(args->i)], dir, ft_isdir(argv[*(args->i)], er, (args->ret)));
+			ft_b(&file, argv[*(args->i)], dir,
+			ft_isdir(argv[*(args->i)], er, (args->ret)));
 			*(args->i) = *(args->i) + 1;
 		}
 	}
@@ -40,7 +53,7 @@ static void ft_continue(char **argv, t_ls **er, t_ls **dir, t_argv	*args)
 		ft_printfiles(&file, (args->flags));
 }
 
-int ft_argv_err(char **argv, int *i, t_ls **er, int *ret)
+int				ft_argv_err(char **argv, int *i, t_ls **er, int *ret)
 {
 	if (argv[*i][1] == '\0')
 		ft_isdir(argv[*i], er, ret);
@@ -48,17 +61,18 @@ int ft_argv_err(char **argv, int *i, t_ls **er, int *ret)
 	{
 		ft_putstr("ft_ls: illegal option -- -\n");
 		ft_putstr("usage: ls [-Ralrt] [file ...]\n");
-		return -1;
+		return (-1);
 	}
 	i++;
 	return (0);
 }
-int ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
+
+void			ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
 {
-	int i;
-	t_ls *er;
-	int ret;
-	t_argv args;
+	int		i;
+	t_ls	*er;
+	int		ret;
+	t_argv	args;
 
 	ret = 0;
 	er = NULL;
@@ -68,8 +82,8 @@ int ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
 		if (argv[i][1] == '\0' || argv[i][1] == '-')
 		{
 			if (ft_argv_err(argv, &i, &er, &ret) == -1)
-				return -1;
-			break;
+				return ;
+			break ;
 		}
 		ft_ls_mkflags(argv[i], flags);
 		i++;

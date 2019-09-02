@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_listrec.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zhelm <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/02 08:57:48 by zhelm             #+#    #+#             */
+/*   Updated: 2019/09/02 08:57:51 by zhelm            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/ft_ls.h"
 
 t_ls	*ft_listrec(char *dir, char *flags)
@@ -13,7 +25,7 @@ t_ls	*ft_listrec(char *dir, char *flags)
 	ft_printlist(&tmp, flags);
 	if (segment != NULL && flags[10] != '1')
 		ft_listsort(&segment, flags);
-	while (segment != NULL)
+	while (segment)
 	{
 		ft_putchar('\n');
 		ft_putstr(segment->directory);
@@ -22,8 +34,8 @@ t_ls	*ft_listrec(char *dir, char *flags)
 		ft_listrec(segment->directory, flags);
 		free(tmp->directory);
 		free(tmp->name);
-		free(tmp);
 		segment = segment->next;
+		free(tmp);
 	}
 	return (0);
 }

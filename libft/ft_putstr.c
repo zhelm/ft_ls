@@ -12,30 +12,9 @@
 
 #include "libft.h"
 
-void	ft_putstr(char const *s)
+void ft_putstr(char const *s)
 {
 	if(s)
 		write(1, s, ft_strlen(s));
 	return ;
-	// char	*str;
-	// size_t	i;
-
-	// i = 0;
-	// str = "(null)";
-	// if (!s)
-	// {
-	// 	while (str[i])
-	// 	{
-	// 		ft_putchar(str[i]);
-	// 		i++;
-	// 	}
-	// 	// ft_putchar('\n');
-	// 	return ;
-	// }
-	// while (*s)
-	// 	ft_putchar(*s++);
-	// ft_putchar('\n');
-	// if (s != NULL)
-    //     while (*s)
-    //         ft_putchar(*s++);
 }

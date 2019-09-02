@@ -1,6 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ls_checkflags.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zhelm <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/02 08:57:32 by zhelm             #+#    #+#             */
+/*   Updated: 2019/09/02 08:57:35 by zhelm            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/ft_ls.h"
 
-char	*ft_ls_checkflags(char **argv)
+static int	ft_check(char argv, size_t *a)
+{
+	if (argv == 'l' || argv == 'a' || argv == 'r' ||
+		argv == 'R' || argv == 't' || argv == 'g' ||
+		argv == 'A' || argv == 'n' || argv == 'o' ||
+		argv == 'f')
+		*a = *a + 1;
+	else
+	{
+		ft_ls_error(argv);
+		return (-1);
+	}
+	return (1);
+}
+
+char		*ft_ls_checkflags(char **argv)
 {
 	size_t	i;
 	size_t	a;
@@ -12,13 +39,8 @@ char	*ft_ls_checkflags(char **argv)
 		a = 1;
 		while (argv[i][a] != '\0')
 		{
-			if (argv[i][a] == 'l' || argv[i][a] == 'a' || argv[i][a] == 'r' || argv[i][a] == 'R' || argv[i][a] == 't' || argv[i][a] == 'g' || argv[i][a] == 'A' || argv[i][a] == 'n' || argv[i][a] == 'o' || argv[i][a] == 'f')
-				a++;
-			else
-			{
-				ft_ls_error(argv[i][a]);
+			if (ft_check(argv[i][a], &a) == -1)
 				return (NULL);
-			}
 		}
 		i++;
 	}

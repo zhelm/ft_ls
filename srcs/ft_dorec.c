@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_dorec.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zhelm <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/02 11:26:45 by zhelm             #+#    #+#             */
+/*   Updated: 2019/09/02 11:26:46 by zhelm            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/ft_ls.h"
 
 int		ft_dorec(t_ls **head, char *flags, char *dir)
 {
 	t_ls *tmp;
+
 	if ((*head) != NULL)
 	{
 		while (*head)
@@ -17,7 +30,7 @@ int		ft_dorec(t_ls **head, char *flags, char *dir)
 				(*head)->directory = NULL;
 				*head = (*head)->next;
 				free(tmp);
-				break;
+				break ;
 			}
 			(*head) = (*head)->next;
 		}
