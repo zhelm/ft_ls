@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ls_seg_lstadd.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zhelm <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/03 08:54:42 by zhelm             #+#    #+#             */
+/*   Updated: 2019/09/03 08:54:44 by zhelm            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/ft_ls.h"
 
-void ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir)
+void	ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir)
 {
 	t_ls *tmp;
 	t_ls *ptr;
@@ -12,7 +24,7 @@ void ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir)
 		if (ptr->next != NULL)
 			ptr = ptr->next;
 		else
-			break;
+			break ;
 	}
 	if (ft_strcmp(ptr->directory, dir) == 0)
 	{

@@ -29,7 +29,9 @@ void	ft_ls_l(t_ls **head, char *flags)
 			sz = sz + sb.st_blocks;
 			tmp = tmp->next;
 		}
-		printf("total %lld\n", sz);
+		ft_putstr("total ");
+		ft_putnbr((int)sz);
+		ft_putchar('\n');
 	}
 	ft_ls_print_l(head, flags);
 }

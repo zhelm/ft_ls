@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ls_mode.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zhelm <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/03 08:53:16 by zhelm             #+#    #+#             */
+/*   Updated: 2019/09/03 08:53:18 by zhelm            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/ft_ls.h"
 
-static void		ft_ls_mode_else(struct stat sb, size_t i)
+static void	ft_ls_mode_else(struct stat sb, size_t i)
 {
 	if (i == 2 && S_ISUID & sb.st_mode)
 		ft_putchar('S');
@@ -26,8 +38,9 @@ static void		ft_ls_mode_else(struct stat sb, size_t i)
 
 void		ft_ls_mode(struct stat sb, t_ls *tmp)
 {
-	// acl_t acl;
-	size_t i;
+	acl_t	acl;
+	size_t	i;
+
 	i = -1;
 	while (++i <= 8 && sb.st_mode)
 	{
@@ -40,14 +53,14 @@ void		ft_ls_mode(struct stat sb, t_ls *tmp)
 		else
 			ft_ls_mode_else(sb, i);
 	}
-	// if ((S_IRUSR & sb.st_mode) &&
-	// listxattr(tmp->directory, NULL, 0, XATTR_NOFOLLOW) > 0)
-	// 	ft_putchar('@');
-	// else if ((acl = acl_get_link_np(tmp->directory, ACL_TYPE_EXTENDED)))
-	// {
-	// 	ft_putchar('+');
-	// 	acl_free(acl);
-	// }
-	// else
-	// 	ft_putchar(' ');
+	if ((S_IRUSR & sb.st_mode) &&
+	listxattr(tmp->directory, NULL, 0, XATTR_NOFOLLOW) > 0)
+		ft_putchar('@');
+	else if ((acl = acl_get_link_np(tmp->directory, ACL_TYPE_EXTENDED)))
+	{
+		ft_putchar('+');
+		acl_free(acl);
+	}
+	else
+		ft_putchar(' ');
 }

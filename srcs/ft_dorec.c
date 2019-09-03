@@ -22,7 +22,7 @@ int		ft_dorec(t_ls **head, char *flags, char *dir)
 		{
 			if ((*head) && ft_strcmp((*head)->directory, dir) == 0)
 			{
-				printf("\n");
+				ft_putchar('\n');
 				tmp = *head;
 				free((*head)->name);
 				(*head)->name = NULL;

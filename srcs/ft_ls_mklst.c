@@ -32,22 +32,36 @@ void	ft_ls_seg(struct dirent *de, t_ls **segment, char *dir)
 		ft_assign_dir(segment, dir);
 }
 
+int ft_testdir(char *dir, struct dirent *de)
+{
+	char *tmp;
+	DIR *ok;
+	struct stat sb;
+	tmp = ft_strjoin(dir, "/");
+	tmp = ft_strjoin(tmp, de->d_name);
+	lstat(tmp, &sb);
+	if(S_ISDIR(sb.st_mode))
+		return 1;
+	else
+		return 0;
+}
+
 void	ft_ls_mklst(t_ls **segment, t_ls **tmp, char *flags, char *dir)
 {
 	struct stat		sb;
 	struct dirent	*de;
 	DIR				*dr;
 
-	if (lstat(dir, &sb) != -1 && (((sb.st_mode & S_IRUSR) &&
-	(sb.st_mode & S_IXUSR)) || flags[7] != '1') && (dr = opendir(dir)))
+	if (lstat(dir, &sb) != -1 && (dr = opendir(dir)))
 	{
 		if (dr != NULL)
 		{
 			while ((de = readdir(dr)) != NULL)
 			{
 				ft_ls_tmp(flags, de, tmp, dir);
-				if (de->d_type == 4 && flags[3] == '1' && !(flags[6] == '0' &&
-				*de->d_name == '.') && strcmp(de->d_name, ".") != 0 &&
+				if ((de->d_type == 4 || ft_testdir(dir, de)) &&
+				flags[3] == '1' && !(flags[6] == '0' &&
+				*de->d_name == '.') && ft_strcmp(de->d_name, ".") != 0 &&
 				ft_strcmp(de->d_name, "..") != 0)
 					ft_ls_seg(de, segment, dir);
 			}

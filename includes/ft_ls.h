@@ -14,37 +14,37 @@
 # define FT_LS_H
 
 # include <stdlib.h>
-# include <unistd.h> 
-# include <dirent.h> 
+# include <unistd.h>
+# include <dirent.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <pwd.h>
 # include <time.h>
 # include <grp.h>
-# include <uuid/uuid.h> 
+# include <uuid/uuid.h>
 # include <string.h>
 # include <stdio.h>
 # include "../libft/libft.h"
 # include <sys/xattr.h>
-// # include <sys/acl.h>
+# include <sys/acl.h>
 
-typedef struct  st_ls
+typedef struct	s_ls
 {
-	char *directory;
-	char *name;
-	struct st_ls *next;
-	struct st_ls *prev;
+	char			*directory;
+	char			*name;
+	struct s_ls	*next;
+	struct s_ls	*prev;
 }				t_ls;
 
-typedef struct st_ls_l
+typedef struct	s_ls_l
 {
-	size_t 	links;
-	size_t 	usrnm;
-	size_t 	grpnm;
-	size_t 	size;
+	size_t links;
+	size_t usrnm;
+	size_t grpnm;
+	size_t size;
 }				t_ls_l;
 
-typedef struct st_argv
+typedef struct	s_argv
 {
 	int		*ret;
 	int		*i;
@@ -52,19 +52,19 @@ typedef struct st_argv
 	char	*flags;
 }				t_argv;
 
-void	ft_mergesort(t_ls** headRef, char *flags, int *i);
+void	ft_mergesort(t_ls **head, char *flags, int i);
 void	ft_merge_sort_list(t_ls **head, char *flags);
 void	ft_isdir_rec(char *dir);
 size_t	ft_size_t_len(size_t n);
 void	ft_put_size_t(size_t n);
 void	ft_print_err(t_ls **er, char *flags);
 void	ft_erlst(t_ls **er, char *argv);
-void 	ft_printfiles(t_ls **file, char *flags);
+void	ft_printfiles(t_ls **file, char *flags);
 int		ft_isdir(char *argv, t_ls **er, int *ret);
 size_t	ft_intlen(int n);
 void	ft_print_l_time(char **str, struct stat *sb);
-void 	ft_putspaces(size_t i);
-t_ls_l 	ft_ls_l_analize(t_ls **head, t_ls *tmp, char *flags);
+void	ft_putspaces(size_t i);
+t_ls_l	ft_ls_l_analize(t_ls **head, t_ls *tmp, char *flags);
 void	ft_ls_free_tmplist(t_ls **head);
 void	ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val, char *flags);
 void	ft_ls_lstadd(t_ls **alst, t_ls *new);

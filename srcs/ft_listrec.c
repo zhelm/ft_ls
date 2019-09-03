@@ -12,6 +12,21 @@
 
 #include "../includes/ft_ls.h"
 
+int	ft_listdet(t_ls **seg)
+{
+	struct stat sb;
+
+	lstat((*seg)->directory, &sb);
+	if(S_IRUSR & sb.st_mode)
+	{
+		ft_putchar('\n');
+		ft_putstr((*seg)->directory);
+		ft_putstr(":\n");
+		return (1);
+	}
+	return (-1);
+}
+
 t_ls	*ft_listrec(char *dir, char *flags)
 {
 	t_ls *segment;
@@ -27,11 +42,12 @@ t_ls	*ft_listrec(char *dir, char *flags)
 		ft_listsort(&segment, flags);
 	while (segment)
 	{
-		ft_putchar('\n');
-		ft_putstr(segment->directory);
-		ft_putstr(":\n");
+		// ft_putchar('\n');
+		// ft_putstr(segment->directory);
+		// ft_putstr(":\n");
 		tmp = segment;
-		ft_listrec(segment->directory, flags);
+		if (ft_listdet(&segment) == 1)
+			ft_listrec(segment->directory, flags);
 		free(tmp->directory);
 		free(tmp->name);
 		segment = segment->next;
