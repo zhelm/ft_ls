@@ -32,18 +32,19 @@ void	ft_ls_seg(struct dirent *de, t_ls **segment, char *dir)
 		ft_assign_dir(segment, dir);
 }
 
-int ft_testdir(char *dir, struct dirent *de)
+int		ft_testdir(char *dir, struct dirent *de)
 {
 	char *tmp;
 	DIR *ok;
 	struct stat sb;
+	
 	tmp = ft_strjoin(dir, "/");
 	tmp = ft_strjoin(tmp, de->d_name);
 	lstat(tmp, &sb);
-	if(S_ISDIR(sb.st_mode))
-		return 1;
+	if (S_ISDIR(sb.st_mode))
+		return (1);
 	else
-		return 0;
+		return (0);
 }
 
 void	ft_ls_mklst(t_ls **segment, t_ls **tmp, char *flags, char *dir)

@@ -26,7 +26,7 @@
 # include <stdio.h>
 # include "../libft/libft.h"
 # include <sys/xattr.h>
-// # include <sys/acl.h>
+# include <sys/acl.h>
 
 typedef struct	s_ls
 {
@@ -59,8 +59,8 @@ size_t	ft_size_t_len(size_t n);
 void	ft_put_size_t(size_t n);
 void	ft_print_err(t_ls **er, char *flags);
 void	ft_erlst(t_ls **er, char *argv);
-void	ft_printfiles(t_ls **file, char *flags);
-int		ft_isdir(char *argv, t_ls **er, int *ret);
+int		ft_printfiles(t_ls **file, char *flags, t_ls **dir);
+int		ft_isdir(char *argv, t_ls **er, int *ret, char *flags);
 size_t	ft_intlen(int n);
 void	ft_print_l_time(char **str, struct stat *sb);
 void	ft_putspaces(size_t i);
@@ -81,7 +81,7 @@ void	ft_printlist(t_ls **tmp, char *flags);
 void	ft_ls_mklst(t_ls **segment, t_ls **tmp, char *flags, char *dir);
 t_ls	*ft_listrec(char **dir, char *flags);
 void	ft_ls_mkflags(char *argv, char *flags);
-void	ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc);
+int		ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc);
 void	ft_sortarg_time(t_ls **head, char *flags);
 void	ft_argsort(t_ls **dir, char *flags);
 char	*ft_ls_error(char c);

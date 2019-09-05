@@ -36,5 +36,5 @@ void	ft_printlist(t_ls **tmp, char *flags)
 		*tmp = (*tmp)->next;
 		free(tmp1);
 	}
-	ft_putchar('\n');
+	// ft_putchar('\n');
 }

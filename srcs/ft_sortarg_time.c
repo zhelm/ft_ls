@@ -28,8 +28,8 @@ void	ft_sortarg_time(t_ls **head, char *flags)
 		stat(ptr->next->directory, &sb1);
 		if (((i * ((int)sb.st_mtime - (int)sb1.st_mtime)) > 0) ||
 		(((i * ((int)sb.st_mtime - (int)sb1.st_mtime) == 0 &&
-		(i * ((int)sb.st_mtim.tv_nsec -
-		(int)sb1.st_mtim.tv_nsec)) > 0))))
+		(i * ((int)sb.st_mtimespec.tv_nsec -
+		(int)sb1.st_mtimespec.tv_nsec)) > 0))))
 		{
 			tp = ptr->directory;
 			ptr->directory = ptr->next->directory;

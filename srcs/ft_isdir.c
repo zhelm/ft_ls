@@ -12,7 +12,7 @@
 
 #include "../includes/ft_ls.h"
 
-int		ft_isdir(char *argv, t_ls **er, int *ret)
+int		ft_isdir(char *argv, t_ls **er, int *ret, char *flags)
 {
 	struct stat sb;
 	DIR			*dr;
@@ -32,6 +32,7 @@ int		ft_isdir(char *argv, t_ls **er, int *ret)
 			if (*ret == 0)
 				*ret = 1;
 			ft_erlst(er, argv);
+			ft_print_err(er, flags);
 			return (0);
 		}
 		closedir(dr);

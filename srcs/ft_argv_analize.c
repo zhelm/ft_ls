@@ -27,7 +27,7 @@ static void		ft_b(t_ls **file, char *argv, t_ls **dir, int i)
 	}
 }
 
-static void		ft_continue(char **argv, t_ls **er, t_ls **dir, t_argv *args)
+static int		ft_continue(char **argv, t_ls **er, t_ls **dir, t_argv *args)
 {
 	size_t	count;
 	t_ls	*file;
@@ -41,7 +41,7 @@ static void		ft_continue(char **argv, t_ls **er, t_ls **dir, t_argv *args)
 		while (*(args->i) < *(args->argc))
 		{
 			ft_b(&file, argv[*(args->i)], dir,
-			ft_isdir(argv[*(args->i)], er, (args->ret)));
+			ft_isdir(argv[*(args->i)], er, (args->ret), (args->flags)));
 			*(args->i) = *(args->i) + 1;
 		}
 	}
@@ -50,13 +50,14 @@ static void		ft_continue(char **argv, t_ls **er, t_ls **dir, t_argv *args)
 	if (*dir == NULL && file == NULL && count == 0)
 		*dir = ft_ls_lstnew(NULL, ".", NULL);
 	if (file != NULL)
-		ft_printfiles(&file, (args->flags));
+		return (ft_printfiles(&file, (args->flags), dir));
+	return (0);
 }
 
 int				ft_argv_err(char **argv, int *i, t_ls **er, int *ret)
 {
 	if (argv[*i][1] == '\0')
-		ft_isdir(argv[*i], er, ret);
+		ft_isdir(argv[*i], er, ret, NULL);
 	if (argv[*i][2] != '\0')
 	{
 		ft_putstr("ft_ls: illegal option -- -\n");
@@ -67,7 +68,7 @@ int				ft_argv_err(char **argv, int *i, t_ls **er, int *ret)
 	return (0);
 }
 
-void			ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
+int				ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
 {
 	int		i;
 	t_ls	*er;
@@ -82,7 +83,8 @@ void			ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
 		if (argv[i][1] == '\0' || argv[i][1] == '-')
 		{
 			if (ft_argv_err(argv, &i, &er, &ret) == -1)
-				return ;
+				return (-1);
+			i++;
 			break ;
 		}
 		ft_ls_mkflags(argv[i], flags);
@@ -92,5 +94,5 @@ void			ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc)
 	args.i = &i;
 	args.argc = &argc;
 	args.flags = flags;
-	ft_continue(argv, &er, dir, &args);
+	return (ft_continue(argv, &er, dir, &args));
 }

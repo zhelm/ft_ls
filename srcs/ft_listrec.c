@@ -42,9 +42,6 @@ t_ls	*ft_listrec(char **dir, char *flags)
 		ft_listsort(&segment, flags);
 	while (segment)
 	{
-		// ft_putchar('\n');
-		// ft_putstr(segment->directory);
-		// ft_putstr(":\n");
 		tmp = segment;
 		if (ft_listdet(&segment) == 1)
 			ft_listrec(&segment->directory, flags);

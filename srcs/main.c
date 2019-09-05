@@ -43,10 +43,9 @@ int		main(int argc, char **argv)
 		if ((flags = ft_ls_checkflags(argv)) == NULL)
 			return (0);
 	}
-	ft_argv_analize(argv, flags, &dir, argc);
+	i = (ft_argv_analize(argv, flags, &dir, argc) == 1) ? 1 : 0;
 	if (dir != NULL)
 		ft_argsort(&dir, flags);
-	i = 0;
 	while (dir != NULL)
 		ft_main_while(tmp, flags, &i, &dir);
 	ft_strdel(&flags);

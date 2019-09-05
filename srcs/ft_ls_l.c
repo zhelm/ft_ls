@@ -12,11 +12,11 @@
 
 #include "../includes/ft_ls.h"
 
-static void		ft_ls_l_analize_c(struct stat *sb ,t_ls_l *ret, char *flags)
+static void		ft_ls_l_analize_c(struct stat *sb, t_ls_l *ret, char *flags)
 {
 	struct group	*grp;
 	struct passwd	*usr;
-	
+
 	if (((usr = getpwuid(sb->st_uid)) && ft_strlen(usr->pw_name) >
 	(*ret).usrnm) && flags[0] != '1')
 		(*ret).usrnm = ft_strlen(usr->pw_name);
@@ -44,19 +44,23 @@ void	ft_ls_l(t_ls **head, char *flags)
 	tmp = NULL;
 	vals = ft_ls_l_analize(head, tmp, flags);
 	tmp = *head;
-	if (tmp != NULL && !(tmp->directory == NULL && tmp->name != NULL))
+	if (tmp != NULL && (!(tmp->directory == NULL
+	&& tmp->name != NULL) || tmp->name != NULL))
 	{
 		while (tmp != NULL)
 		{
-			if (lstat(tmp->directory, &sb) == -1)
+			if (lstat(tmp->directory, &sb) == -1 && lstat(tmp->name, &sb) == -1)
 				return ;
 			ft_ls_l_analize_c(&sb, &vals, flags);
 			sz = sz + sb.st_blocks;
 			tmp = tmp->next;
 		}
-		ft_putstr("total ");
-		ft_putnbr((int)sz);
-		ft_putchar('\n');
+		if (lstat((*head)->directory, &sb) != -1)
+		{
+			ft_putstr("total ");
+			ft_putnbr((int)sz);
+			ft_putchar('\n');
+		}
 	}
 	ft_ls_print_l(head, flags, &vals);
 }

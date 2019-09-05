@@ -64,9 +64,9 @@ t_ls	*ft_t(t_ls *a, t_ls *b, int i, t_ls *r)
 		r = ((i * (int)(t.st_mtime - s.st_mtime)) < 0) ? a : b;
 		r->next = (r == a) ? ft_t(a->next, b, i, r) : ft_t(a, b->next, i, r);
 	}
-	else if ((i * (int)(t.st_mtim.tv_nsec - s.st_mtim.tv_nsec)) != 0)
+	else if ((i * (int)(t.st_mtimespec.tv_nsec - s.st_mtimespec.tv_nsec)) != 0)
 	{
-		r = ((i * (int)(t.st_mtim.tv_nsec - s.st_mtim.tv_nsec)) < 0)
+		r = ((i * (int)(t.st_mtimespec.tv_nsec - s.st_mtimespec.tv_nsec)) < 0)
 		? a : b;
 		r->next = (r == a) ? ft_t(a->next, b, i, r) : ft_t(a, b->next, i, r);
 	}

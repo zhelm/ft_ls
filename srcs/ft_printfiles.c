@@ -12,9 +12,12 @@
 
 #include "../includes/ft_ls.h"
 
-void	ft_printfiles(t_ls **file, char *flags)
+int	ft_printfiles(t_ls **file, char *flags, t_ls **dir)
 {
 	ft_listsort(file, flags);
 	ft_printlist(file, flags);
-	ft_putchar('\n');
+	if(*dir != NULL)
+		ft_putchar('\n');
+	return (1);
+	// ft_putchar('\n');
 }
