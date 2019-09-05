@@ -26,7 +26,7 @@
 # include <stdio.h>
 # include "../libft/libft.h"
 # include <sys/xattr.h>
-# include <sys/acl.h>
+// # include <sys/acl.h>
 
 typedef struct	s_ls
 {
@@ -66,20 +66,20 @@ void	ft_print_l_time(char **str, struct stat *sb);
 void	ft_putspaces(size_t i);
 t_ls_l	ft_ls_l_analize(t_ls **head, t_ls *tmp, char *flags);
 void	ft_ls_free_tmplist(t_ls **head);
-void	ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val, char *flags);
+void	ft_ls_print_lsub(t_ls **tmp, struct stat *sb, t_ls_l *val, char *flags);
 void	ft_ls_lstadd(t_ls **alst, t_ls *new);
 t_ls	*ft_ls_lstnew(struct dirent *de, char *dir, char *name);
 void	ft_assign_dir(t_ls **head, char *dir);
 void	ft_ls_check_file_type(struct stat sb);
 void	ft_ls_mode(struct stat sb, t_ls *tmp);
-void	ft_ls_print_l(t_ls **head, char *flags);
+void	ft_ls_print_l(t_ls **head, char *flags, t_ls_l *vals);
 void	ft_ls_l(t_ls **head, char *flags);
 void	ft_sort_time(t_ls **head, int i);
 void	ft_listsort(t_ls **head, char *flags);
 void	ft_ls_seg_lstadd(t_ls **head, t_ls **seg, char *dir);
 void	ft_printlist(t_ls **tmp, char *flags);
 void	ft_ls_mklst(t_ls **segment, t_ls **tmp, char *flags, char *dir);
-t_ls	*ft_listrec(char *dir, char *flags);
+t_ls	*ft_listrec(char **dir, char *flags);
 void	ft_ls_mkflags(char *argv, char *flags);
 void	ft_argv_analize(char **argv, char *flags, t_ls **dir, int argc);
 void	ft_sortarg_time(t_ls **head, char *flags);

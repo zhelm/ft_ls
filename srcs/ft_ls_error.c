@@ -17,6 +17,6 @@ char	*ft_ls_error(char c)
 	ft_putstr("ft_ls: invalid option -- ");
 	ft_putchar(c);
 	ft_putchar('\n');
-	ft_putstr("usage: ft_ls [-Ralrt] [file ...]\n");
+	ft_putstr("usage: ft_ls [-ARafglnort] [file ...]\n");
 	return (NULL);
 }

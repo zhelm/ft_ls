@@ -12,26 +12,26 @@
 
 #include "../includes/ft_ls.h"
 
-void	ft_l_content(char *flags, struct stat sb, t_ls_l *val)
+void	ft_l_content(char *flags, struct stat *sb, t_ls_l *val)
 {
 	struct passwd	*usr;
 	struct group	*grp;
 
-	if (flags[2] != '1' && (!(usr = getpwuid(sb.st_uid)) || flags[0] == '1'))
+	if (flags[2] != '1' && (!(usr = getpwuid(sb->st_uid)) || flags[0] == '1'))
 	{
-		ft_putnbr(sb.st_uid);
-		ft_putspaces(val->usrnm - ft_size_t_len(sb.st_uid));
+		ft_putnbr(sb->st_uid);
+		ft_putspaces(val->usrnm - ft_size_t_len(sb->st_uid));
 	}
 	else if (flags[2] != '1' && usr->pw_name)
 	{
 		ft_putstr(usr->pw_name);
 		ft_putspaces(val->usrnm - ft_strlen(usr->pw_name));
 	}
-	if (flags[9] != '1' && (!(grp = getgrgid(sb.st_gid)) || flags[0] == '1'))
+	if (flags[9] != '1' && (!(grp = getgrgid(sb->st_gid)) || flags[0] == '1'))
 	{
 		ft_putstr("  ");
-		ft_putnbr(sb.st_gid);
-		ft_putspaces(val->grpnm - ft_size_t_len(sb.st_gid));
+		ft_putnbr(sb->st_gid);
+		ft_putspaces(val->grpnm - ft_size_t_len(sb->st_gid));
 	}
 	else if (flags[9] != '1' && grp->gr_name)
 	{
@@ -41,13 +41,13 @@ void	ft_l_content(char *flags, struct stat sb, t_ls_l *val)
 	}
 }
 
-void	ft_links(t_ls **tmp, struct stat sb)
+void	ft_links(t_ls **tmp, struct stat *sb)
 {
 	char buff[1024];
 	size_t count;
 
 	count = 0;
-	if (S_ISLNK(sb.st_mode))
+	if (S_ISLNK((sb->st_mode)))
 	{
 		ft_putstr(" -> ");
 		if ((readlink((*tmp)->name, buff, sizeof(buff)) != -1))
@@ -65,20 +65,20 @@ void	ft_links(t_ls **tmp, struct stat sb)
 	}
 }
 
-void	ft_ls_print_lsub(t_ls **tmp, struct stat sb, t_ls_l val, char *flags)
+void	ft_ls_print_lsub(t_ls **tmp, struct stat *sb, t_ls_l *val, char *flags)
 {
 	char **str;
 
 	str = NULL;
-	if (ctime(&sb.st_mtime) != NULL)
-		str = ft_strsplit(ctime(&sb.st_mtime), ' ');
-	ft_putspaces(val.links - ft_size_t_len(sb.st_nlink) + 2);
-	ft_put_size_t(sb.st_nlink);
+	if (ctime(&(sb->st_mtime)) != NULL)
+		str = ft_strsplit(ctime(&(sb->st_mtime)), ' ');
+	ft_putspaces(val->links - ft_size_t_len(sb->st_nlink) + 2);
+	ft_put_size_t(sb->st_nlink);
 	ft_putchar(' ');
-	ft_l_content(flags, sb, &val);
-	ft_putspaces(val.size - ft_size_t_len(sb.st_size) + 2);
-	ft_put_size_t(sb.st_size);
-	ft_print_l_time(str, &sb);
+	ft_l_content(flags, sb, val);
+	ft_putspaces(val->size - ft_size_t_len(sb->st_size) + 2);
+	ft_put_size_t(sb->st_size);
+	ft_print_l_time(str, sb);
 	if (flags[8] == '1')
 		ft_putchar('"');
 	ft_putstr((*tmp)->name);

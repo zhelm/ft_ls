@@ -20,7 +20,7 @@ void	ft_main_while(t_ls *tmp, char *flags, int *i, t_ls **dir)
 		ft_putstr((*dir)->directory);
 		ft_putstr(":\n");
 	}
-	ft_listrec((*dir)->directory, flags);
+	ft_listrec(&(*dir)->directory, flags);
 	*dir = (*dir)->next;
 	free(tmp);
 	*i = *i + 1;

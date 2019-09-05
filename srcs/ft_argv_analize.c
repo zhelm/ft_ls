@@ -60,7 +60,7 @@ int				ft_argv_err(char **argv, int *i, t_ls **er, int *ret)
 	if (argv[*i][2] != '\0')
 	{
 		ft_putstr("ft_ls: illegal option -- -\n");
-		ft_putstr("usage: ls [-Ralrt] [file ...]\n");
+		ft_putstr("usage: ls [-ARafglnort] [file ...]\n");
 		return (-1);
 	}
 	i++;

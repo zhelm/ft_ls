@@ -38,8 +38,8 @@ void	ft_sort_time(t_ls **head, int i)
 		stat(ptr->next->directory, &sb1);
 		if (((i * (sb.st_mtime - sb1.st_mtime)) < 0) ||
 		((sb.st_mtime - sb1.st_mtime) == 0 &&
-		(i * (int)(sb.st_mtimespec.tv_nsec
-		- sb1.st_mtimespec.tv_nsec)) < 0))
+		(i * (int)(sb.st_mtim.tv_nsec
+		- sb1.st_mtim.tv_nsec)) < 0))
 			ft_sort_time_c(tp, tmpname, &ptr, head);
 		else
 			ptr = ptr->next;

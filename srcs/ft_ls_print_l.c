@@ -12,7 +12,7 @@
 
 #include "../includes/ft_ls.h"
 
-void		ft_ls_print_lc(t_ls *tmp, t_ls_l vals, char *flags)
+void		ft_ls_print_lc(t_ls *tmp, t_ls_l *vals, char *flags)
 {
 	struct stat sb;
 
@@ -22,26 +22,22 @@ void		ft_ls_print_lc(t_ls *tmp, t_ls_l vals, char *flags)
 		lstat(tmp->name, &sb);
 	ft_ls_check_file_type(sb);
 	ft_ls_mode(sb, tmp);
-	ft_ls_print_lsub(&tmp, sb, vals, flags);
+	ft_ls_print_lsub(&tmp, &sb, vals, flags);
 	ft_putchar('\n');
 }
 
-void		ft_ls_print_l(t_ls **head, char *flags)
+void		ft_ls_print_l(t_ls **head, char *flags, t_ls_l *vals)
 {
 	t_ls	*tmp;
 	t_ls	*tmp1;
-	t_ls_l	vals;
 
-	tmp = NULL;
-	if (*head)
-		vals = ft_ls_l_analize(head, tmp, flags);
 	tmp = *head;
 	while (tmp != NULL)
 	{
 		tmp1 = tmp;
 		if (!(flags[1] == '1' && (ft_strcmp((tmp)->name, ".") == 0 ||
 		ft_strcmp((tmp)->name, "..") == 0)) ||
-			flags[1] == '0')
+		flags[1] == '0')
 			ft_ls_print_lc(tmp, vals, flags);
 		tmp = tmp->next;
 		if (tmp1 != NULL)

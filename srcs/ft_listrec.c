@@ -27,14 +27,14 @@ int	ft_listdet(t_ls **seg)
 	return (-1);
 }
 
-t_ls	*ft_listrec(char *dir, char *flags)
+t_ls	*ft_listrec(char **dir, char *flags)
 {
 	t_ls *segment;
 	t_ls *tmp;
 
 	segment = NULL;
 	tmp = NULL;
-	ft_ls_mklst(&segment, &tmp, flags, dir);
+	ft_ls_mklst(&segment, &tmp, flags, *dir);
 	if (tmp && tmp->next != NULL && flags[10] != '1')
 		ft_listsort(&tmp, flags);
 	ft_printlist(&tmp, flags);
@@ -47,7 +47,7 @@ t_ls	*ft_listrec(char *dir, char *flags)
 		// ft_putstr(":\n");
 		tmp = segment;
 		if (ft_listdet(&segment) == 1)
-			ft_listrec(segment->directory, flags);
+			ft_listrec(&segment->directory, flags);
 		free(tmp->directory);
 		free(tmp->name);
 		segment = segment->next;
