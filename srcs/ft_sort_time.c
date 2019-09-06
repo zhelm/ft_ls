@@ -32,6 +32,8 @@ void	ft_sort_time(t_ls **head, int i)
 	char		*tp;
 
 	ptr = *head;
+	tmpname = NULL;
+	tp = NULL;
 	while (ptr->next != NULL)
 	{
 		stat(ptr->directory, &sb);

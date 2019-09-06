@@ -35,7 +35,7 @@ NAME=ft_ls
 RED=\033[0;31m
 LBLUE=\033[1;34m
 LGREEN=\033[1;32m
-FLAGS = -g #-Wall -Werror -Wextra
+FLAGS = -g -Wall -Werror -Wextra
 LIBFT_PATH = ./libft/
 SRC_PATH = ./srcs/
 OBJ = $(SRC:.c=.o)

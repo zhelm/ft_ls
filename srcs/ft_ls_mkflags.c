@@ -19,19 +19,22 @@ void	ft_bonus_flags(char argv, char *flags)
 		flags[7] = '1';
 		flags[2] = '1';
 	}
-	else if (argv == 'A' && flags[10] != '1')
+	if (argv == 'A' && flags[10] != '1')
+	{
+		flags[1] = '1';
 		flags[6] = '1';
-	else if (argv == 'n')
+	}
+	if (argv == 'n')
 	{
 		flags[7] = '1';
 		flags[0] = '1';
 	}
-	else if (argv == 'o')
+	if (argv == 'o')
 	{
 		flags[7] = '1';
 		flags[9] = '1';
 	}
-	else if (argv == 'f' || (argv == 'A' && flags[10] == '1'))
+	if (argv == 'f' || (argv == 'A' && flags[10] == '1'))
 	{
 		flags[1] = (flags[1] == '1' && argv == 'A') ? '1' : '0';
 		flags[10] = '1';
@@ -51,16 +54,15 @@ void	ft_ls_mkflags(char *argv, char *flags)
 		{
 			if (argv[a] == 'l')
 				flags[7] = '1';
-			else if (argv[a] == 'a' || argv[a] == 'A' || argv[a] == 'f')
+			if (argv[a] == 'a' || argv[a] == 'A' || argv[a] == 'f')
 				flags[6] = '1';
-			else if (argv[a] == 'r')
+			if (argv[a] == 'r')
 				flags[5] = '1';
-			else if (argv[a] == 't')
+			if (argv[a] == 't')
 				flags[4] = '1';
-			else if (argv[a] == 'R')
+			if (argv[a] == 'R')
 				flags[3] = '1';
-			else
-				ft_bonus_flags(argv[a], flags);
+			ft_bonus_flags(argv[a], flags);
 		}
 		else
 			exit(EXIT_FAILURE);

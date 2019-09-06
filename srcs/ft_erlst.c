@@ -15,7 +15,7 @@
 void	ft_erlst(t_ls **er, char *argv)
 {
 	if (*er == NULL)
-		*er = ft_ls_lstnew(NULL, NULL, ft_strdup(argv));
+		*er = ft_ls_lstnew(NULL, NULL, argv);
 	else
-		ft_ls_lstadd(er, ft_ls_lstnew(NULL, NULL, ft_strdup(argv)));
+		ft_ls_lstadd(er, ft_ls_lstnew(NULL, NULL, argv));
 }

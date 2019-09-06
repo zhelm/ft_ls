@@ -34,13 +34,15 @@ void	ft_ls_seg(struct dirent *de, t_ls **segment, char *dir)
 
 int		ft_testdir(char *dir, struct dirent *de)
 {
-	char *tmp;
-	DIR *ok;
-	struct stat sb;
-	
+	char		*tmp;
+	char		*tmp1;
+	struct stat	sb;
+
 	tmp = ft_strjoin(dir, "/");
-	tmp = ft_strjoin(tmp, de->d_name);
-	lstat(tmp, &sb);
+	tmp1 = ft_strjoin(tmp, de->d_name);
+	lstat(tmp1, &sb);
+	ft_strdel(&tmp);
+	ft_strdel(&tmp1);
 	if (S_ISDIR(sb.st_mode))
 		return (1);
 	else

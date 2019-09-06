@@ -85,7 +85,7 @@ void	ft_mergesort(t_ls **header, char *flags, int i)
 	t_ls *b;
 	t_ls *r;
 
-	i = (flags[5] == '1') ? 1 : -1;
+	i = (flags && flags[5] == '1') ? 1 : -1;
 	r = NULL;
 	head = *header;
 	if ((head == NULL) || (head->next == NULL))

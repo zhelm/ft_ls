@@ -45,20 +45,18 @@ static int		ft_continue(char **argv, t_ls **er, t_ls **dir, t_argv *args)
 			*(args->i) = *(args->i) + 1;
 		}
 	}
-	if (er != NULL)
-		ft_print_err(er, (args->flags));
-	if (*dir == NULL && file == NULL && count == 0)
+	if (*dir == NULL && file == NULL && count == 0 && errno == 0)
 		*dir = ft_ls_lstnew(NULL, ".", NULL);
 	if (file != NULL)
 		return (ft_printfiles(&file, (args->flags), dir));
-	return (0);
+	return (count > 1) ? 1 : 0;
 }
 
 int				ft_argv_err(char **argv, int *i, t_ls **er, int *ret)
 {
 	if (argv[*i][1] == '\0')
 		ft_isdir(argv[*i], er, ret, NULL);
-	if (argv[*i][2] != '\0')
+	if (argv[*i][2] != '\0' && ft_strcmp("-", argv[*i]) != 0)
 	{
 		ft_putstr("ft_ls: illegal option -- -\n");
 		ft_putstr("usage: ls [-ARafglnort] [file ...]\n");

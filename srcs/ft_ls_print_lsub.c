@@ -43,8 +43,8 @@ void	ft_l_content(char *flags, struct stat *sb, t_ls_l *val)
 
 void	ft_links(t_ls **tmp, struct stat *sb)
 {
-	char buff[1024];
-	size_t count;
+	char	buff[1024];
+	size_t	count;
 
 	count = 0;
 	if (S_ISLNK((sb->st_mode)))

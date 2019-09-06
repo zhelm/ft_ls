@@ -33,16 +33,26 @@ static void		ft_ls_l_analize_c(struct stat *sb, t_ls_l *ret, char *flags)
 		(*ret).size = ft_size_t_len(sb->st_size);
 }
 
-void	ft_ls_l(t_ls **head, char *flags)
+void			ft_total(t_ls **head, long long sz, struct stat sb)
+{
+	if (lstat((*head)->directory, &sb) != -1)
+	{
+		ft_putstr("total ");
+		ft_putnbr((int)sz);
+		ft_putchar('\n');
+	}
+}
+
+void			ft_ls_l(t_ls **head, char *flags)
 {
 	t_ls		*tmp;
 	struct stat	sb;
 	long long	sz;
-	t_ls_l	vals;
+	t_ls_l		vals;
 
 	sz = 0;
 	tmp = NULL;
-	vals = ft_ls_l_analize(head, tmp, flags);
+	vals = ft_ls_l_analize(head, tmp);
 	tmp = *head;
 	if (tmp != NULL && (!(tmp->directory == NULL
 	&& tmp->name != NULL) || tmp->name != NULL))
@@ -55,12 +65,7 @@ void	ft_ls_l(t_ls **head, char *flags)
 			sz = sz + sb.st_blocks;
 			tmp = tmp->next;
 		}
-		if (lstat((*head)->directory, &sb) != -1)
-		{
-			ft_putstr("total ");
-			ft_putnbr((int)sz);
-			ft_putchar('\n');
-		}
+		ft_total(head, sz, sb);
 	}
 	ft_ls_print_l(head, flags, &vals);
 }

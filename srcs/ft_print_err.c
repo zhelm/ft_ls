@@ -21,6 +21,8 @@ void	ft_print_err(t_ls **er, char *flags)
 		ft_putstr((*er)->name);
 		ft_putstr(": ");
 		perror("");
+		ft_strdel(&(*er)->name);
+		free(*er);
 		(*er) = (*er)->next;
 	}
 }

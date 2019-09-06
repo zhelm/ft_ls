@@ -12,19 +12,12 @@
 
 #include "../includes/ft_ls.h"
 
-int	ft_listdet(t_ls **seg)
+int		ft_listdet(t_ls **seg)
 {
-	struct stat sb;
-
-	lstat((*seg)->directory, &sb);
-	if(S_IRUSR & sb.st_mode)
-	{
-		ft_putchar('\n');
-		ft_putstr((*seg)->directory);
-		ft_putstr(":\n");
-		return (1);
-	}
-	return (-1);
+	ft_putchar('\n');
+	ft_putstr((*seg)->directory);
+	ft_putstr(":\n");
+	return (1);
 }
 
 t_ls	*ft_listrec(char **dir, char *flags)

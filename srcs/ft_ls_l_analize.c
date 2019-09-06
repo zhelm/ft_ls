@@ -12,7 +12,7 @@
 
 #include "../includes/ft_ls.h"
 
-t_ls_l			ft_ls_l_analize(t_ls **head, t_ls *tmp, char *flags)
+t_ls_l			ft_ls_l_analize(t_ls **head, t_ls *tmp)
 {
 	t_ls_l ret;
 
